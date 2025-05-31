@@ -14,6 +14,10 @@ class NavigationService {
           items {
             title
             url
+            items {
+              title
+              url
+            }
           }
         }
       }
@@ -28,14 +32,19 @@ class NavigationService {
     });
 
     return (
-      res.body?.data?.menu?.items.map(
-        (item: { title: string; url: string }) => ({
-          title: item.title,
-          path: item.url
-            .replace(environment.Shopify_STORE_DOMAIN, "")
-            .replace("/pages", ""),
-        })
-      ) || []
+      res.body?.data?.menu?.items.map((item) => ({
+        title: item.title,
+        path: item.url
+          .replace(environment.Shopify_STORE_DOMAIN, "")
+          .replace("/pages", ""),
+        items:
+          item.items?.map((subItem) => ({
+            title: subItem.title,
+            path: subItem.url
+              .replace(environment.Shopify_STORE_DOMAIN, "")
+              .replace("/pages", ""),
+          })) || [],
+      })) || []
     );
   }
 }
