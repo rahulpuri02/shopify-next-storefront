@@ -1,9 +1,9 @@
-import { SHOPIFY_GRAPHQL_API_ENDPOINT } from "@/constants/shopify";
-import { environment } from "@/environment";
-import type { ExtractVariables } from "@/types/shopify/types";
+import { SHOPIFY_GRAPHQL_API_ENDPOINT } from '@/constants/shopify';
+import { environment } from '@/environment';
+import type { ExtractVariables } from '@/types/shopify/types';
 
 export async function shopifyFetch<T>({
-  cache = "force-cache",
+  cache = 'force-cache',
   headers,
   query,
   tags,
@@ -18,11 +18,10 @@ export async function shopifyFetch<T>({
   try {
     const endpoint = `${environment.Shopify_STORE_DOMAIN}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
     const result = await fetch(endpoint, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "X-Shopify-Storefront-Access-Token":
-          environment.Shopify_Storefront_Access_Token,
+        'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': environment.Shopify_Storefront_Access_Token,
         ...headers,
       },
       body: JSON.stringify({
