@@ -1,12 +1,12 @@
-import { MENUS, STORE_NAME } from '@/constants/shopify';
-import { navigationService } from '@/services/navigation.service';
-import Link from 'next/link';
+import { LEFT_SIDE_MENU, MENUS, STORE_NAME } from "@/constants/shopify";
+import { navigationService } from "@/services/navigation.service";
+import Link from "next/link";
 
 async function Navbar() {
   const mainMenu = await navigationService.getMenu(MENUS.mainMenu);
   if (!mainMenu?.length) return null;
 
-  const LEFT_MENU_TITLES = ['Shop', 'Search'];
+  const LEFT_MENU_TITLES = [LEFT_SIDE_MENU.shop, LEFT_SIDE_MENU.search];
 
   const leftSideMenu = mainMenu.filter((m) => LEFT_MENU_TITLES.includes(m.title.trim()));
 
