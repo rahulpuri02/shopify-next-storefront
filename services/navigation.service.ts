@@ -23,25 +23,30 @@ class NavigationService {
       }
     `;
 
-    const res = await shopifyFetch<ShopifyMenuOperation>({
-      query: print(query),
-      tags: [TAGS.collections],
-      variables: {
-        handle,
-      },
-    });
+    try {
+      const res = await shopifyFetch<ShopifyMenuOperation>({
+        query: print(query),
+        tags: [TAGS.collections],
+        variables: {
+          handle,
+        },
+      });
 
-    return (
-      res.body?.data?.menu?.items.map((item) => ({
-        title: item.title.trim(),
-        path: item.url.replace(environment.Shopify_STORE_DOMAIN, "").replace("/pages", ""),
-        items:
-          item.items?.map((subItem) => ({
-            title: subItem.title.trim(),
-            path: subItem.url.replace(environment.Shopify_STORE_DOMAIN, "").replace("/pages", ""),
-          })) || [],
-      })) || []
-    );
+      return (
+        res.body?.data?.menu?.items.map((item) => ({
+          title: item.title.trim(),
+          path: item.url.replace(environment.Shopify_STORE_DOMAIN, "").replace("/pages", ""),
+          items:
+            item.items?.map((subItem) => ({
+              title: subItem.title.trim(),
+              path: subItem.url.replace(environment.Shopify_STORE_DOMAIN, "").replace("/pages", ""),
+            })) || [],
+        })) || []
+      );
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
   }
 }
 
