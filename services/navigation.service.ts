@@ -1,10 +1,11 @@
 import { environment } from "@/environment";
 import { TAGS } from "@/constants/shopify";
 import { shopifyFetch } from "@/lib/shopify/client";
-import type { Menu } from "@/types/navigation/types";
-import type { ShopifyMenuOperation } from "@/types/shopify/types";
+import type { ShopifyMenuOperation } from "@/types/shopify";
 import { print } from "graphql";
 import gql from "graphql-tag";
+import { Menu } from "@/types/shared";
+import { reshapeMenus } from "@/lib/utils";
 
 class NavigationService {
   async getMenu(handle: string): Promise<Menu[]> {
@@ -24,7 +25,7 @@ class NavigationService {
     `;
 
     try {
-      const res = await shopifyFetch<ShopifyMenuOperation>({
+      const response = await shopifyFetch<ShopifyMenuOperation>({
         query: print(query),
         tags: [TAGS.collections],
         variables: {
@@ -32,19 +33,9 @@ class NavigationService {
         },
       });
 
-      return (
-        res.body?.data?.menu?.items.map((item) => ({
-          title: item.title.trim(),
-          path: item.url.replace(environment.Shopify_STORE_DOMAIN, "").replace("/pages", ""),
-          items:
-            item.items?.map((subItem) => ({
-              title: subItem.title.trim(),
-              path: subItem.url.replace(environment.Shopify_STORE_DOMAIN, "").replace("/pages", ""),
-            })) || [],
-        })) || []
-      );
+      return reshapeMenus(response.body);
     } catch (error) {
-      console.log(error);
+      console.log("Error while fetching menu:", error);
       return [];
     }
   }
