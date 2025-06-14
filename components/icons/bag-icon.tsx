@@ -1,0 +1,20 @@
+import React from "react";
+
+function BagIcon() {
+  return (
+    <svg
+      className="h-5 w-4 cursor-pointer fill-white"
+      viewBox="0 0 15 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs></defs>
+      <path
+        fill-rule="evenodd"
+        d="M4.5 1.5h6V5h-6V1.5zM3 5V0h9v5h3v15H0V5h3zm9 1.5H1.5v12h12v-12H12z"
+        clip-rule="evenodd"
+      ></path>
+    </svg>
+  );
+}
+
+export default BagIcon;

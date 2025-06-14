@@ -1,11 +1,10 @@
-import { environment } from "@/environment";
 import { TAGS } from "@/constants/shopify";
 import { shopifyFetch } from "@/lib/shopify/client";
 import type { ShopifyMenuOperation } from "@/types/shopify";
 import { print } from "graphql";
 import gql from "graphql-tag";
 import { Menu } from "@/types/shared";
-import { reshapeMenus } from "@/lib/utils";
+import { reshapeMenus } from "@/lib/server-utils";
 
 class NavigationService {
   async getMenu(handle: string): Promise<Menu[]> {

@@ -1,10 +1,14 @@
 import { STORE_NAME } from "@/constants/shopify";
+import clsx from "clsx";
 import React from "react";
 
-function CompanyLogo() {
+type ComponentProps = {
+  className?: string;
+};
+function CompanyLogo({ className }: ComponentProps) {
   return (
     <svg
-      className="absolute left-1/2 h-7 w-56 -translate-x-1/2 transform"
+      className={clsx("absolute left-1/2 h-7 w-56 -translate-x-1/2 transform", className)}
       viewBox="0 0 120 24"
       xmlns="http://www.w3.org/2000/svg"
       aria-label={STORE_NAME.shortName}
