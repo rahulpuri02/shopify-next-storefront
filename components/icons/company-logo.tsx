@@ -15,9 +15,9 @@ function CompanyLogo({ className }: ComponentProps) {
     >
       <text
         x="0"
-        y="18"
+        y="20"
         fontFamily="Helvetica, Arial, sans-serif"
-        fontSize="18"
+        fontSize="20"
         fontWeight="bold"
         fill="currentColor"
       >

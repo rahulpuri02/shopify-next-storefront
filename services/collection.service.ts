@@ -1,5 +1,5 @@
+import { reshapeCollection } from "@/lib/server-utils";
 import { shopifyFetch } from "@/lib/shopify/client";
-import { reshapeCollection } from "@/lib/utils";
 import { Collection, ShopifyCollectionOperation } from "@/types/shopify";
 import { print } from "graphql";
 import gql from "graphql-tag";

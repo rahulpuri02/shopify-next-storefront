@@ -9,9 +9,9 @@ function BagIcon() {
     >
       <defs></defs>
       <path
-        fill-rule="evenodd"
+        fillRule="evenodd"
         d="M4.5 1.5h6V5h-6V1.5zM3 5V0h9v5h3v15H0V5h3zm9 1.5H1.5v12h12v-12H12z"
-        clip-rule="evenodd"
+        clipRule="evenodd"
       ></path>
     </svg>
   );

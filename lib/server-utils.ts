@@ -2,8 +2,8 @@
 
 import { SHOPIFY_URL_PREFIXS } from "@/constants/shopify";
 import { environment } from "@/environment";
-import { Menu } from "@/types/shared";
-import { Collection, ShopifyCollectionOperation, ShopifyMenuOperation } from "@/types/shopify";
+import type { Menu } from "@/types/shared";
+import type { Collection, ShopifyCollectionOperation, ShopifyMenuOperation } from "@/types/shopify";
 
 export function reshapeMenus(response: ShopifyMenuOperation): Menu[] {
   const items = response.data.menu?.items;

@@ -3,7 +3,7 @@ import Navbar from "../layout/navbar/navbar";
 
 function MainBanner() {
   return (
-    <section className="relative h-screen w-screen overflow-hidden">
+    <section className="relative h-screen w-full">
       <Navbar />
       <video
         src="https://res.cloudinary.com/dlt5cfo8m/video/upload/v1748716911/cn74-hero-video_wpyd2i.mp4"

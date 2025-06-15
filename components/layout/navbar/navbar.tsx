@@ -66,7 +66,7 @@ async function Navbar() {
   };
 
   return (
-    <nav className="flex items-center justify-between px-6 py-5 text-xs font-medium tracking-widest uppercase md:py-4">
+    <nav className="flex items-center justify-between px-6 py-5 text-xs font-medium tracking-widest uppercase md:py-[16.5px]">
       <div className="hidden gap-4 md:flex">{leftSideMenu.map(renderMenuItem)}</div>
       <CompanyLogo className="mt-2 hidden md:block" />
       <div className="hidden gap-4 md:flex">{rightSideMenu.map(renderMenuItem)}</div>

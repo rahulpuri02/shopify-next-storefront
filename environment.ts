@@ -3,6 +3,7 @@ import { z } from "zod";
 const envSchema = z.object({
   Shopify_STORE_DOMAIN: z.string().url(),
   Shopify_Storefront_Access_Token: z.string().min(6),
+  NODE_ENV: z.enum(["development", "production", "test"]),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
