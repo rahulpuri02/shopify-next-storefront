@@ -3,7 +3,12 @@
 import { SHOPIFY_URL_PREFIXS } from "@/constants/shopify";
 import { environment } from "@/environment";
 import type { Menu } from "@/types/shared";
-import type { Collection, ShopifyCollectionOperation, ShopifyMenuOperation } from "@/types/shopify";
+import type {
+  Collection,
+  ShopifyCollectionOperation,
+  ShopifyCollectionsOperation,
+  ShopifyMenuOperation,
+} from "@/types/shopify";
 
 export function reshapeMenus(response: ShopifyMenuOperation): Menu[] {
   const items = response.data.menu?.items;
@@ -46,4 +51,22 @@ export function reshapeCollection(response: ShopifyCollectionOperation): Collect
       };
     }),
   };
+}
+
+export function reshapeCollections(
+  response: ShopifyCollectionsOperation,
+  { key, value }: Record<string, string>
+) {
+  const collections = response.data.collections.edges.map((collection) => ({
+    id: collection.node.id,
+    title: collection.node.title.trim(),
+    handle: collection.node.handle,
+    imageUrl: collection.node.image?.url || null,
+    imageAlt: collection.node.image?.altText || null,
+    metafield: collection.node.metafield,
+    description: collection.node.description.trim(),
+  }));
+  return collections.filter(
+    (collection) => collection.metafield?.key === key && collection.metafield.value === value
+  );
 }

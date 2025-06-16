@@ -1,14 +1,24 @@
-import { reshapeCollection } from "@/lib/server-utils";
+import {
+  DEFAULT_COLLECTIONS_COUNT,
+  DEFAULT_IMAGES_COUNT,
+  DEFAULT_PRODUCTS_COUNT,
+  SHOPIFY_CUSTOM_METAFIELDS,
+} from "@/constants/shopify";
+import { reshapeCollection, reshapeCollections } from "@/lib/server-utils";
 import { shopifyFetch } from "@/lib/shopify/client";
-import { Collection, ShopifyCollectionOperation } from "@/types/shopify";
+import {
+  Collection,
+  ShopifyCollectionOperation,
+  ShopifyCollectionsOperation,
+} from "@/types/shopify";
 import { print } from "graphql";
 import gql from "graphql-tag";
 
 class CollectionService {
   async getCollection(
     handle: string,
-    productCount = 5,
-    imageCount = 2
+    productCount = DEFAULT_PRODUCTS_COUNT,
+    imageCount = DEFAULT_IMAGES_COUNT
   ): Promise<Collection | null> {
     const query = gql`
       query getCollection($handle: String!, $productCount: Int!, $imageCount: Int!) {
@@ -48,6 +58,48 @@ class CollectionService {
     } catch (error) {
       console.log("Error while fetching collection:", error);
       return null;
+    }
+  }
+
+  async getCollections({
+    count = DEFAULT_COLLECTIONS_COUNT,
+    key = SHOPIFY_CUSTOM_METAFIELDS.collections.homepageType.key,
+    value = SHOPIFY_CUSTOM_METAFIELDS.collections.homepageType.values.highlights,
+  }: {
+    count?: number;
+    key?: string;
+    value?: string;
+  }) {
+    const query = gql`
+      query getCollections($count: Int!, $key: String!, $namespace: String!) {
+        collections(first: $count) {
+          edges {
+            node {
+              id
+              handle
+              title
+              description
+              image {
+                altText
+                url
+              }
+              metafield(namespace: $namespace, key: $key) {
+                key
+                value
+              }
+            }
+          }
+        }
+      }
+    `;
+    try {
+      const response = await shopifyFetch<ShopifyCollectionsOperation>({
+        query: print(query),
+        variables: { count, key, namespace: SHOPIFY_CUSTOM_METAFIELDS.name },
+      });
+      return reshapeCollections(response.body, { key, value });
+    } catch (error) {
+      console.log("Error while fetching collections", error);
     }
   }
 }

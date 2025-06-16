@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
 import React from "react";
 
 type ComponentProps = {
@@ -7,7 +7,7 @@ type ComponentProps = {
 function FavoriteIcon({ className }: ComponentProps) {
   return (
     <svg
-      className={clsx("h-5 w-4 cursor-pointer fill-none stroke-1", className)}
+      className={cn("h-5 w-4 cursor-pointer fill-none stroke-1", className)}
       stroke="white"
       viewBox="0 0 13 16"
       version="1.1"

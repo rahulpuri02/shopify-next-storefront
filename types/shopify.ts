@@ -60,3 +60,31 @@ export type Collection = {
     imageAlt: string | null;
   }[];
 };
+
+export type ShopifyCollectionsOperation = {
+  data: {
+    collections: {
+      edges: {
+        node: {
+          id: string;
+          handle: string;
+          title: string;
+          description: string;
+          image: {
+            altText: string | null;
+            url: string;
+          } | null;
+          metafield: {
+            key: string;
+            value: string;
+          } | null;
+        };
+      }[];
+    };
+  };
+  variables: {
+    count: number;
+    key: string;
+    namespace: string;
+  };
+};
