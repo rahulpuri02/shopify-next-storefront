@@ -8,7 +8,7 @@ import BagIcon from "@/components/icons/bag-icon";
 
 type ComponentProps = { mainMenu: Menu[] };
 
-function MobileMenu({ mainMenu }: ComponentProps) {
+function MobileMenu({}: ComponentProps) {
   return (
     <>
       <div className="md:hidden">
