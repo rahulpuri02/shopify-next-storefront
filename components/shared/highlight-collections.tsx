@@ -1,4 +1,4 @@
-import { FallbackImage, NO_IMAGE_FOUND } from "@/constants/shared";
+import { EXPLORE_NOW, FallbackImage, NO_IMAGE_FOUND } from "@/constants/shared";
 import { SHOPIFY_CUSTOM_METAFIELDS } from "@/constants/shopify";
 import { collectionService } from "@/services/collection.service";
 import Image from "next/image";
@@ -29,7 +29,7 @@ async function HighlightCollections() {
             <h4 className="text-center text-3xl font-medium">{collection.title}</h4>
             <p className="w-[90%]">{collection.description}</p>
             <button className="inline-block cursor-pointer rounded-none border border-gray-400 bg-transparent px-8 py-2.5 text-sm leading-none font-normal text-current uppercase opacity-100 transition-colors duration-700 ease-[cubic-bezier(0.32,0.24,0.15,1)] outline-none select-none hover:border-current hover:opacity-100">
-              Explore Now
+              {EXPLORE_NOW}
             </button>
           </div>
         </div>
