@@ -17,3 +17,10 @@ export const EXPLORER_BANNER = {
   title: "Weclome to Our World",
   description: "Browse our complete collection of elevated essentials and modern classics.",
 };
+
+export const FOOTER = {
+  signUpNewsletter: "Sign up for CN. 74 newsletter",
+  emailPlaceholder: "EMAIL",
+  termsLabel: "I have read, understood and accepted the terms and conditions.",
+  languageSelector: "WORLD WIDE (ENGLISH)",
+} as const;

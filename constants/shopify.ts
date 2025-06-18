@@ -14,12 +14,13 @@ export const COLLECTIONS = {
 
 export const MENUS = {
   mainMenu: "main-menu",
+  footer: "footer",
 } as const;
 
 export const LEFT_SIDE_MENU = {
   shop: "Shop",
   search: "Search",
-};
+} as const;
 
 export const HIGHLIGHT_MENUS = ["essentials", "new arrivals"] as const;
 

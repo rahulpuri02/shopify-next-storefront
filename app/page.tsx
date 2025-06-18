@@ -11,7 +11,7 @@ export default async function Home() {
     <div className="h-auto max-w-screen">
       <MainBanner />
       <ShowcaseCollection collection={showcaseCollection} />
-      <div className="mt-20 pb-12 md:pb-20">
+      <div className="mt-20">
         <HighlightCollections />
         <ExploreBanner />
       </div>
