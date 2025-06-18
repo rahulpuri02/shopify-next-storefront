@@ -1,4 +1,4 @@
-import { FallbackImage, NO_PRODUCT_IMAGE } from "@/constants/shared";
+import { FallbackImage, NO_IMAGE_FOUND } from "@/constants/shared";
 import { Collection } from "@/types/shopify";
 import Image from "next/image";
 import React from "react";
@@ -14,7 +14,7 @@ function ProductCard({ product }: ComponentProps) {
       <div className="relative h-[290px] w-full md:h-[434px] lg:h-[510px]">
         <Image
           src={product.imageUrl || FallbackImage}
-          alt={product.imageAlt || NO_PRODUCT_IMAGE}
+          alt={product.imageAlt || NO_IMAGE_FOUND}
           fill
           className="object-contain"
         />

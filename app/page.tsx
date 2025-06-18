@@ -1,3 +1,4 @@
+import ExploreBanner from "@/components/shared/explore-banner";
 import HighlightCollections from "@/components/shared/highlight-collections";
 import MainBanner from "@/components/shared/main-banner";
 import ShowcaseCollection from "@/components/shared/showcase-collection";
@@ -10,7 +11,10 @@ export default async function Home() {
     <div className="h-auto max-w-screen">
       <MainBanner />
       <ShowcaseCollection collection={showcaseCollection} />
-      <HighlightCollections />
+      <div className="mt-20">
+        <HighlightCollections />
+        <ExploreBanner />
+      </div>
     </div>
   );
 }
