@@ -48,7 +48,7 @@ export default function ProductCarousel({ items }: ComponentProps) {
       >
         <CarouselContent className="-ml-2 md:-ml-4">
           {items.map((product) => (
-            <CarouselItem key={product.id} className="basis-1/2 pl-2 md:pl-4 lg:basis-1/3">
+            <CarouselItem key={product.id} className="basis-1/2 pl-4 lg:basis-1/3">
               <ProductCard product={product} />
             </CarouselItem>
           ))}

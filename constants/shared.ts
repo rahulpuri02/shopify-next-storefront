@@ -8,3 +8,6 @@ export const FallbackImage = "/placeholder.jpg";
 export const NO_PRODUCT_IMAGE = "No product image available";
 
 export const NO_PRODUCTS_FOUND = "No products found in this collection.";
+
+export const BANNER_VIDEO_URL =
+  "https://res.cloudinary.com/dlt5cfo8m/video/upload/v1748716911/cn74-hero-video_wpyd2i.mp4";

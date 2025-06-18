@@ -11,12 +11,12 @@ function ProductCard({ product }: ComponentProps) {
   const colors = ["bg-red-500", "bg-green-400", "bg-blue-300", "bg-yellow-200", "bg-purple-500"];
   return (
     <div className="h-full w-full">
-      <div className="relative h-[434px] w-full">
+      <div className="relative h-[290px] w-full md:h-[434px] lg:h-[510px]">
         <Image
           src={product.imageUrl || FallbackImage}
           alt={product.imageAlt || NO_PRODUCT_IMAGE}
           fill
-          className="object-cover md:object-fill"
+          className="object-contain"
         />
       </div>
       <div className="mt-4 flex w-full flex-col gap-1 px-2 text-xs text-black uppercase">
