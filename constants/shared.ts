@@ -4,8 +4,10 @@ export const FILTER_OPERATIONS = {
 } as const;
 
 export const NO_IMAGE_FOUND = "No image found";
-export const FallbackImage = "/placeholder.jpg";
 export const EXPLORE_NOW = "Explore Now";
+
+export const FallbackImage = "/placeholder.jpg";
+export const MAIN_BANNER_POSTER = "/cn74-hero-video_poster.jpg";
 
 export const BANNER_VIDEO_URL =
   "https://res.cloudinary.com/dlt5cfo8m/video/upload/v1748716911/cn74-hero-video_wpyd2i.mp4";
