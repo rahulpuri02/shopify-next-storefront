@@ -2,12 +2,12 @@
 
 import { SHOPIFY_URL_PREFIXS } from "@/constants/shopify";
 import { environment } from "@/environment";
-import type { Menu } from "@/types/shared";
+import type { Collection, Menu, Product } from "@/types/shared";
 import type {
-  Collection,
   ShopifyCollectionOperation,
   ShopifyCollectionsOperation,
   ShopifyMenuOperation,
+  ShopifyProductOperation,
 } from "@/types/shopify";
 
 export function reshapeMenus(response: ShopifyMenuOperation): Menu[] {
@@ -69,4 +69,30 @@ export function reshapeCollections(
   return collections.filter(
     (collection) => collection.metafield?.key === key && collection.metafield.value === value
   );
+}
+
+export function reshapeProduct(response: ShopifyProductOperation): Product | null {
+  const product = response.data.product;
+  if (!product) return null;
+
+  return {
+    id: product.id,
+    title: product.title.trim(),
+    description: product.description.trim(),
+    handle: product.handle,
+    tags: product.tags,
+    images: product.images.edges.map(({ node }) => ({
+      url: node.url,
+      altText: node.altText,
+    })),
+    variants: product.variants.edges.map(({ node }) => ({
+      id: node.id,
+      title: node.title,
+      availableForSale: node.availableForSale,
+      price: {
+        amount: node.price.amount,
+        currencyCode: node.price.currencyCode,
+      },
+    })),
+  };
 }

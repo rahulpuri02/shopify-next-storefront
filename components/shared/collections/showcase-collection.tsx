@@ -1,6 +1,6 @@
-import type { Collection } from "@/types/shopify";
 import React from "react";
-import ProductCarousel from "./product-carousel";
+import ProductCarousel from "../products/product-carousel";
+import type { Collection } from "@/types/shared";
 
 type ComponentProps = {
   collection: Collection | null;

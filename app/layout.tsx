@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ScreenIndicator from "@/components/shared/screen-indicator";
 import Footer from "@/components/layout/footer/footer";
+import Navbar from "@/components/layout/navbar/navbar";
+import ScreenIndicator from "@/components/shared/indicators/screen-indicator";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +27,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col justify-between antialiased`}
+      >
+        <Navbar />
         <main>{children}</main>
         <ScreenIndicator />
         <Footer />

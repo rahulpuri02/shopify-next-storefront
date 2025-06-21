@@ -5,6 +5,7 @@ export const FILTER_OPERATIONS = {
 
 export const NO_IMAGE_FOUND = "No image found";
 export const EXPLORE_NOW = "Explore Now";
+export const DEFAULT_IMAGE_ALT = "image";
 
 export const FallbackImage = "/placeholder.jpg";
 export const MAIN_BANNER_POSTER = "/cn74-hero-video_poster.jpg";

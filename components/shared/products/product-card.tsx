@@ -1,6 +1,8 @@
+import { ROUTES } from "@/constants/routes";
 import { FallbackImage, NO_IMAGE_FOUND } from "@/constants/shared";
 import { Collection } from "@/types/shopify";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 type ComponentProps = {
@@ -10,7 +12,7 @@ type ComponentProps = {
 function ProductCard({ product }: ComponentProps) {
   const colors = ["bg-red-500", "bg-green-400", "bg-blue-300", "bg-yellow-200", "bg-purple-500"];
   return (
-    <div className="h-full w-full">
+    <Link href={ROUTES.product(product.handle)} className="h-full w-full">
       <div className="relative h-[290px] w-full md:h-[434px] lg:h-[510px]">
         <Image
           src={product.imageUrl || FallbackImage}
@@ -39,7 +41,7 @@ function ProductCard({ product }: ComponentProps) {
         </div>
         <p>₹ 3999</p>
       </div>
-    </div>
+    </Link>
   );
 }
 

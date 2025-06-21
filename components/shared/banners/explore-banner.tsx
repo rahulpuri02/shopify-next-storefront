@@ -13,7 +13,7 @@ const ExploreBanner = () => {
           alt={EXPLORER_BANNER.imgAlt}
           fill
         />
-        <header className="z-20 w-[30%] text-5xl leading-none font-semibold tracking-widest">
+        <header className="z-20 w-[30%] text-5xl font-semibold tracking-widest md:leading-[4rem]">
           <h4>{EXPLORER_BANNER.title}</h4>
         </header>
         <p className="z-2 max-w-[90%]">{EXPLORER_BANNER.description}</p>

@@ -11,7 +11,7 @@ async function Footer() {
   if (!footerMenu.length) return null;
 
   return (
-    <footer className="mt-14 w-full bg-[#1d3e88] px-6 py-10 text-white md:mt-20">
+    <footer className="mt-20 w-full bg-[#1d3e88] px-6 py-10 text-white">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-[1fr_2fr]">
         <div className="w-full">
           <h2 className="max-w-[320px] text-3xl leading-snug font-medium">

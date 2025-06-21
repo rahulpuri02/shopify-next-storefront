@@ -31,6 +31,7 @@ export const SHOPIFY_GRAPHQL_API_ENDPOINT = "/api/2025-04/graphql.json";
 export const DEFAULT_COLLECTIONS_COUNT = 50;
 export const DEFAULT_PRODUCTS_COUNT = 50;
 export const DEFAULT_IMAGES_COUNT = 10;
+export const DEFAULT_VARIANTS_COUNT = 50;
 
 export const SHOPIFY_CUSTOM_METAFIELDS = {
   name: "custom",

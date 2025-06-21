@@ -1,11 +1,17 @@
+"use client";
+
 import { STORE_NAME } from "@/constants/shopify";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 type ComponentProps = {
   className?: string;
 };
 function CompanyLogo({ className }: ComponentProps) {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+
   return (
     <svg
       className={clsx("absolute left-1/2 h-7 w-56 -translate-x-1/2 transform", className)}
@@ -19,7 +25,7 @@ function CompanyLogo({ className }: ComponentProps) {
         fontFamily="Helvetica, Arial, sans-serif"
         fontSize="20"
         fontWeight="bold"
-        fill="currentColor"
+        className={`${isHomePage ? "fill-white" : "fill-black"}`}
       >
         {STORE_NAME.shortName}
       </text>

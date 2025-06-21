@@ -6,11 +6,8 @@ import {
 } from "@/constants/shopify";
 import { reshapeCollection, reshapeCollections } from "@/lib/server-utils";
 import { shopifyFetch } from "@/lib/shopify/client";
-import {
-  Collection,
-  ShopifyCollectionOperation,
-  ShopifyCollectionsOperation,
-} from "@/types/shopify";
+import type { Collection } from "@/types/shared";
+import type { ShopifyCollectionOperation, ShopifyCollectionsOperation } from "@/types/shopify";
 import { print } from "graphql";
 import gql from "graphql-tag";
 

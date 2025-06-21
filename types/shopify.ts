@@ -49,18 +49,6 @@ export type ShopifyCollectionOperation = {
   };
 };
 
-export type Collection = {
-  title: string;
-  description: string;
-  products: {
-    id: string;
-    title: string;
-    handle: string;
-    imageUrl: string | null;
-    imageAlt: string | null;
-  }[];
-};
-
 export type ShopifyCollectionsOperation = {
   data: {
     collections: {
@@ -86,5 +74,43 @@ export type ShopifyCollectionsOperation = {
     count: number;
     key: string;
     namespace: string;
+  };
+};
+
+export type ShopifyProductOperation = {
+  data: {
+    product: {
+      id: string;
+      title: string;
+      description: string;
+      handle: string;
+      tags: string[];
+      images: {
+        edges: Array<{
+          node: {
+            url: string;
+            altText: string | null;
+          };
+        }>;
+      };
+      variants: {
+        edges: Array<{
+          node: {
+            id: string;
+            title: string;
+            availableForSale: boolean;
+            price: {
+              amount: string;
+              currencyCode: string;
+            };
+          };
+        }>;
+      };
+    } | null;
+  };
+  variables: {
+    handle: string;
+    imageCount: number;
+    variantCount: number;
   };
 };

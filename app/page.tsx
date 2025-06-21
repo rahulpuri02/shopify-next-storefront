@@ -1,9 +1,9 @@
-import ExploreBanner from "@/components/shared/explore-banner";
-import HighlightCollections from "@/components/shared/highlight-collections";
-import MainBanner from "@/components/shared/main-banner";
-import ShowcaseCollection from "@/components/shared/showcase-collection";
+import ExploreBanner from "@/components/shared/banners/explore-banner";
+import HighlightCollections from "@/components/shared/collections/highlight-collections";
+import MainBanner from "@/components/shared/banners/main-banner";
 import { COLLECTIONS } from "@/constants/shopify";
 import { collectionService } from "@/services/collection.service";
+import ShowcaseCollection from "@/components/shared/collections/showcase-collection";
 
 export default async function Home() {
   const showcaseCollection = await collectionService.getCollection(COLLECTIONS.refreshYourWardrobe);
