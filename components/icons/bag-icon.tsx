@@ -1,9 +1,14 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 
-function BagIcon() {
+type ComponentProps = {
+  className?: string;
+};
+
+function BagIcon({ className }: ComponentProps) {
   return (
     <svg
-      className="h-5 w-4 cursor-pointer fill-white"
+      className={cn("h-5 w-4 cursor-pointer fill-inherit", className)}
       viewBox="0 0 15 20"
       xmlns="http://www.w3.org/2000/svg"
     >

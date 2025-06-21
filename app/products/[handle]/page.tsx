@@ -1,4 +1,7 @@
-import { DEFAULT_IMAGE_ALT } from "@/constants/shared";
+import { ProductDetails } from "@/components/shared/products/product-details";
+import { ProductGallery } from "@/components/shared/products/product-gallery";
+import ProductInfo from "@/components/shared/products/product-info";
+import { FallbackImage, NO_IMAGE_FOUND } from "@/constants/shared";
 import { productService } from "@/services/product.service";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -12,20 +15,30 @@ async function ProductPage({ params }: ComponentProps) {
   const product = await productService.getProduct(handle);
   if (!product) return notFound();
   return (
-    <section className="mt-16 flex h-auto w-full gap-5 md:mt-20">
-      <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
-        <ul>
-          {product.images.map((image) => (
-            <li key={image.url}>
+    <section className="mx-auto mt-4 grid max-w-6xl grid-cols-1 gap-20 overflow-hidden lg:grid-cols-2 xl:max-w-[80%]">
+      <div className="mt-12 overflow-auto scroll-smooth">
+        <ProductGallery images={product.images} />
+      </div>
+      <div className="flex flex-col gap-6 overflow-y-auto px-6 py-10">
+        <ProductDetails product={product} />
+        <ProductInfo />
+        <hr />
+        <div className="text-sm uppercase">
+          <p>STYLE WITH</p>
+          <ul className="mt-4 flex gap-1.5">
+            {[1, 2].map((i) => (
               <Image
-                src={image.url}
-                alt={image.altText || DEFAULT_IMAGE_ALT}
-                width={"500"}
-                height={"500"}
+                key={i}
+                width={85}
+                height={128}
+                src={FallbackImage}
+                alt={NO_IMAGE_FOUND}
+                className="aspect-[2/3] opacity-90"
               />
-            </li>
-          ))}
-        </ul>
+            ))}
+          </ul>
+        </div>
+        <hr className="w-full" />
       </div>
     </section>
   );

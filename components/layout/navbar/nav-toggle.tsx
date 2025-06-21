@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Sheet,
@@ -8,15 +10,18 @@ import {
   SheetTrigger,
 } from "../../ui/sheet";
 import MenuIcon from "@/components/icons/menu-icon";
+import { usePathname } from "next/navigation";
 
 type ComponentProps = {
   side?: "right" | "left";
 };
 function NavToggle({ side = "left" }: ComponentProps) {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
   return (
     <Sheet>
       <SheetTrigger>
-        <MenuIcon />
+        <MenuIcon className={`${isHomePage ? "bg-white" : "bg-black"}`} />
       </SheetTrigger>
       <SheetContent side={side}>
         <SheetHeader>
