@@ -10,9 +10,10 @@ import { Menu } from "@/types/shared";
 
 type ComponentProps = {
   item: Menu;
+  isScrollingStart: boolean;
 };
 
-const MenuItem = ({ item }: ComponentProps) => {
+const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
@@ -34,7 +35,7 @@ const MenuItem = ({ item }: ComponentProps) => {
         {item.title}
       </Link>
 
-      {item.items && item.items?.length > 0 && isHomePage && (
+      {!isScrollingStart && item.items && item.items?.length > 0 && isHomePage && (
         <div className="absolute top-full left-0 z-10 mt-2 flex w-48 flex-col gap-4">
           <ul className="mt-5 flex flex-col gap-2 text-xs font-normal">
             {highlightsMenu!.map((subItem: Menu) => (
