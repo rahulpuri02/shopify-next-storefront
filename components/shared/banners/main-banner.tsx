@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../../layout/navbar/navbar";
 import { BANNER_VIDEO_URL, MAIN_BANNER_POSTER } from "@/constants/shared";
 
 function MainBanner() {

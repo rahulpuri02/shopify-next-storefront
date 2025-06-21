@@ -11,7 +11,6 @@ async function ProductPage({ params }: ComponentProps) {
   const { handle } = await params;
   const product = await productService.getProduct(handle);
   if (!product) return notFound();
-  console.log({ product });
   return (
     <section className="mt-16 flex h-auto w-full gap-5 md:mt-20">
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2">

@@ -1,6 +1,6 @@
 import { ROUTES } from "@/constants/routes";
 import { FallbackImage, NO_IMAGE_FOUND } from "@/constants/shared";
-import { Collection } from "@/types/shopify";
+import type { Collection } from "@/types/shared";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
