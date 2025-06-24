@@ -64,7 +64,7 @@ export const PRODUCT_INFO = {
       list: [
         "Google Pay accepted and COD available",
         "Free delivery above ₹ 999",
-        "Order before 9 PM for same day dispatch",
+        "Order before 3 PM for same day dispatch",
         "7-day free return policy",
       ],
     },
@@ -72,6 +72,6 @@ export const PRODUCT_INFO = {
 };
 
 export const SHIPPING_NOTE =
-  "SAME DAY DISPATCH - ORDER BEFORE 9 PM IST / FREE SHIPPING ABOVE ₹ 999";
+  "SAME DAY DISPATCH - ORDER BEFORE 3 PM IST / FREE SHIPPING ABOVE ₹ 999";
 
 export const ADD_TO_CART = "Add to Cart";

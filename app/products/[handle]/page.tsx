@@ -15,30 +15,32 @@ async function ProductPage({ params }: ComponentProps) {
   const product = await productService.getProduct(handle);
   if (!product) return notFound();
   return (
-    <section className="mx-auto mt-4 grid max-w-6xl grid-cols-1 gap-20 overflow-hidden lg:grid-cols-2 xl:max-w-[80%]">
-      <div className="mt-12 overflow-auto scroll-smooth">
-        <ProductGallery images={product.images} />
-      </div>
-      <div className="flex flex-col gap-6 overflow-y-auto px-6 py-10">
-        <ProductDetails product={product} />
-        <ProductInfo />
-        <hr />
-        <div className="text-sm uppercase">
-          <p>STYLE WITH</p>
-          <ul className="mt-4 flex gap-1.5">
-            {[1, 2].map((i) => (
-              <Image
-                key={i}
-                width={85}
-                height={128}
-                src={FallbackImage}
-                alt={NO_IMAGE_FOUND}
-                className="aspect-[2/3] opacity-90"
-              />
-            ))}
-          </ul>
+    <section className="flex w-full flex-col gap-20">
+      <div className="mx-auto mt-6 grid max-w-6xl grid-cols-1 gap-20 overflow-hidden lg:grid-cols-2 xl:max-w-[80%]">
+        <div className="mt-12 overflow-auto scroll-smooth">
+          <ProductGallery images={product.images} />
         </div>
-        <hr className="w-full" />
+        <div className="flex flex-col gap-6 overflow-y-auto px-6 py-10">
+          <ProductDetails product={product} />
+          <ProductInfo />
+          <hr />
+          <div className="text-sm uppercase">
+            <p>STYLE WITH</p>
+            <ul className="mt-4 flex gap-1.5">
+              {[1, 2].map((i) => (
+                <Image
+                  key={i}
+                  width={85}
+                  height={128}
+                  src={FallbackImage}
+                  alt={NO_IMAGE_FOUND}
+                  className="aspect-[2/3] opacity-90"
+                />
+              ))}
+            </ul>
+          </div>
+          <hr className="w-full" />
+        </div>
       </div>
     </section>
   );

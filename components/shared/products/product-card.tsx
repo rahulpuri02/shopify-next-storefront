@@ -12,8 +12,8 @@ type ComponentProps = {
 function ProductCard({ product }: ComponentProps) {
   const colors = ["bg-red-500", "bg-green-400", "bg-blue-300", "bg-yellow-200", "bg-purple-500"];
   return (
-    <Link href={ROUTES.product(product.handle)} className="h-full w-full">
-      <div className="relative h-[290px] w-full md:h-[434px] lg:h-[510px]">
+    <Link href={ROUTES.product(product.handle)}>
+      <div className="relative aspect-[2/3]">
         <Image
           src={product.imageUrl || FallbackImage}
           alt={product.imageAlt || NO_IMAGE_FOUND}
