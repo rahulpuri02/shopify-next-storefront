@@ -1,7 +1,10 @@
+import ProductCarousel from "@/components/shared/products/product-carousel";
 import { ProductDetails } from "@/components/shared/products/product-details";
 import { ProductGallery } from "@/components/shared/products/product-gallery";
 import ProductInfo from "@/components/shared/products/product-info";
-import { FallbackImage, NO_IMAGE_FOUND } from "@/constants/shared";
+import { FallbackImage, GENERICS, NO_IMAGE_FOUND } from "@/constants/shared";
+import { COLLECTIONS } from "@/constants/shopify";
+import { collectionService } from "@/services/collection.service";
 import { productService } from "@/services/product.service";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -14,6 +17,8 @@ async function ProductPage({ params }: ComponentProps) {
   const { handle } = await params;
   const product = await productService.getProduct(handle);
   if (!product) return notFound();
+
+  const collection = await collectionService.getCollection(COLLECTIONS.refreshYourWardrobe);
   return (
     <section className="flex w-full flex-col gap-20">
       <div className="mx-auto mt-6 grid max-w-6xl grid-cols-1 gap-20 overflow-hidden lg:grid-cols-2 xl:max-w-[80%]">
@@ -25,7 +30,7 @@ async function ProductPage({ params }: ComponentProps) {
           <ProductInfo />
           <hr />
           <div className="text-sm uppercase">
-            <p>STYLE WITH</p>
+            <p className="uppercase">{GENERICS.styleWith}</p>
             <ul className="mt-4 flex gap-1.5">
               {[1, 2].map((i) => (
                 <Image
@@ -42,6 +47,12 @@ async function ProductPage({ params }: ComponentProps) {
           <hr className="w-full" />
         </div>
       </div>
+      {collection && collection?.products?.length > 0 && (
+        <div className="px-8 md:px-10">
+          <h2 className="mb-4 text-2xl uppercase md:mb-7">{GENERICS.recommendForYou}</h2>
+          <ProductCarousel items={collection.products} className="md:basis-1/3 lg:basis-1/4" />
+        </div>
+      )}
     </section>
   );
 }

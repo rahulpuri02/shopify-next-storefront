@@ -6,6 +6,7 @@ export const FILTER_OPERATIONS = {
 export const GENERICS = {
   color: "color",
   styleWith: "style with",
+  recommendForYou: "Recommended for you",
 };
 
 export const NO_IMAGE_FOUND = "No image found";
@@ -51,7 +52,7 @@ export const PRODUCT_INFO = {
         "Style number 2545025511",
         "Made in Turkey",
       ],
-      extra: "Jonathan is 186 cm / 6'1 and is wearing a size M",
+      extra: "Model is 186 cm / 6'1 and is wearing a size M",
     },
 
     materialCare: {
