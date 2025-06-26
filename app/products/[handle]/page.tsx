@@ -48,8 +48,8 @@ async function ProductPage({ params }: ComponentProps) {
         </div>
       </div>
       {collection && collection?.products?.length > 0 && (
-        <div className="px-8 md:px-10">
-          <h2 className="mb-4 text-2xl uppercase md:mb-7">{GENERICS.recommendForYou}</h2>
+        <div className="px-5 md:px-10">
+          <h2 className="mb-4 text-lg uppercase md:mb-7 md:text-2xl">{GENERICS.recommendForYou}</h2>
           <ProductCarousel items={collection.products} className="md:basis-1/3 lg:basis-1/4" />
         </div>
       )}
