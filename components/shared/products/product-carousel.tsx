@@ -5,6 +5,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
@@ -13,10 +15,11 @@ import type { Collection } from "@/types/shared";
 
 type ComponentProps = {
   items: Collection["products"];
+  title?: string;
   className?: string;
 };
 
-export default function ProductCarousel({ items, className }: ComponentProps) {
+export default function ProductCarousel({ items, className, title = "" }: ComponentProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -56,6 +59,15 @@ export default function ProductCarousel({ items, className }: ComponentProps) {
           dragFree: false,
         }}
       >
+        {title && (
+          <div className="mb-4 flex items-center justify-between text-lg uppercase md:mb-7 md:text-2xl">
+            <h3>{title}</h3>
+            <div className="flex gap-2 md:gap-3">
+              <CarouselPrevious className="border-none bg-none shadow-none" />
+              <CarouselNext className="border-none bg-none shadow-none" />
+            </div>
+          </div>
+        )}
         <CarouselContent className="-ml-2 w-full md:-ml-4">
           {items.map((product) => (
             <CarouselItem
