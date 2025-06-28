@@ -23,6 +23,7 @@ export type ShopifyCollectionOperation = {
     collection?: {
       title: string;
       description: string;
+      descriptionHtml: string;
       products: {
         edges: {
           node: {

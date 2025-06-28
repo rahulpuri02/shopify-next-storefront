@@ -22,6 +22,7 @@ class CollectionService {
         collection(handle: $handle) {
           title
           description
+          descriptionHtml
           products(first: $productCount) {
             edges {
               node {

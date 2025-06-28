@@ -80,19 +80,21 @@ export default function ProductCarousel({ items, className, title = "" }: Compon
         </CarouselContent>
       </Carousel>
 
-      <div className="mt-4 flex justify-center space-x-2">
-        {Array.from({ length: count }).map((_, index) => (
-          <button
-            key={index}
-            className={cn(
-              "h-2 w-2 rounded-full transition-all duration-200",
-              current === index ? "bg-primary scale-110" : "bg-gray-300 hover:bg-gray-400"
-            )}
-            onClick={() => scrollTo(index)}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+      {!title && (
+        <div className="mt-4 flex justify-center space-x-2">
+          {Array.from({ length: count }).map((_, index) => (
+            <button
+              key={index}
+              className={cn(
+                "h-2 w-2 rounded-full transition-all duration-200",
+                current === index ? "bg-primary scale-110" : "bg-gray-300 hover:bg-gray-400"
+              )}
+              onClick={() => scrollTo(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

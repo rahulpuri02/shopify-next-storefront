@@ -7,6 +7,7 @@ export const GENERICS = {
   color: "color",
   styleWith: "style with",
   recommendForYou: "Recommended for you",
+  notResultFound: "No results found",
 };
 
 export const NO_IMAGE_FOUND = "No image found";

@@ -1,4 +1,4 @@
-"server-only";
+import "server-only";
 
 import { SHOPIFY_URL_PREFIXS } from "@/constants/shopify";
 import { environment } from "@/environment";
@@ -38,6 +38,7 @@ export function reshapeCollection(response: ShopifyCollectionOperation): Collect
   return {
     title: collection.title.trim(),
     description: collection.description.trim(),
+    descriptionHtml: collection.descriptionHtml,
     products: collection.products.edges.map((edge) => {
       const product = edge.node;
       const image = product.images.edges[0]?.node;

@@ -11,6 +11,7 @@ export type Menu = {
 export type Collection = {
   title: string;
   description: string;
+  descriptionHtml: string;
   products: {
     id: string;
     title: string;
