@@ -24,7 +24,7 @@ async function CollectionPage({ params }: ComponentProps) {
         {parse(collection.descriptionHtml)}
       </div>
       {collection.products && collection.products.length > 0 ? (
-        <div className="mt-8 grid grid-cols-2 gap-4 md:mt-8 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 space-y-6 space-x-4 md:mt-8 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
           {collection.products.map((product) => (
             <ProductCard product={product} key={product.handle} />
           ))}
