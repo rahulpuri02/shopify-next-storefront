@@ -3,14 +3,12 @@ import {
   DrawerTrigger,
   DrawerContent,
   DrawerHeader,
-  DrawerClose,
   DrawerTitle,
   DrawerDescription,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, XIcon } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { FallbackImage } from "@/constants/shared";
-import { DialogTitle } from "@radix-ui/react-dialog";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import Image from "next/image";
 
