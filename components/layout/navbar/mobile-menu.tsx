@@ -8,6 +8,7 @@ import { Search } from "lucide-react";
 import FavoriteIcon from "@/components/icons/favorite-icon";
 import BagIcon from "@/components/icons/bag-icon";
 import { usePathname } from "next/navigation";
+import { ShoppingCart } from "@/components/shared/cart/shopping-cart";
 
 type ComponentProps = { mainMenu: Menu[] };
 
@@ -26,7 +27,11 @@ function MobileMenu({}: ComponentProps) {
       <div className="md:hidden">
         <div className="flex items-center gap-6">
           <FavoriteIcon className={`${isHomePage ? "stroke-white" : "stroke-black"}`} />
-          <BagIcon className={`${isHomePage ? "fill-white" : "fill-black"}`} />
+          <ShoppingCart>
+            <div>
+              <BagIcon className={`${isHomePage ? "fill-white" : "fill-black"} cursor-pointer`} />
+            </div>
+          </ShoppingCart>
         </div>
       </div>
     </>

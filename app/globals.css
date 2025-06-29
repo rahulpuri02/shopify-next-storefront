@@ -126,4 +126,14 @@
   .bg-custom-blue {
     background-color: var(--custom-blue);
   }
+  
+  .invisible-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.invisible-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
 }
