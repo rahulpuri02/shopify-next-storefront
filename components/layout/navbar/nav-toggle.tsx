@@ -98,7 +98,9 @@ function NavToggle({ side = "left", mainMenu }: ComponentProps) {
         <MenuIcon className={`${isHomePage ? "bg-white" : "bg-black"}`} />
       </SheetTrigger>
       <SheetContent className="" side={side}>
-        <SheetHeader className="relative mt-1 flex items-center justify-center pb-3">
+        <SheetHeader
+          className={`relative mt-1 flex items-center justify-center ${currentParent ? "pb-3" : "pb-7"}`}
+        >
           <SheetTitle>
             <CompanyLogo className="fill-black" isAbsolute={false} />
           </SheetTitle>
