@@ -4,7 +4,11 @@ export const FILTER_OPERATIONS = {
 } as const;
 
 export const GENERICS = {
+  shop: "shop",
   color: "color",
+  newArrivals: "new arrivals",
+  essentials: "essentials",
+  seeAll: "see all",
   styleWith: "style with",
   recommendForYou: "Recommended for you",
   notResultFound: "No results found",
@@ -73,6 +77,11 @@ export const PRODUCT_INFO = {
   },
 };
 
+export const STATIC_MOBILE_MENU_ITEMS = [
+  { title: "brand", hasChilds: true },
+  { title: "my account", hasChilds: false, items: [] },
+  { title: "assistance", hasChilds: true, items: [] },
+];
 export const SHIPPING_NOTE =
   "SAME DAY DISPATCH - ORDER BEFORE 3 PM IST / FREE SHIPPING ABOVE ₹ 999";
 

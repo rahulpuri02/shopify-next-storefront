@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import clsx from "clsx";
+import CompanyLogo from "@/components/icons/company-logo";
+import { cn } from "@/lib/utils";
+import type { Menu } from "@/types/shared";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import MenuItem from "./menu-item";
 import MobileMenu from "./mobile-menu";
-import CompanyLogo from "@/components/icons/company-logo";
-import type { Menu } from "@/types/shared";
 
 type ComponentProps = {
   mainMenu: Menu[];
@@ -47,7 +47,7 @@ function NavbarClient({ leftSideMenu, rightSideMenu, mainMenu }: ComponentProps)
   return (
     <nav
       suppressHydrationWarning
-      className={clsx(
+      className={cn(
         "fixed z-10 flex w-full items-center justify-between px-6 py-5 text-xs font-medium tracking-widest uppercase transition-all duration-500 ease-in-out",
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0",
         !isHomePage || isScrollingStart ? "bg-white text-black" : "bg-transparent text-white",

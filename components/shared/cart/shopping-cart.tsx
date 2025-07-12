@@ -96,7 +96,6 @@ const dummyProducts = [
 ];
 
 export function ShoppingCart({ children }: { children: React.ReactNode }) {
-  debugger;
   return (
     <Drawer>
       <DrawerTrigger asChild>{children}</DrawerTrigger>

@@ -12,14 +12,14 @@ import { ShoppingCart } from "@/components/shared/cart/shopping-cart";
 
 type ComponentProps = { mainMenu: Menu[] };
 
-function MobileMenu({}: ComponentProps) {
+function MobileMenu({ mainMenu }: ComponentProps) {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   return (
     <>
       <div className="md:hidden">
         <div className="flex items-center gap-6">
-          <NavToggle />
+          <NavToggle mainMenu={mainMenu} />
           <Search className="h-auto w-5 cursor-pointer" />
         </div>
       </div>
