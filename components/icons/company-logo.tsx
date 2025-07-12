@@ -2,7 +2,6 @@
 
 import { STORE_NAME } from "@/constants/shopify";
 import { cn } from "@/lib/utils";
-import { tree } from "next/dist/build/templates/app-page";
 import { usePathname } from "next/navigation";
 import React from "react";
 
