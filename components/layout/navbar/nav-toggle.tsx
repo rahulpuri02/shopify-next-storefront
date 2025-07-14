@@ -3,8 +3,10 @@
 import CompanyLogo from "@/components/icons/company-logo";
 import MenuIcon from "@/components/icons/menu-icon";
 import { GENERICS, STATIC_MOBILE_MENU_ITEMS } from "@/constants/shared";
+import { SHOPIFY_URL_PREFIXS } from "@/constants/shopify";
 import { Menu } from "@/types/shared";
 import { ArrowLeft, ArrowRight, XIcon } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
@@ -48,6 +50,7 @@ function NavToggle({ side = "left", mainMenu }: ComponentProps) {
             title: m.title,
             hasChilds: Boolean(m.items?.length),
             items: m.items,
+            path: m.path,
           })) || [];
         setCurrentMenuItems(items);
         setSelectedParent(parentId);
@@ -63,7 +66,7 @@ function NavToggle({ side = "left", mainMenu }: ComponentProps) {
     filtered,
     includes,
   }: {
-    items: { title: string; hasChilds: boolean; items?: Menu[] }[];
+    items: { title: string; hasChilds: boolean; items?: Menu[]; path?: string }[];
     includes: boolean;
     filtered: string[];
   }) {
@@ -79,12 +82,26 @@ function NavToggle({ side = "left", mainMenu }: ComponentProps) {
       <ul className="invisible-scrollbar flex flex-col space-y-2 pb-4 pl-6">
         {filteredItems.map((m) => (
           <li key={m.title} className="flex items-center gap-2 px-2 py-1.5 text-sm font-medium">
-            <p>{m.title.toUpperCase()}</p>
-            {m.hasChilds && (
-              <ArrowRight
-                className="h-auto w-5 cursor-pointer"
-                onClick={() => getCurrentItems(m.title)}
-              />
+            {!m.items?.length && m.path ? (
+              <Link href={`${SHOPIFY_URL_PREFIXS.collections}${m.path}`}>
+                <p>{m.title.toUpperCase()}</p>
+                {m.hasChilds && (
+                  <ArrowRight
+                    className="h-auto w-5 cursor-pointer"
+                    onClick={() => getCurrentItems(m.title)}
+                  />
+                )}
+              </Link>
+            ) : (
+              <>
+                <p>{m.title.toUpperCase()}</p>
+                {m.hasChilds && (
+                  <ArrowRight
+                    className="h-auto w-5 cursor-pointer"
+                    onClick={() => getCurrentItems(m.title)}
+                  />
+                )}
+              </>
             )}
           </li>
         ))}
