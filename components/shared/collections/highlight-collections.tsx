@@ -36,7 +36,7 @@ async function HighlightCollections() {
         ))}
       </div>
       <div className="flex w-full flex-col xl:hidden">
-        {highlightCollections?.map((collection, i) => (
+        {highlightCollections?.map((collection) => (
           <div
             key={collection.handle}
             className="relative aspect-video min-h-[400px] md:aspect-video"
