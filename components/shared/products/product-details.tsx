@@ -1,6 +1,6 @@
 import FavoriteIcon from "@/components/icons/favorite-icon";
-import { Button } from "@/components/ui/button";
-import { ADD_TO_CART, GENERICS, SHIPPING_NOTE } from "@/constants/shared";
+import ExpandableButton from "@/components/ui/expandable-button";
+import { GENERICS, SHIPPING_NOTE } from "@/constants/shared";
 import type { Product } from "@/types/shared";
 
 type ComponentProps = {
@@ -11,7 +11,7 @@ export function ProductDetails({ product }: ComponentProps) {
   const colors = ["bg-blue-700", "bg-slate-300"];
 
   return (
-    <div className="mt-10 w-full space-y-6">
+    <div className="relative mt-10 w-full space-y-6">
       <div className="flex justify-between">
         <h1 className="w-[70%] flex-wrap text-3xl font-normal">{product.title || "test"}</h1>
         <div className="mt-2">
@@ -43,10 +43,7 @@ export function ProductDetails({ product }: ComponentProps) {
           ))}
         </ul>
       </div>
-
-      <Button size="lg" className="mt-2 w-full cursor-pointer font-normal tracking-wider uppercase">
-        {ADD_TO_CART}
-      </Button>
+      <ExpandableButton />
 
       <p className="w-xs flex-wrap text-sm text-gray-500 uppercase">{SHIPPING_NOTE}</p>
     </div>
