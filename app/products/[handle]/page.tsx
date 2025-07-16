@@ -21,11 +21,35 @@ async function ProductPage({ params }: ComponentProps) {
   const collection = await collectionService.getCollection(COLLECTIONS.refreshYourWardrobe);
   return (
     <section className="flex w-full flex-col gap-20">
-      <div className="mx-auto mt-6 grid max-w-6xl grid-cols-1 gap-20 overflow-hidden lg:grid-cols-2 xl:max-w-[80%]">
-        <div className="mt-12 overflow-auto scroll-smooth">
+      <div className="mx-auto hidden h-full grid-cols-1 gap-10 overflow-hidden px-6 pr-6 sm:mt-6 sm:grid sm:h-screen sm:max-w-6xl sm:grid-cols-2 sm:gap-20 sm:px-4 md:px-0 xl:max-w-[80%]">
+        <div className="invisible-scrollbar mt-12 overflow-y-scroll scroll-smooth">
           <ProductGallery images={product.images} />
         </div>
-        <div className="flex flex-col gap-6 overflow-y-auto px-6 py-10">
+        <div className="invisible-scrollbar flex flex-col gap-6 overflow-y-scroll scroll-smooth px-6 sm:py-10">
+          <ProductDetails product={product} />
+          <ProductInfo />
+          <hr />
+          <div className="text-sm uppercase">
+            <p className="uppercase">{GENERICS.styleWith}</p>
+            <ul className="mt-4 flex gap-1.5">
+              {[1, 2].map((i) => (
+                <Image
+                  key={i}
+                  width={85}
+                  height={128}
+                  src={FallbackImage}
+                  alt={NO_IMAGE_FOUND}
+                  className="aspect-[2/3] opacity-90"
+                />
+              ))}
+            </ul>
+          </div>
+          <hr className="w-full" />
+        </div>
+      </div>
+      <div className="sm:hidden">
+        <ProductGallery images={product.images} />
+        <div className="invisible-scrollbar flex flex-col gap-6 overflow-y-scroll scroll-smooth px-6 sm:py-10">
           <ProductDetails product={product} />
           <ProductInfo />
           <hr />

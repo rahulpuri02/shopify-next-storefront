@@ -1,7 +1,7 @@
 import FavoriteIcon from "@/components/icons/favorite-icon";
-import ExpandableButton from "@/components/ui/expandable-button";
 import { GENERICS, SHIPPING_NOTE } from "@/constants/shared";
 import type { Product } from "@/types/shared";
+import SizeSelector from "./SizeSelector";
 
 type ComponentProps = {
   product: Product;
@@ -43,9 +43,9 @@ export function ProductDetails({ product }: ComponentProps) {
           ))}
         </ul>
       </div>
-      <ExpandableButton />
+      <SizeSelector />
 
-      <p className="w-xs flex-wrap text-sm text-gray-500 uppercase">{SHIPPING_NOTE}</p>
+      <p className="mt-20 w-xs flex-wrap pt-2 text-sm text-gray-500 uppercase">{SHIPPING_NOTE}</p>
     </div>
   );
 }

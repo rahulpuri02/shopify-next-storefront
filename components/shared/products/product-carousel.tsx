@@ -1,17 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
 } from "@/components/ui/carousel";
+import { useCarousel } from "@/hooks/useCarousal";
 import { cn } from "@/lib/utils";
-import ProductCard from "./product-card";
 import type { Collection } from "@/types/shared";
+import ProductCard from "./product-card";
 
 type ComponentProps = {
   items: Collection["products"];
@@ -20,34 +19,7 @@ type ComponentProps = {
 };
 
 export default function ProductCarousel({ items, className, title = "" }: ComponentProps) {
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!api || items.length === 0) return;
-
-    const update = () => {
-      setCount(api.scrollSnapList().length);
-      setCurrent(api.selectedScrollSnap());
-    };
-
-    update();
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap());
-    });
-
-    window.addEventListener("resize", update);
-
-    return () => {
-      window.removeEventListener("resize", update);
-    };
-  }, [api, items]);
-
-  const scrollTo = (index: number) => {
-    api?.scrollTo(index);
-  };
-
+  const { setApi, current, count, scrollTo } = useCarousel(items);
   return (
     <div className="mx-auto w-full">
       <Carousel

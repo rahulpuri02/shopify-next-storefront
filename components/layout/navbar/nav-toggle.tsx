@@ -24,6 +24,7 @@ type ComponentProps = {
 };
 
 function NavToggle({ side = "left", mainMenu }: ComponentProps) {
+  const isProductPage = usePathname().startsWith("/products/");
   const shopItems =
     mainMenu
       .find((m) => m.title.toLowerCase() === GENERICS.shop.toLowerCase())
@@ -112,7 +113,7 @@ function NavToggle({ side = "left", mainMenu }: ComponentProps) {
   return (
     <Sheet>
       <SheetTrigger>
-        <MenuIcon className={`${isHomePage ? "bg-white" : "bg-black"}`} />
+        <MenuIcon className={`${isHomePage || isProductPage ? "bg-white" : "bg-black"}`} />
       </SheetTrigger>
       <SheetContent className="" side={side}>
         <SheetHeader

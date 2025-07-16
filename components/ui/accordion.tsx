@@ -23,11 +23,11 @@ function AccordionItem({
   );
 }
 
-function AccordionTrigger({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Trigger>) {
+type AccordionTriggerProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {
+  iconClassName?: string;
+};
+
+function AccordionTrigger({ className, children, iconClassName, ...props }: AccordionTriggerProps) {
   return (
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
@@ -39,7 +39,14 @@ function AccordionTrigger({
         {...props}
       >
         {children}
-        <ChevronDownIcon className="pointer-events-none size-4 shrink-0 translate-y-0.5 text-white transition-transform duration-200" />
+        <ChevronDownIcon
+          className={
+            (cn(
+              "pointer-events-none size-4 shrink-0 translate-y-0.5 text-white transition-transform duration-200"
+            ),
+            iconClassName)
+          }
+        />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );

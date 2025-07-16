@@ -16,7 +16,10 @@ export default function ProductInfo() {
 
           return (
             <AccordionItem key={sectionKey} value={sectionKey} className="border-none">
-              <AccordionTrigger className="flex items-center justify-between text-sm uppercase hover:no-underline">
+              <AccordionTrigger
+                iconClassName="text-muted-background"
+                className="flex items-center justify-between text-sm uppercase hover:no-underline"
+              >
                 {title}
               </AccordionTrigger>
               <AccordionContent className="space-y-4 pt-2 text-sm">
