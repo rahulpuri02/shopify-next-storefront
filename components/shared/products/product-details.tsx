@@ -1,7 +1,11 @@
+"use client";
+
 import FavoriteIcon from "@/components/icons/favorite-icon";
 import { GENERICS, SHIPPING_NOTE } from "@/constants/shared";
 import type { Product } from "@/types/shared";
 import SizeSelector from "./SizeSelector";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 type ComponentProps = {
   product: Product;
@@ -9,6 +13,7 @@ type ComponentProps = {
 
 export function ProductDetails({ product }: ComponentProps) {
   const colors = ["bg-blue-700", "bg-slate-300"];
+  const [selectedColor, setSelectedColor] = useState(colors[0]);
 
   return (
     <div className="relative mt-10 w-full space-y-6">
@@ -37,13 +42,20 @@ export function ProductDetails({ product }: ComponentProps) {
         {"Navy Blue #200"}
         <ul className="mt-4 flex gap-3">
           {colors.map((color) => (
-            <li className="cursor-pointer rounded-full border border-black" key={color}>
+            <li
+              onClick={() => setSelectedColor(color)}
+              className={cn(
+                "cursor-pointer rounded-full",
+                selectedColor === color ? "border border-black" : ""
+              )}
+              key={color}
+            >
               <p className={`h-6 w-6 ${color} m-0.5 rounded-full`} />
             </li>
           ))}
         </ul>
       </div>
-      <SizeSelector />
+      <SizeSelector product={product} selectedColor={selectedColor} />
 
       <p className="mt-20 w-xs flex-wrap pt-2 text-sm text-gray-500 uppercase">{SHIPPING_NOTE}</p>
     </div>

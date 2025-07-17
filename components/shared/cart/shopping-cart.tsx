@@ -1,15 +1,16 @@
+import CompanyLogo from "@/components/icons/company-logo";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
-  DrawerTrigger,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-  DrawerDescription,
+  DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
-import { Minus, Plus } from "lucide-react";
-import { FallbackImage } from "@/constants/shared";
+import { FallbackImage, GENERICS } from "@/constants/shared";
+import { useCart } from "@/contexts/CartContext";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { Minus, Plus, XIcon } from "lucide-react";
 import Image from "next/image";
 
 const dummyProducts = [
@@ -96,76 +97,82 @@ const dummyProducts = [
 ];
 
 export function ShoppingCart({ children }: { children: React.ReactNode }) {
+  const { showCart, isShowCart, cartItems } = useCart();
   return (
-    <Drawer>
+    <Drawer onOpenChange={showCart} open={isShowCart}>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent className="h-screen max-w-2xl rounded-none p-0">
-        <DrawerHeader className="border-b px-6 py-4">
-          <DrawerTitle className="text-2xl font-medium">
-            Bag<sup> {dummyProducts.length}</sup>
+      <DrawerContent className="h-screen max-w-3xl rounded-none p-0 md:min-w-2xl">
+        <DrawerHeader className="px-6 py-4">
+          <DrawerTitle className="relative mt-5 flex items-center justify-center text-2xl font-medium md:mt-6">
+            <CompanyLogo />
+            <XIcon className="absolute right-0 cursor-pointer" onClick={() => showCart(false)} />
           </DrawerTitle>
-          <DrawerDescription className="text-muted-foreground text-sm">
-            14 EUR left for free shipping
-          </DrawerDescription>
         </DrawerHeader>
+        <div className="px-4">
+          <div className="my-6 flex items-center gap-1 text-lg md:text-xl">
+            <p className="tracking-wider">{GENERICS.bag}</p>
+            <sup className="mt-2">{cartItems.length}</sup>
+          </div>
 
-        <ScrollArea className="invisible-scrollbar h-[400px] overflow-y-scroll px-6 py-4 pb-10">
-          <div className="space-y-6">
-            {dummyProducts.map((item) => (
-              <div key={item.id} className="flex gap-4">
-                <Image
-                  src={item.imageUrl}
-                  alt={item.name}
-                  width={100}
-                  height={100}
-                  className="rounded border"
-                />
-                <div className="flex-1">
-                  <div className="flex justify-between">
-                    <div>
-                      <p className="leading-none font-medium">{item.name}</p>
-                      <p className="text-muted-foreground text-sm">{item.description}</p>
-                      <p className="text-muted-foreground text-sm">
-                        {item.color} {item.size}
-                      </p>
+          <div></div>
+          <ScrollArea className="invisible-scrollbar h-[400px] overflow-y-scroll py-4 pb-10">
+            <div className="space-y-6">
+              {dummyProducts.map((item) => (
+                <div key={item.id} className="flex gap-4">
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.name}
+                    width={100}
+                    height={100}
+                    className="rounded border"
+                  />
+                  <div className="flex-1">
+                    <div className="flex justify-between">
+                      <div>
+                        <p className="leading-none font-medium">{item.name}</p>
+                        <p className="text-muted-foreground text-sm">{item.description}</p>
+                        <p className="text-muted-foreground text-sm">
+                          {item.color} {item.size}
+                        </p>
+                      </div>
+                      <button className="text-muted-foreground text-sm underline">Remove</button>
                     </div>
-                    <button className="text-muted-foreground text-sm underline">Remove</button>
-                  </div>
 
-                  <div className="mt-2 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Button variant="outline" size="icon">
-                        <Minus className="h-4 w-4" />
-                      </Button>
-                      <span className="px-2">1</span>
-                      <Button variant="outline" size="icon">
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <div className="text-sm font-medium">
-                      {item.price} EUR
-                      {item.originalPrice && (
-                        <span className="text-muted-foreground ml-2 line-through">
-                          {item.originalPrice} EUR
-                        </span>
-                      )}
+                    <div className="mt-2 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Button variant="outline" size="icon">
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <span className="px-2">1</span>
+                        <Button variant="outline" size="icon">
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <div className="text-sm font-medium">
+                        {item.price} EUR
+                        {item.originalPrice && (
+                          <span className="text-muted-foreground ml-2 line-through">
+                            {item.originalPrice} EUR
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
+              ))}
+            </div>
+          </ScrollArea>
 
-        <div className="absolute bottom-0 z-100 w-full space-y-4 border-t border-t-gray-200 bg-white p-6">
-          <div className="text-muted-foreground text-sm">
-            Shipping from <span className="font-medium">20 EUR</span>. Applied at checkout.
+          <div className="absolute bottom-0 z-100 w-full space-y-4 border-t border-t-gray-200 bg-white p-6">
+            <div className="text-muted-foreground text-sm">
+              Shipping from <span className="font-medium">20 EUR</span>. Applied at checkout.
+            </div>
+            <div className="flex justify-between text-lg font-semibold">
+              <span>Total:</span>
+              <span>236 EUR</span>
+            </div>
+            <Button className="w-full">Go to Checkout</Button>
           </div>
-          <div className="flex justify-between text-lg font-semibold">
-            <span>Total:</span>
-            <span>236 EUR</span>
-          </div>
-          <Button className="w-full">Go to Checkout</Button>
         </div>
       </DrawerContent>
     </Drawer>

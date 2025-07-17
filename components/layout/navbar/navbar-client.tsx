@@ -24,7 +24,7 @@ function NavbarClient({ leftSideMenu, rightSideMenu, mainMenu }: ComponentProps)
     <nav
       suppressHydrationWarning
       className={cn(
-        "fixed z-[100] flex w-full items-center justify-between px-6 py-5 text-xs font-medium tracking-widest uppercase transition-all duration-500 ease-in-out",
+        "fixed z-2 flex w-full items-center justify-between px-6 py-5 text-xs font-medium tracking-widest uppercase transition-all duration-500 ease-in-out",
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0",
         !isHomePage || isScrollingStart ? "bg-white text-black" : "bg-transparent text-white",
         isHomePage && isScrollingStart && "bg-custom-blue text-white",

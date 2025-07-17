@@ -30,7 +30,6 @@ export function useCarousel<T>(items: T[]) {
 
   const scrollTo = useCallback(
     (index: number) => {
-      console.log("hereee", api);
       api?.scrollTo(index);
     },
     [api]

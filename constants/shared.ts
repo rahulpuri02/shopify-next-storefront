@@ -10,6 +10,7 @@ export const GENERICS = {
   essentials: "essentials",
   seeAll: "see all",
   styleWith: "style with",
+  bag: "Bag",
   recommendForYou: "Recommended for you",
   notResultFound: "No results found",
 };
@@ -86,3 +87,4 @@ export const SHIPPING_NOTE =
   "SAME DAY DISPATCH - ORDER BEFORE 3 PM IST / FREE SHIPPING ABOVE ₹ 999";
 
 export const ADD_TO_CART = "Add to Cart";
+export const ADDING = "Adding";

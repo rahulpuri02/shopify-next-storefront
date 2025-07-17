@@ -2,17 +2,26 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ADD_TO_CART } from "@/constants/shared";
+import { ADD_TO_CART, ADDING } from "@/constants/shared";
+import { useCart } from "@/contexts/CartContext";
 import useClickOutside from "@/hooks/useClickOutSide";
 import { cn } from "@/lib/utils";
+import { Product } from "@/types/shared";
 import { InfoIcon } from "lucide-react";
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const sizes = ["S", "M", "L", "XL", "XXL"];
 
-export default function SizeSelector() {
+type ComponentProps = {
+  product: Product;
+  selectedColor: string;
+};
+
+export default function SizeSelector({ product, selectedColor }: ComponentProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAddingSize, setIsAddingSize] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const { setCartItems, showCart } = useCart();
 
   useClickOutside(ref, () => {
     setIsOpen(false);
@@ -32,6 +41,19 @@ export default function SizeSelector() {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
+
+  const handleSelectSize = (size: string) => {
+    setIsAddingSize(true);
+    setTimeout(() => {
+      setIsAddingSize(false);
+      setIsOpen(false);
+      setCartItems((prev) => [
+        ...prev,
+        { ...product, quantity: 1, selectedSize: size, selectedColor },
+      ]);
+      showCart(true);
+    }, 1200);
+  };
 
   return (
     <>
@@ -65,6 +87,7 @@ export default function SizeSelector() {
                       {sizes.map((s) => (
                         <li
                           key={s}
+                          onClick={() => handleSelectSize(s)}
                           className="cursor-pointer border py-2 text-center transition-all ease-in-out hover:border-black"
                         >
                           {s}
@@ -91,7 +114,7 @@ export default function SizeSelector() {
             )}
             onClick={() => setIsOpen(true)}
           >
-            {ADD_TO_CART}
+            {isAddingSize ? ADDING : ADD_TO_CART}
           </Button>
         </Card>
       </div>
