@@ -41,3 +41,5 @@ export type Product = {
     };
   }[];
 };
+
+export type CartItem = Product & { selectedSize: string | number; quantity: number };

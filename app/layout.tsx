@@ -4,6 +4,7 @@ import "./globals.css";
 import Footer from "@/components/layout/footer/footer";
 import Navbar from "@/components/layout/navbar/navbar";
 import ScreenIndicator from "@/components/shared/indicators/screen-indicator";
+import { CartProvider } from "@/contexts/CartContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,10 +31,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col justify-between antialiased`}
       >
-        <Navbar />
-        <main>{children}</main>
-        <ScreenIndicator />
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          <main>{children}</main>
+          <ScreenIndicator />
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

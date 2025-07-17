@@ -78,7 +78,7 @@ async function Footer() {
 
           <FooterAccordian footerMenu={footerMenu} />
           <div className="mt-8 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-base font-semibold">
+            <div className="flex items-center gap-2 text-sm font-semibold">
               <Globe size={14} />
               {FOOTER.languageSelector}
             </div>
