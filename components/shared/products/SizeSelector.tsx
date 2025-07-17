@@ -37,11 +37,18 @@ export default function SizeSelector() {
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 h-screen bg-black/40 transition-opacity"
+          className={cn(
+            "fixed inset-0 h-screen bg-black/40 transition-opacity",
+            isOpen ? "z-[1000]" : "z-1"
+          )}
           aria-hidden="true"
         />
       )}
-      <div className="absolute bottom-8 z-50 w-full outline-none" ref={ref} tabIndex={-1}>
+      <div
+        className={cn("absolute bottom-8 w-full outline-none", isOpen ? "z-[1000]" : "z-1")}
+        ref={ref}
+        tabIndex={-1}
+      >
         <Card
           className={cn(
             "w-full",
