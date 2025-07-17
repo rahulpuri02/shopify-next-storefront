@@ -17,6 +17,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../../ui/sheet";
+import { useScroll } from "@/hooks/useScroll";
 
 type ComponentProps = {
   side?: "right" | "left";
@@ -24,7 +25,12 @@ type ComponentProps = {
 };
 
 function NavToggle({ side = "left", mainMenu }: ComponentProps) {
+  const pathname = usePathname();
+
+  const isHomePage = pathname === "/";
   const isProductPage = usePathname().startsWith("/products/");
+  const { isScrollingStart } = useScroll(200);
+
   const shopItems =
     mainMenu
       .find((m) => m.title.toLowerCase() === GENERICS.shop.toLowerCase())
@@ -58,9 +64,6 @@ function NavToggle({ side = "left", mainMenu }: ComponentProps) {
       }
     }
   }
-
-  const pathname = usePathname();
-  const isHomePage = pathname === "/";
 
   function renderMenuItems({
     items = [],
@@ -113,7 +116,9 @@ function NavToggle({ side = "left", mainMenu }: ComponentProps) {
   return (
     <Sheet>
       <SheetTrigger>
-        <MenuIcon className={`${isHomePage || isProductPage ? "bg-white" : "bg-black"}`} />
+        <MenuIcon
+          className={`${isHomePage || (isProductPage && !isScrollingStart) ? "fill-white stroke-white" : "stroke-black"}`}
+        />
       </SheetTrigger>
       <SheetContent className="" side={side}>
         <SheetHeader

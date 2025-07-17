@@ -7,23 +7,12 @@ type ComponentProps = {
 
 function MenuIcon({ className }: ComponentProps) {
   return (
-    <div className="relative flex cursor-pointer items-center justify-center">
-      <div className="relative size-4">
-        <span
-          className={cn(
-            "absolute top-1 left-0 block h-0.5 w-5 bg-inherit transition-all duration-100",
-            className
-          )}
-        ></span>
-        <span
-          className={cn(
-            "absolute top-3 left-0 block h-0.5 w-5 bg-inherit transition-all duration-100",
-            className
-          )}
-        ></span>
-      </div>
-      <span className="sr-only" />
-    </div>
+    <svg className={cn("h-auto w-6")} viewBox="0 0 24 14" xmlns="http://www.w3.org/2000/svg">
+      <path
+        className={cn("stroke-1.5 transition-all ease-in-out", className)}
+        d="M0 0h24v1.5H0zM0 10.5h24V12H0z"
+      ></path>
+    </svg>
   );
 }
 

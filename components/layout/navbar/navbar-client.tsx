@@ -1,10 +1,10 @@
 "use client";
 
 import CompanyLogo from "@/components/icons/company-logo";
+import { useScroll } from "@/hooks/useScroll";
 import { cn } from "@/lib/utils";
 import type { Menu } from "@/types/shared";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import MenuItem from "./menu-item";
 import MobileMenu from "./mobile-menu";
 
@@ -18,32 +18,7 @@ function NavbarClient({ leftSideMenu, rightSideMenu, mainMenu }: ComponentProps)
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   const isProductPage = pathname.startsWith("/products/");
-
-  const [isVisible, setIsVisible] = useState(true);
-  const [isScrollingStart, setIsScrollingStart] = useState(false);
-
-  useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let ticking = false;
-
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const currentY = window.scrollY;
-          const isScrollingDown = currentY > lastScrollY;
-
-          setIsScrollingStart(currentY > 0);
-          setIsVisible(!(isScrollingDown && currentY > 200));
-          lastScrollY = currentY;
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const { isVisible, isScrollingStart } = useScroll();
 
   return (
     <nav
@@ -53,7 +28,7 @@ function NavbarClient({ leftSideMenu, rightSideMenu, mainMenu }: ComponentProps)
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0",
         !isHomePage || isScrollingStart ? "bg-white text-black" : "bg-transparent text-white",
         isHomePage && isScrollingStart && "bg-custom-blue text-white",
-        isProductPage ? "bg-transparent sm:bg-inherit" : ""
+        isProductPage && !isScrollingStart ? "bg-transparent sm:bg-inherit" : ""
       )}
     >
       <div className="hidden gap-4 md:flex">
