@@ -4,12 +4,14 @@ import BagIcon from "@/components/icons/bag-icon";
 import CompanyLogo from "@/components/icons/company-logo";
 import FavoriteIcon from "@/components/icons/favorite-icon";
 import NavToggle from "@/components/layout/navbar/nav-toggle";
+import SearchPanel from "@/components/shared/search/search-panel";
 import { useCart } from "@/contexts/cart-context";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import type { Menu } from "@/types/shared";
 import { Search } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 type ComponentProps = { mainMenu: Menu[] };
 
@@ -19,6 +21,7 @@ function MobileMenu({ mainMenu }: ComponentProps) {
   const { isScrollingStart } = useScroll(200);
   const isHomePage = pathname === "/";
   const isProductPage = pathname.startsWith("/products/");
+  const [showSearchPanel, setShowSearchPanel] = useState(false);
 
   return (
     <>
@@ -26,6 +29,7 @@ function MobileMenu({ mainMenu }: ComponentProps) {
         <div className="flex items-center gap-6">
           <NavToggle mainMenu={mainMenu} />
           <Search
+            onClick={() => setShowSearchPanel(true)}
             className={cn(
               "h-auto w-5 cursor-pointer",
               isProductPage && !isScrollingStart ? "text-white" : ""
@@ -51,6 +55,7 @@ function MobileMenu({ mainMenu }: ComponentProps) {
           </div>
         </div>
       </div>
+      {showSearchPanel && <SearchPanel open={showSearchPanel} onOpenChange={setShowSearchPanel} />}
     </>
   );
 }

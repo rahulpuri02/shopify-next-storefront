@@ -45,7 +45,7 @@ export function ShoppingCart() {
             <Progress className="h-[1px] rounded-none" value={33} />
             <div />
           </div>
-          <ScrollArea className="invisible-scrollbar h-[70vh] overflow-y-scroll py-3 pb-0 sm:h-[calc(100vh-300px)]">
+          <ScrollArea className="invisible-scrollbar h-[63vh] overflow-y-scroll py-3 pb-0 sm:h-[calc(100vh-300px)]">
             <ul className="flex flex-col space-y-3">
               {cartItems.map((item, i) => (
                 <CartItem item={item} key={i} />
@@ -53,7 +53,7 @@ export function ShoppingCart() {
             </ul>
           </ScrollArea>
 
-          <div className="fixed right-0 bottom-0 z-100 w-full space-y-4 border-t bg-white px-4 py-3 sm:bottom-0">
+          <div className="fixed right-0 bottom-14 z-100 w-full space-y-4 border-t bg-white px-4 py-3 sm:bottom-0">
             <div className="flex justify-between border-t-gray-200 text-base font-medium">
               <span>{CART.total}</span>
               <span>{CART.currency} 2099</span>
