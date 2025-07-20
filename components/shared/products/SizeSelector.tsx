@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ADD_TO_CART, ADDING } from "@/constants/shared";
-import { useCart } from "@/contexts/CartContext";
-import useClickOutside from "@/hooks/useClickOutSide";
+import { useCart } from "@/contexts/cart-context";
+import useClickOutside from "@/hooks/use-click-outside";
 import { cn } from "@/lib/utils";
 import { Product } from "@/types/shared";
 import { InfoIcon } from "lucide-react";
@@ -20,6 +20,7 @@ type ComponentProps = {
 export default function SizeSelector({ product, selectedColor }: ComponentProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isAddingSize, setIsAddingSize] = useState(false);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const { setCartItems, showCart } = useCart();
 
@@ -43,6 +44,7 @@ export default function SizeSelector({ product, selectedColor }: ComponentProps)
   }, [isOpen]);
 
   const handleSelectSize = (size: string) => {
+    setSelectedSize(size);
     setIsAddingSize(true);
     setTimeout(() => {
       setIsAddingSize(false);
@@ -88,7 +90,10 @@ export default function SizeSelector({ product, selectedColor }: ComponentProps)
                         <li
                           key={s}
                           onClick={() => handleSelectSize(s)}
-                          className="cursor-pointer border py-2 text-center transition-all ease-in-out hover:border-black"
+                          className={cn(
+                            "cursor-pointer border py-2 text-center transition-all ease-in-out hover:border-black",
+                            selectedSize === s ? "border-black bg-gray-100" : "border-gray-300"
+                          )}
                         >
                           {s}
                         </li>

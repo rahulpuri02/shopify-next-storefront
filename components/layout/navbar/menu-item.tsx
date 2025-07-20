@@ -7,7 +7,7 @@ import { filterMenuItems } from "@/lib/utils";
 import { ROUTES } from "@/constants/routes";
 import { FILTER_OPERATIONS } from "@/constants/shared";
 import { Menu } from "@/types/shared";
-import { ShoppingCart } from "@/components/shared/cart/shopping-cart";
+import { useCart } from "@/contexts/cart-context";
 
 type ComponentProps = {
   item: Menu;
@@ -16,6 +16,7 @@ type ComponentProps = {
 
 const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
   const pathname = usePathname();
+  const { showCart } = useCart();
   const isHomePage = pathname === "/";
 
   const highlightsMenu = filterMenuItems(
@@ -32,9 +33,9 @@ const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
   return (
     <div className={`group relative ${isHomePage ? "text-white" : "text-black"}`}>
       {item.title.toLowerCase() === "bag" ? (
-        <ShoppingCart>
-          <p className="cursor-pointer">{item.title}</p>
-        </ShoppingCart>
+        <p onClick={() => showCart(true)} className="cursor-pointer">
+          {item.title}
+        </p>
       ) : (
         <Link
           href={item.path || "#"}

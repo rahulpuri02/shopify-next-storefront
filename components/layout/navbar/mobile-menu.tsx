@@ -4,8 +4,8 @@ import BagIcon from "@/components/icons/bag-icon";
 import CompanyLogo from "@/components/icons/company-logo";
 import FavoriteIcon from "@/components/icons/favorite-icon";
 import NavToggle from "@/components/layout/navbar/nav-toggle";
-import { ShoppingCart } from "@/components/shared/cart/shopping-cart";
-import { useScroll } from "@/hooks/useScroll";
+import { useCart } from "@/contexts/cart-context";
+import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import type { Menu } from "@/types/shared";
 import { Search } from "lucide-react";
@@ -15,6 +15,7 @@ type ComponentProps = { mainMenu: Menu[] };
 
 function MobileMenu({ mainMenu }: ComponentProps) {
   const pathname = usePathname();
+  const { showCart } = useCart();
   const { isScrollingStart } = useScroll(200);
   const isHomePage = pathname === "/";
   const isProductPage = pathname.startsWith("/products/");
@@ -43,13 +44,11 @@ function MobileMenu({ mainMenu }: ComponentProps) {
           <FavoriteIcon
             className={`${isHomePage || (isProductPage && !isScrollingStart) ? "stroke-white" : "stroke-black"}`}
           />
-          <ShoppingCart>
-            <div>
-              <BagIcon
-                className={`${isHomePage || (isProductPage && !isScrollingStart) ? "fill-white" : "fill-black"} cursor-pointer`}
-              />
-            </div>
-          </ShoppingCart>
+          <div onClick={() => showCart(true)}>
+            <BagIcon
+              className={`${isHomePage || (isProductPage && !isScrollingStart) ? "fill-white" : "fill-black"} cursor-pointer`}
+            />
+          </div>
         </div>
       </div>
     </>

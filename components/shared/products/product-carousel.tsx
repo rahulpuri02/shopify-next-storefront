@@ -7,7 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { useCarousel } from "@/hooks/useCarousal";
+import { useCarousel } from "@/hooks/use-carousal";
 import { cn } from "@/lib/utils";
 import type { Collection } from "@/types/shared";
 import ProductCard from "./product-card";

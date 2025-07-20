@@ -17,7 +17,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../../ui/sheet";
-import { useScroll } from "@/hooks/useScroll";
+import { useScroll } from "@/hooks/use-scroll";
 
 type ComponentProps = {
   side?: "right" | "left";

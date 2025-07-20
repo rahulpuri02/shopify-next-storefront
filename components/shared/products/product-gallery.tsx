@@ -3,7 +3,7 @@
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DEFAULT_IMAGE_ALT } from "@/constants/shared";
-import { useCarousel } from "@/hooks/useCarousal";
+import { useCarousel } from "@/hooks/use-carousal";
 import { cn } from "@/lib/utils";
 import { Product } from "@/types/shared";
 

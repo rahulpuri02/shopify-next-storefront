@@ -1,7 +1,7 @@
 "use client";
 
 import CompanyLogo from "@/components/icons/company-logo";
-import { useScroll } from "@/hooks/useScroll";
+import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import type { Menu } from "@/types/shared";
 import { usePathname } from "next/navigation";
