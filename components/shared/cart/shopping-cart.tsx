@@ -10,11 +10,11 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Progress } from "@/components/ui/progress";
-import { CART, GENERICS, NO_IMAGE_FOUND } from "@/constants/shared";
+import { CART, GENERICS } from "@/constants/shared";
 import { useCart } from "@/contexts/cart-context";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { XIcon } from "lucide-react";
-import Image from "next/image";
+import CartItem from "./cart-item";
 
 export function ShoppingCart() {
   const { showCart, isShowCart, cartItems } = useCart();
@@ -45,52 +45,15 @@ export function ShoppingCart() {
             <Progress className="h-[1px] rounded-none" value={33} />
             <div />
           </div>
-          <ScrollArea className="invisible-scrollbar h-[calc(100vh-300px)] overflow-y-scroll py-3 pb-0">
-            <ul>
-              {cartItems.map((item, index) => (
-                <li key={index} className="flex items-start gap-4 py-4">
-                  <div className="relative h-[144px] w-[94px] shrink-0 overflow-hidden rounded-sm bg-gray-100">
-                    <Image
-                      src={item.images?.[0]?.url || NO_IMAGE_FOUND}
-                      alt="Product"
-                      fill
-                      sizes="94px"
-                      className="aspect-auto"
-                    />
-                  </div>
-
-                  <div className="flex flex-1 flex-col justify-between text-xs">
-                    <div className="flex justify-between px-1 py-1.5 text-xs">
-                      <div className="flex flex-col">
-                        <p className="text-slate-900 uppercase">Julio</p>
-                        <p className="text-muted-foreground">Open Collar Linen Shirt</p>
-                        <p className="text-muted-foreground mt-2 text-xs">Croc Green #374</p>
-                        <p className="text-muted-foreground text-xs">L</p>
-                      </div>
-                      <button className="text-xs underline underline-offset-4">
-                        {CART.remove}
-                      </button>
-                    </div>
-
-                    <div className="mt-3 flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <Button size="icon" variant="outline" className="h-7 w-7 p-0 text-sm">
-                          −
-                        </Button>
-                        <span className="text-sm">1</span>
-                        <Button size="icon" variant="outline" className="h-7 w-7 p-0 text-sm">
-                          +
-                        </Button>
-                      </div>
-                      <div className="text-xs">{CART.currency} 399</div>
-                    </div>
-                  </div>
-                </li>
+          <ScrollArea className="invisible-scrollbar h-[63vh] overflow-y-scroll py-3 pb-0 sm:h-[calc(100vh-300px)]">
+            <ul className="flex flex-col space-y-3">
+              {cartItems.map((item, i) => (
+                <CartItem item={item} key={i} />
               ))}
             </ul>
           </ScrollArea>
 
-          <div className="absolute right-0 bottom-0 z-100 w-full space-y-4 border-t bg-white px-4 py-3">
+          <div className="fixed right-0 bottom-14 z-100 w-full space-y-4 border-t bg-white px-4 py-3 sm:bottom-0">
             <div className="flex justify-between border-t-gray-200 text-base font-medium">
               <span>{CART.total}</span>
               <span>{CART.currency} 2099</span>

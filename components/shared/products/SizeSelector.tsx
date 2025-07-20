@@ -54,6 +54,7 @@ export default function SizeSelector({ product, selectedColor }: ComponentProps)
         { ...product, quantity: 1, selectedSize: size, selectedColor },
       ]);
       showCart(true);
+      setSelectedSize("");
     }, 1200);
   };
 
