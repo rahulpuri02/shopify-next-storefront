@@ -88,3 +88,11 @@ export const SHIPPING_NOTE =
 
 export const ADD_TO_CART = "Add to Cart";
 export const ADDING = "Adding";
+
+export const CART = {
+  currency: "₹",
+  total: "Total:",
+  goToCheckout: "Go to Checkout",
+  leftForFreeShipping: "left for free shipping",
+  remove: "Remove",
+} as const;

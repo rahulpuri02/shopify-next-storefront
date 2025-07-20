@@ -10,17 +10,18 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Progress } from "@/components/ui/progress";
-import { GENERICS } from "@/constants/shared";
+import { CART, GENERICS, NO_IMAGE_FOUND } from "@/constants/shared";
 import { useCart } from "@/contexts/cart-context";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { XIcon } from "lucide-react";
+import Image from "next/image";
 
 export function ShoppingCart() {
   const { showCart, isShowCart, cartItems } = useCart();
   return (
     <Drawer onOpenChange={showCart} open={isShowCart}>
       <DrawerTrigger asChild />
-      <DrawerContent className="h-screen w-[93%] rounded-none p-0 md:max-w-3xl">
+      <DrawerContent className="h-screen w-[90%] rounded-none p-0 md:max-w-3xl">
         <DrawerHeader className="px-6 py-4">
           <DrawerTitle className="relative mt-5 flex items-center justify-center text-2xl font-medium md:mt-6">
             <CompanyLogo className="fill-black" />
@@ -38,29 +39,63 @@ export function ShoppingCart() {
 
           <div className="flex flex-col space-y-3">
             <div className="flex gap-1 text-sm">
-              <p className="text-slate-900">₹ 399</p>
-              <p className="text-muted-foreground">left for free shipping</p>
+              <p className="text-slate-900">{CART.currency} 399</p>
+              <p className="text-muted-foreground">{CART.leftForFreeShipping}</p>
             </div>
             <Progress className="h-[1px] rounded-none" value={33} />
             <div />
           </div>
-          <ScrollArea className="invisible-scrollbar h-auto overflow-y-scroll py-3 pb-10">
+          <ScrollArea className="invisible-scrollbar h-[calc(100vh-300px)] overflow-y-scroll py-3 pb-0">
             <ul>
-              {[1, 2, 3, 4].map((item) => (
-                <li key={item}>{item}</li>
+              {cartItems.map((item, index) => (
+                <li key={index} className="flex items-start gap-4 py-4">
+                  <div className="relative h-[144px] w-[94px] shrink-0 overflow-hidden rounded-sm bg-gray-100">
+                    <Image
+                      src={item.images?.[0]?.url || NO_IMAGE_FOUND}
+                      alt="Product"
+                      fill
+                      sizes="94px"
+                      className="aspect-auto"
+                    />
+                  </div>
+
+                  <div className="flex flex-1 flex-col justify-between text-xs">
+                    <div className="flex justify-between px-1 py-1.5 text-xs">
+                      <div className="flex flex-col">
+                        <p className="text-slate-900 uppercase">Julio</p>
+                        <p className="text-muted-foreground">Open Collar Linen Shirt</p>
+                        <p className="text-muted-foreground mt-2 text-xs">Croc Green #374</p>
+                        <p className="text-muted-foreground text-xs">L</p>
+                      </div>
+                      <button className="text-xs underline underline-offset-4">
+                        {CART.remove}
+                      </button>
+                    </div>
+
+                    <div className="mt-3 flex items-center justify-between">
+                      <div className="flex items-center gap-2.5">
+                        <Button size="icon" variant="outline" className="h-7 w-7 p-0 text-sm">
+                          −
+                        </Button>
+                        <span className="text-sm">1</span>
+                        <Button size="icon" variant="outline" className="h-7 w-7 p-0 text-sm">
+                          +
+                        </Button>
+                      </div>
+                      <div className="text-xs">{CART.currency} 399</div>
+                    </div>
+                  </div>
+                </li>
               ))}
             </ul>
           </ScrollArea>
 
-          <div className="absolute bottom-0 z-100 w-full space-y-4 border-t border-t-gray-200 bg-white p-6">
-            <div className="text-muted-foreground text-sm">
-              Shipping from <span className="font-medium">20 EUR</span>. Applied at checkout.
+          <div className="absolute right-0 bottom-0 z-100 w-full space-y-4 border-t bg-white px-4 py-3">
+            <div className="flex justify-between border-t-gray-200 text-base font-medium">
+              <span>{CART.total}</span>
+              <span>{CART.currency} 2099</span>
             </div>
-            <div className="flex justify-between text-lg font-semibold">
-              <span>Total:</span>
-              <span>236 EUR</span>
-            </div>
-            <Button className="w-full">Go to Checkout</Button>
+            <Button className="w-full px-4 font-normal">{CART.goToCheckout}</Button>
           </div>
         </div>
       </DrawerContent>
