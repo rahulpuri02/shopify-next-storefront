@@ -8,6 +8,7 @@ type ComponentProps = {
   setValue: React.Dispatch<SetStateAction<string>>;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  haveBorder?: boolean;
 };
 
 type Particle = {
@@ -17,7 +18,13 @@ type Particle = {
   color: string;
 };
 
-export function VanishSearch({ onChange, onSubmit, value, setValue }: ComponentProps) {
+export function VanishSearch({
+  onChange,
+  onSubmit,
+  value,
+  setValue,
+  haveBorder = true,
+}: ComponentProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const newDataRef = useRef<Particle[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -156,8 +163,8 @@ export function VanishSearch({ onChange, onSubmit, value, setValue }: ComponentP
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "relative mx-auto h-10 w-full max-w-xl overflow-hidden",
-        value && "animate-fade-in border-b"
+        "relative mx-auto h-10 w-full overflow-hidden",
+        value && haveBorder && "animate-fade-in border-b"
       )}
     >
       {value?.length > 0 && (

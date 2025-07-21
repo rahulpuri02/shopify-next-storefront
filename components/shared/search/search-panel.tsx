@@ -21,7 +21,7 @@ export default function SearchPanel({ open, onOpenChange }: ComponentProps) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger className="text-sm font-medium">Search</SheetTrigger>
-      <SheetContent side="top" className="h-[100vh] px-6 pt-6">
+      <SheetContent side="top" className="h-[100vh] px-6 pt-6 md:h-[220px]">
         <SheetTitle>
           <div className="flex items-center justify-between">
             <X
@@ -34,14 +34,34 @@ export default function SearchPanel({ open, onOpenChange }: ComponentProps) {
         </SheetTitle>
 
         <div className="mt-6 flex items-center justify-between">
-          <VanishSearch value={searchQuery} setValue={setSearchQuery} onSubmit={handleSearch} />
+          <VanishSearch
+            value={searchQuery}
+            setValue={setSearchQuery}
+            onSubmit={handleSearch}
+            haveBorder={false}
+          />
         </div>
 
-        <div className="mt-6 text-[10px] font-semibold tracking-wide text-gray-500 uppercase">
+        <hr className="hidden md:block" />
+
+        <div className="items mt-3 hidden items-center justify-center gap-4 md:flex">
+          <div className="text-xs font-semibold tracking-wide text-gray-500 uppercase">
+            Suggestions:
+          </div>
+          <ul className="flex items-center gap-4">
+            {suggestions.map((item, i) => (
+              <li key={i} className="cursor-pointer hover:underline">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-6 text-[10px] font-semibold tracking-wide text-gray-500 uppercase md:hidden md:text-sm">
           Suggestions:
         </div>
 
-        <ul className="mt-2 space-y-2 text-[17px] font-light">
+        <ul className="mt-2 space-y-2 text-[17px] font-light md:hidden">
           {suggestions.map((item, i) => (
             <li key={i} className="cursor-pointer hover:underline">
               {item}

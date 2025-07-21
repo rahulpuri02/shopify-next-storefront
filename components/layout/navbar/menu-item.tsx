@@ -8,6 +8,8 @@ import { ROUTES } from "@/constants/routes";
 import { FILTER_OPERATIONS } from "@/constants/shared";
 import { Menu } from "@/types/shared";
 import { useCart } from "@/contexts/cart-context";
+import { useState } from "react";
+import SearchPanel from "@/components/shared/search/search-panel";
 
 type ComponentProps = {
   item: Menu;
@@ -17,6 +19,8 @@ type ComponentProps = {
 const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
   const pathname = usePathname();
   const { showCart } = useCart();
+  const [showSearchPanel, setShowSearchPanel] = useState(false);
+
   const isHomePage = pathname === "/";
 
   const highlightsMenu = filterMenuItems(
@@ -36,6 +40,14 @@ const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
         <p onClick={() => showCart(true)} className="cursor-pointer">
           {item.title}
         </p>
+      ) : item.path === ROUTES.search ? (
+        <div
+          onClick={() => setShowSearchPanel(true)}
+          className="flex cursor-pointer items-center gap-1 transition hover:opacity-60"
+        >
+          <SearchIcon className="h-auto w-4" />
+          <p>{item.title}</p>
+        </div>
       ) : (
         <Link
           href={item.path || "#"}
@@ -70,6 +82,7 @@ const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
           </ul>
         </div>
       )}
+      {showSearchPanel && <SearchPanel onOpenChange={setShowSearchPanel} open={showSearchPanel} />}
     </div>
   );
 };
