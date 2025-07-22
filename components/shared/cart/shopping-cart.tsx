@@ -21,7 +21,7 @@ export function ShoppingCart() {
   return (
     <Drawer onOpenChange={showCart} open={isShowCart}>
       <DrawerTrigger asChild />
-      <DrawerContent className="h-screen w-[90%] rounded-none p-0 md:max-w-3xl">
+      <DrawerContent className="h-screen w-[90%] rounded-none p-0 md:max-w-md">
         <DrawerHeader className="px-6 py-4">
           <DrawerTitle className="relative mt-5 flex items-center justify-center text-2xl font-medium md:mt-6">
             <CompanyLogo className="fill-black" />

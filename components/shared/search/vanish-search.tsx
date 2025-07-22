@@ -18,13 +18,7 @@ type Particle = {
   color: string;
 };
 
-export function VanishSearch({
-  onChange,
-  onSubmit,
-  value,
-  setValue,
-  haveBorder = true,
-}: ComponentProps) {
+export function VanishSearch({ onChange, onSubmit, value, setValue }: ComponentProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const newDataRef = useRef<Particle[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -164,7 +158,7 @@ export function VanishSearch({
       onSubmit={handleSubmit}
       className={cn(
         "relative mx-auto h-10 w-full overflow-hidden",
-        value && haveBorder && "animate-fade-in border-b"
+        value && "animate-fade-in border-b md:border-none"
       )}
     >
       {value?.length > 0 && (

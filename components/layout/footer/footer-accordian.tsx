@@ -14,7 +14,7 @@ type ComponentProps = {
 
 function FooterAccordian({ footerMenu }: ComponentProps) {
   return (
-    <Accordion type="single" className="w-full space-y-1">
+    <Accordion type="multiple" className="w-full space-y-1">
       {footerMenu.map((col) => (
         <AccordionItem className="w-full border-none" key={col.title} value={col.title}>
           <AccordionTrigger
