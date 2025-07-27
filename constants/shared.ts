@@ -26,8 +26,7 @@ export const BANNER_VIDEO_URL =
   "https://res.cloudinary.com/dlt5cfo8m/video/upload/v1748716911/cn74-hero-video_wpyd2i.mp4";
 
 export const EXPLORER_BANNER = {
-  imageSrc:
-    "https://res.cloudinary.com/dlt5cfo8m/image/upload/v1750212456/cn74-explore-banner_eo4jsz.jpg",
+  imageSrc: "/explore-all-banner-2.avif",
   imgAlt: "explore-banner-image",
   title: "Weclome to Our World",
   description: "Browse our complete collection of elevated essentials and modern classics.",

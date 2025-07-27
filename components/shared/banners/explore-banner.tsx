@@ -6,7 +6,7 @@ import Link from "next/link";
 const ExploreBanner = () => {
   return (
     <Link href={`${SHOPIFY_URL_PREFIXS.collections}/${GENERICS.seeAll}`}>
-      <section className="relative flex aspect-[2/3] w-full flex-col justify-center space-y-6 text-white md:space-y-8 lg:h-screen">
+      <section className="relative flex aspect-[1/1.1] w-full flex-col justify-center space-y-6 text-white md:aspect-[16/9] md:space-y-8">
         <Image
           className="absolute"
           src={EXPLORER_BANNER.imageSrc}

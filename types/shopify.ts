@@ -78,6 +78,25 @@ export type ShopifyCollectionsOperation = {
   };
 };
 
+export type ShopifyPageOperation = {
+  data: {
+    pageByHandle?: {
+      id: string;
+      title: string;
+      handle: string;
+      body: string;
+      bodySummary: string;
+      seo: {
+        title: string;
+        description: string;
+      };
+    } | null;
+  };
+  variables: {
+    handle: string;
+  };
+};
+
 export type ShopifyProductOperation = {
   data: {
     product: {
