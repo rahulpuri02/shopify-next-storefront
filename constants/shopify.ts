@@ -5,6 +5,7 @@ export const SHOPIFY_URL_PREFIXS = {
 
 export const TAGS = {
   collections: "collections",
+  products: "products",
 } as const;
 
 export const COLLECTIONS = {
