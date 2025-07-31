@@ -8,6 +8,7 @@ export const GENERICS = {
   color: "color",
   newArrivals: "new arrivals",
   essentials: "essentials",
+  shopNow: "SHOP NOW",
   seeAll: "see all",
   styleWith: "style with",
   bag: "Bag",
@@ -16,7 +17,6 @@ export const GENERICS = {
 };
 
 export const NO_IMAGE_FOUND = "No image found";
-export const EXPLORE_NOW = "Explore Now";
 export const DEFAULT_IMAGE_ALT = "image";
 
 export const FallbackImage = "/placeholder.jpg";
@@ -25,18 +25,12 @@ export const MAIN_BANNER_POSTER = "/cn74-hero-video_poster.jpg";
 export const BANNER_VIDEO_URL =
   "https://res.cloudinary.com/dlt5cfo8m/video/upload/v1748716911/cn74-hero-video_wpyd2i.mp4";
 
-export const EXPLORER_BANNER = {
-  imageSrc: "/explore-all-banner-2.avif",
-  imgAlt: "explore-banner-image",
-  title: "Weclome to Our World",
-  description: "Browse our complete collection of elevated essentials and modern classics.",
-};
-
 export const FOOTER = {
   signUpNewsletter: "Sign up for CN. 74 newsletter",
   emailPlaceholder: "EMAIL",
   termsLabel: "I have read, understood and accepted the terms and conditions.",
-  languageSelector: "WORLD WIDE (ENGLISH)",
+  siteAuthor: "SITE BY RAHUL PURI",
+  authorContact: "https://linkedin.com/in/rahulpuri02",
 } as const;
 
 export const PRODUCT_INFO = {
@@ -95,3 +89,8 @@ export const CART = {
   leftForFreeShipping: "left for free shipping",
   remove: "Remove",
 } as const;
+
+export const MENS_CLOTHING_TITLE = "MEN'S CLOTHING";
+
+export const MENS_CLOTHING_DESCRIPTION =
+  "Check out all the freshest styles your closet needs in our men's clothing range. Discover our collection of simple and sober men's clothing, perfect for building a versatile wardrobe. We focus on everyday essentials from comfortable tops and T-shirts to classic pants in staple colors. Need a refined touch? Our select blazers and shirts offer understated elegance. When the weather shifts, our jackets provide practical coverage without compromising on a clean aesthetic.";

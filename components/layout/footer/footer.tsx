@@ -3,7 +3,8 @@ import VisaCardIcon from "@/components/icons/visa-card-icon";
 import { FOOTER } from "@/constants/shared";
 import { MENUS } from "@/constants/shopify";
 import { navigationService } from "@/services/navigation.service";
-import { Globe } from "lucide-react";
+import { ChevronsLeftRight } from "lucide-react";
+import Link from "next/link";
 import FooterAccordian from "./footer-accordian";
 
 async function Footer() {
@@ -30,15 +31,18 @@ async function Footer() {
             </label>
           </form>
 
-          <div className="mt-6 flex items-center gap-2 text-sm font-bold">
-            <Globe size={14} />
-            {FOOTER.languageSelector}
-          </div>
+          <Link
+            href={FOOTER.authorContact}
+            className="mt-6 flex items-center gap-2 text-sm font-bold uppercase"
+          >
+            <ChevronsLeftRight className="h-auto w-5" size={14} />
+            {FOOTER.siteAuthor}
+          </Link>
         </div>
 
         <div className="grid grid-cols-2 gap-10 pl-20 md:grid-cols-4">
           {footerMenu.map((col, i) => (
-            <div key={`${col.title}-${i}`} className="w-full">
+            <Link href={col.path} key={`${col.title}-${i}`} className="w-full">
               <h4 className="mb-4 text-sm font-medium uppercase">{col.title}</h4>
               <ul className="flex flex-col space-y-1.5 text-sm">
                 {col.items?.map((subItem) => (
@@ -47,7 +51,7 @@ async function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </Link>
           ))}
           <div className="flex items-start gap-6 pt-1">
             <VisaCardIcon />
@@ -78,10 +82,13 @@ async function Footer() {
 
           <FooterAccordian footerMenu={footerMenu} />
           <div className="mt-8 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sm font-semibold">
-              <Globe size={14} />
-              {FOOTER.languageSelector}
-            </div>
+            <Link
+              href={FOOTER.authorContact}
+              className="flex items-center gap-2 text-sm font-semibold"
+            >
+              <ChevronsLeftRight className="h-auto w-5" />
+              {FOOTER.siteAuthor}
+            </Link>
             <div className="flex items-start gap-3">
               <VisaCardIcon />
               <MasterCardIcon />

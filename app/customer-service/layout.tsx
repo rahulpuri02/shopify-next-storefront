@@ -34,7 +34,7 @@ export default function CustomerServiceLayout({ children }: { children: React.Re
             <Link href={"/customer-service"}>
               <h2
                 className={cn(
-                  "shrink-0 pb-1 text-sm font-semibold transition-colors",
+                  "shrink-0 pb-1 text-lg font-semibold transition-colors",
                   pathname === "/customer-service" ? "text-black" : "text-gray-500 hover:text-black"
                 )}
               >
@@ -49,7 +49,7 @@ export default function CustomerServiceLayout({ children }: { children: React.Re
                   href={href}
                   ref={isActive ? activeRef : null}
                   className={cn(
-                    "shrink-0 pb-1 text-sm font-semibold transition-colors",
+                    "shrink-0 pb-1 text-lg font-semibold transition-colors",
                     isActive ? "text-black" : "text-gray-500 hover:text-black"
                   )}
                 >
@@ -62,8 +62,8 @@ export default function CustomerServiceLayout({ children }: { children: React.Re
         </ScrollArea>
       </div>
 
-      {/* Desktop Sidebar Layout */}
       <div className="flex gap-12">
+        {/* Desktop Sidebar Layout */}
         <aside className="sticky top-24 hidden w-60 self-start md:block">
           <Link href={"/customer-service"}>
             <h2
@@ -93,7 +93,7 @@ export default function CustomerServiceLayout({ children }: { children: React.Re
         </aside>
 
         {/* Main content */}
-        <section className="ml-4 max-w-2xl flex-1 md:ml-6">{children}</section>
+        <section className="max-w-2xl flex-1 md:ml-6">{children}</section>
       </div>
     </div>
   );

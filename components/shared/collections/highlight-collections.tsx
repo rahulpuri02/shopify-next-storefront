@@ -1,8 +1,15 @@
-import { EXPLORE_NOW, FallbackImage, NO_IMAGE_FOUND } from "@/constants/shared";
+import { ROUTES } from "@/constants/routes";
+import {
+  FallbackImage,
+  GENERICS,
+  MENS_CLOTHING_DESCRIPTION,
+  MENS_CLOTHING_TITLE,
+  NO_IMAGE_FOUND,
+} from "@/constants/shared";
 import { SHOPIFY_CUSTOM_METAFIELDS } from "@/constants/shopify";
 import { collectionService } from "@/services/collection.service";
 import Image from "next/image";
-import React from "react";
+import Link from "next/link";
 
 async function HighlightCollections() {
   const highlightCollections = await collectionService.getCollections({
@@ -10,50 +17,35 @@ async function HighlightCollections() {
     value: SHOPIFY_CUSTOM_METAFIELDS.collections.homepageType.values.highlights,
   });
 
+  if (!highlightCollections || highlightCollections.length === 0) return null;
   return (
-    <section className="flex w-full flex-col">
-      <div className="hidden xl:block">
-        {highlightCollections?.map((collection, i) => (
-          <div
-            key={collection.handle}
-            className={`flex ${i % 2 !== 0 ? "flex-row-reverse" : "flex-row"} h-screen w-full`}
+    <div>
+      <div className="mx-auto grid w-full grid-cols-2 space-y-10 2xl:max-w-3xl">
+        {highlightCollections.map((collection, index) => (
+          <Link
+            href={ROUTES.collection(collection.handle)}
+            className="flex flex-col space-y-3 text-sm"
+            key={index}
           >
-            <div className="relative h-screen w-[50%]">
+            <div className="relative aspect-[2/3] w-full">
               <Image
+                fill
                 src={collection.imageUrl || FallbackImage}
                 alt={collection.imageAlt || NO_IMAGE_FOUND}
-                fill
               />
             </div>
-            <div className="flex w-[50%] flex-col items-center justify-center space-y-8 px-5 text-center">
-              <h4 className="text-center text-3xl font-medium">{collection.title}</h4>
-              <p className="w-[90%]">{collection.description}</p>
-              <button className="inline-block cursor-pointer rounded-none border border-gray-400 bg-transparent px-8 py-2.5 text-sm leading-none font-normal text-current uppercase opacity-100 transition-colors duration-700 ease-[cubic-bezier(0.32,0.24,0.15,1)] outline-none select-none hover:border-current hover:opacity-100">
-                {EXPLORE_NOW}
-              </button>
+            <div className="flex flex-col space-y-1 pt-2 pl-2 text-xs md:text-sm">
+              <div className="uppercase">{collection.title}</div>
+              <div>{GENERICS.shopNow}</div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
-      <div className="flex w-full flex-col xl:hidden">
-        {highlightCollections?.map((collection) => (
-          <div
-            key={collection.handle}
-            className="relative aspect-video min-h-[400px] md:aspect-video"
-          >
-            <Image
-              src={collection.imageUrl || FallbackImage}
-              alt={collection.imageAlt || NO_IMAGE_FOUND}
-              fill
-            />
-            <div className="absolute inset-0 flex flex-col items-center justify-center space-y-6 px-5 text-center text-white md:space-y-8">
-              <h4 className="text-center text-2xl font-medium md:text-3xl">{collection.title}</h4>
-              <p className="w-[90%] text-xs md:text-base">{collection.description}</p>
-            </div>
-          </div>
-        ))}
+      <div className="flex w-full flex-col space-y-3 px-2 2xl:px-6">
+        <h5 className="font-medium">{MENS_CLOTHING_TITLE}</h5>
+        <div>{MENS_CLOTHING_DESCRIPTION}</div>
       </div>
-    </section>
+    </div>
   );
 }
 
