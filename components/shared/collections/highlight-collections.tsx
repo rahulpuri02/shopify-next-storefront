@@ -34,7 +34,7 @@ async function HighlightCollections() {
                 alt={collection.imageAlt || NO_IMAGE_FOUND}
               />
             </div>
-            <div className="flex flex-col space-y-1 pt-2 pl-2 text-xs md:text-sm">
+            <div className="flex flex-col space-y-1 pt-1 pl-2 text-xs md:text-sm">
               <div className="uppercase">{collection.title}</div>
               <div>{GENERICS.shopNow}</div>
             </div>
