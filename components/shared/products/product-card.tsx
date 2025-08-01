@@ -1,16 +1,15 @@
 import { ROUTES } from "@/constants/routes";
 import { FallbackImage, NO_IMAGE_FOUND } from "@/constants/shared";
+import { cn } from "@/lib/utils";
 import type { Collection } from "@/types/shared";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 type ComponentProps = {
   product: Collection["products"][number];
 };
 
 function ProductCard({ product }: ComponentProps) {
-  const colors = ["bg-red-500", "bg-green-400", "bg-blue-300", "bg-yellow-200", "bg-purple-500"];
   return (
     <Link href={ROUTES.product(product.handle)}>
       <div className="relative aspect-[2/3]">
@@ -23,23 +22,34 @@ function ProductCard({ product }: ComponentProps) {
       </div>
       <div className="mt-4 flex w-full flex-col gap-1 px-2 text-xs text-black uppercase">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="overflow-hidden text-ellipsis whitespace-nowrap">
-            NOLAN - Ribbed Organic Cotton Polo
-          </p>
+          <p className="overflow-hidden text-ellipsis whitespace-nowrap">{product.title}</p>
           <div className="flex flex-shrink-0 items-center gap-1">
-            {colors.length > 3 ? (
+            {product.variants.length > 3 ? (
               <>
-                {colors.slice(0, 3).map((color, index) => (
-                  <span key={index} className={`h-2.5 w-2.5 ${color}`} />
+                {product.variants.slice(0, 3).map((variant, index) => (
+                  <span
+                    key={index}
+                    className={cn(
+                      "inline-block h-2.5 w-2.5",
+                      "transition-transform hover:scale-110"
+                    )}
+                    style={{ backgroundColor: variant.colorCode || "transparent" }}
+                  />
                 ))}
-                <span className="text-xs">+{colors.length - 3}</span>
+                <span className="text-xs text-gray-500">+{product.variants.length - 3}</span>
               </>
             ) : (
-              colors.map((color, index) => <span key={index} className={`h-3 w-3 ${color}`} />)
+              product.variants.map((variant, index) => (
+                <span
+                  key={index}
+                  className={cn("inline-block h-2.5 w-2.5", "transition-transform hover:scale-110")}
+                  style={{ backgroundColor: variant.colorCode || "transparent" }}
+                />
+              ))
             )}
           </div>
         </div>
-        <p>₹ 3999</p>
+        <p> {[product.price]}</p>
       </div>
     </Link>
   );

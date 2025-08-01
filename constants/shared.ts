@@ -71,6 +71,54 @@ export const PRODUCT_INFO = {
   },
 };
 
+export const COLOR_CODES = [
+  {
+    name: "Denim Grey",
+    code: "#4B5563",
+  },
+  {
+    name: "Denim Blue",
+    code: "#1E3A8A",
+  },
+  {
+    name: "Dark Denim Blue",
+    code: "#1E40AF",
+  },
+  {
+    name: "Black",
+    code: "#000000",
+  },
+  {
+    name: "White",
+    code: "#FFFFFF",
+  },
+
+  {
+    name: "Blue",
+    code: "#3B82F6",
+  },
+  {
+    name: "Red",
+    code: "#EF4444",
+  },
+  {
+    name: "Green",
+    code: "#10B981",
+  },
+  {
+    name: "Yellow",
+    code: "#F59E0B",
+  },
+  {
+    name: "Grey",
+    code: "#9CA3AF",
+  },
+  {
+    name: "Purple",
+    code: "#8B5CF6",
+  },
+];
+
 export const STATIC_MOBILE_MENU_ITEMS = [
   { title: "brand", hasChilds: true },
   { title: "my account", hasChilds: false, items: [] },
@@ -94,3 +142,5 @@ export const MENS_CLOTHING_TITLE = "MEN'S CLOTHING";
 
 export const MENS_CLOTHING_DESCRIPTION =
   "Check out all the freshest styles your closet needs in our men's clothing range. Discover our collection of simple and sober men's clothing, perfect for building a versatile wardrobe. We focus on everyday essentials from comfortable tops and T-shirts to classic pants in staple colors. Need a refined touch? Our select blazers and shirts offer understated elegance. When the weather shifts, our jackets provide practical coverage without compromising on a clean aesthetic.";
+
+export const COLLECTION_PRODUCT_IMAGES_COUNT = 2;

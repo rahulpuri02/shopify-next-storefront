@@ -30,11 +30,44 @@ export type ShopifyCollectionOperation = {
             id: string;
             title: string;
             handle: string;
+            description: string;
             images: {
               edges: {
                 node: {
                   url: string;
                   altText: string | null;
+                };
+              }[];
+            };
+            priceRange: {
+              maxVariantPrice: {
+                amount: string;
+                currencyCode: string;
+              };
+              minVariantPrice: {
+                amount: string;
+                currencyCode: string;
+              };
+            };
+            variants: {
+              edges: {
+                node: {
+                  id: string;
+                  title: string;
+                  availableForSale: boolean;
+                  currentlyNotInStock: boolean;
+                  price: {
+                    amount: string;
+                    currencyCode: string;
+                  };
+                  image: {
+                    url: string;
+                    altText: string | null;
+                  } | null;
+                  selectedOptions: {
+                    name: string;
+                    value: string;
+                  }[];
                 };
               }[];
             };

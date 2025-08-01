@@ -35,7 +35,9 @@ async function HighlightCollections() {
               />
             </div>
             <div className="flex flex-col space-y-1 pt-1 pl-2 text-xs md:text-sm">
-              <div className="uppercase">{collection.title}</div>
+              <div className="inline w-fit uppercase transition-all duration-200 ease-in-out hover:border-b hover:border-b-slate-900">
+                {collection.title}
+              </div>
               <div>{GENERICS.shopNow}</div>
             </div>
           </Link>

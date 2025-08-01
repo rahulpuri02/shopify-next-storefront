@@ -1,6 +1,6 @@
+import { COLLECTION_PRODUCT_IMAGES_COUNT } from "@/constants/shared";
 import {
   DEFAULT_COLLECTIONS_COUNT,
-  DEFAULT_IMAGES_COUNT,
   DEFAULT_PRODUCTS_COUNT,
   SHOPIFY_CUSTOM_METAFIELDS,
 } from "@/constants/shopify";
@@ -15,7 +15,7 @@ class CollectionService {
   async getCollection(
     handle: string,
     productCount = DEFAULT_PRODUCTS_COUNT,
-    imageCount = DEFAULT_IMAGES_COUNT
+    imageCount = COLLECTION_PRODUCT_IMAGES_COUNT
   ): Promise<Collection | null> {
     const query = gql`
       query getCollection($handle: String!, $productCount: Int!, $imageCount: Int!) {
@@ -29,11 +29,44 @@ class CollectionService {
                 id
                 title
                 handle
+                description
+                priceRange {
+                  maxVariantPrice {
+                    amount
+                    currencyCode
+                  }
+                  minVariantPrice {
+                    amount
+                    currencyCode
+                  }
+                }
                 images(first: $imageCount) {
                   edges {
                     node {
                       url
                       altText
+                    }
+                  }
+                }
+                variants(first: $productCount) {
+                  edges {
+                    node {
+                      id
+                      title
+                      availableForSale
+                      currentlyNotInStock
+                      price {
+                        amount
+                        currencyCode
+                      }
+                      image {
+                        url
+                        altText
+                      }
+                      selectedOptions {
+                        name
+                        value
+                      }
                     }
                   }
                 }

@@ -12,6 +12,7 @@ import type {
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { formatPrice, getColorCodeByName } from "./utils";
 
 export function reshapeMenus(response: ShopifyMenuOperation): Menu[] {
   const items = response.data.menu?.items;
@@ -38,20 +39,74 @@ export function reshapeMenus(response: ShopifyMenuOperation): Menu[] {
 export function reshapeCollection(response: ShopifyCollectionOperation): Collection | null {
   const collection = response.data.collection;
   if (!collection) return null;
+
   return {
     title: collection.title.trim(),
     description: collection.description.trim(),
     descriptionHtml: collection.descriptionHtml,
-    products: collection.products.edges.map((edge) => {
-      const product = edge.node;
-      const image = product.images.edges[0]?.node;
+    products: collection.products.edges.map(({ node: product }) => {
+      const firstImage = product.images.edges[0]?.node || null;
+
+      const formattedPrice = product.priceRange?.minVariantPrice?.amount
+        ? formatPrice(product.priceRange.minVariantPrice)
+        : null;
+
+      const colorGroups: Record<
+        string,
+        {
+          colorName: string;
+          colorCode: string | null;
+          availableSizes: { name: string; stock: number }[];
+        }
+      > = {};
+
+      for (const { node: variant } of product.variants.edges) {
+        const colorOption = variant.selectedOptions.find(
+          (opt) => opt.name.toLowerCase() === "color"
+        );
+        const sizeOption = variant.selectedOptions.find((opt) => opt.name.toLowerCase() === "size");
+
+        if (!colorOption || !sizeOption) continue;
+
+        let colorName = colorOption.value;
+        let colorCode: string | null = null;
+
+        if (colorName.includes("|")) {
+          [colorName, colorCode] = colorName.split("|");
+        } else {
+          colorCode = getColorCodeByName(colorName);
+        }
+
+        const colorKey = colorName.toLowerCase();
+
+        if (!colorGroups[colorKey]) {
+          colorGroups[colorKey] = {
+            colorName,
+            colorCode,
+            availableSizes: [],
+          };
+        }
+
+        if (!variant.availableForSale) continue;
+
+        const sizeList = colorGroups[colorKey].availableSizes;
+        const existing = sizeList.find((size) => size.name === sizeOption.value);
+
+        if (existing) {
+          existing.stock += 1;
+        } else {
+          sizeList.push({ name: sizeOption.value, stock: 1 });
+        }
+      }
 
       return {
         id: product.id,
         title: product.title.trim(),
         handle: product.handle,
-        imageUrl: image?.url || null,
-        imageAlt: image?.altText || null,
+        imageUrl: firstImage?.url || null,
+        imageAlt: firstImage?.altText || null,
+        price: formattedPrice,
+        variants: Object.values(colorGroups),
       };
     }),
   };
@@ -89,6 +144,7 @@ export function reshapeProduct(response: ShopifyProductOperation): Product | nul
       url: node.url,
       altText: node.altText,
     })),
+    // @ts-expect-error - Variants may not have a colorName or colorCode
     variants: product.variants.edges.map(({ node }) => ({
       id: node.id,
       title: node.title,

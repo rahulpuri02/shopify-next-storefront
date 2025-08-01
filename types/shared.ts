@@ -18,6 +18,15 @@ export type Collection = {
     handle: string;
     imageUrl: string | null;
     imageAlt: string | null;
+    price: string | null;
+    variants: {
+      colorName: string;
+      colorCode: string | null;
+      availableSizes: {
+        name: string;
+        stock: number;
+      }[];
+    }[];
   }[];
 };
 
@@ -32,13 +41,12 @@ export type Product = {
     altText: string | null;
   }[];
   variants: {
-    id: string;
-    title: string;
-    availableForSale: boolean;
-    price: {
-      amount: string;
-      currencyCode: string;
-    };
+    colorName: string;
+    colorCode: string | null;
+    availableSizes: {
+      name: string;
+      stock: number;
+    }[];
   }[];
 };
 
