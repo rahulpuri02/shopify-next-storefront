@@ -8,6 +8,33 @@ export type Menu = {
   items?: Menu[];
 };
 
+export type ColorGroup = {
+  colorName: string;
+  colorCode: string | null;
+  availableSizes: { name: string; stock: number }[];
+};
+
+export type Product = {
+  id: string;
+  title: string;
+  description: string;
+  handle: string;
+  tags: string[];
+  price: string | null;
+  images: {
+    url: string;
+    altText: string | null;
+  }[];
+  variants: {
+    colorName: string;
+    colorCode: string | null;
+    availableSizes: {
+      name: string;
+      stock: number;
+    }[];
+  }[];
+};
+
 export type Collection = {
   title: string;
   description: string;
@@ -29,25 +56,4 @@ export type Collection = {
     }[];
   }[];
 };
-
-export type Product = {
-  id: string;
-  title: string;
-  description: string;
-  handle: string;
-  tags: string[];
-  images: {
-    url: string;
-    altText: string | null;
-  }[];
-  variants: {
-    colorName: string;
-    colorCode: string | null;
-    availableSizes: {
-      name: string;
-      stock: number;
-    }[];
-  }[];
-};
-
 export type CartItem = Product & { selectedSize: string | number; quantity: number };

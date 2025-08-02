@@ -19,11 +19,22 @@ export function filterMenuItems(
 }
 
 export function formatPrice(minPrice: { amount: string; currencyCode: string }): string {
-  return new Intl.NumberFormat("en-IN", {
+  const number = parseFloat(minPrice.amount || "0");
+
+  const parts = new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: minPrice.currencyCode || "INR",
     minimumFractionDigits: 2,
-  }).format(parseFloat(minPrice.amount || "0"));
+  }).formatToParts(number);
+
+  const formatted = parts
+    .map((part) => {
+      if (part.type === "currency") return `${part.value} `;
+      return part.value;
+    })
+    .join("");
+
+  return formatted.trim();
 }
 
 export function getColorCodeByName(colorName: string): string | null {

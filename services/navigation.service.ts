@@ -34,7 +34,7 @@ class NavigationService {
 
       return reshapeMenus(response.body);
     } catch (error) {
-      console.log("Error while fetching menu:", error);
+      console.error("Error while fetching menu:", error);
       return [];
     }
   }

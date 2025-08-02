@@ -15,6 +15,16 @@ class ProductService {
           title
           description
           handle
+          priceRange {
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
           tags
           images(first: $imageCount) {
             edges {
@@ -24,15 +34,24 @@ class ProductService {
               }
             }
           }
-          variants(first: $variantCount) {
+          variants(first: $productCount) {
             edges {
               node {
                 id
                 title
                 availableForSale
+                currentlyNotInStock
                 price {
                   amount
                   currencyCode
+                }
+                image {
+                  url
+                  altText
+                }
+                selectedOptions {
+                  name
+                  value
                 }
               }
             }
@@ -52,7 +71,7 @@ class ProductService {
       });
       return reshapeProduct(response.body);
     } catch (error) {
-      console.log("Error while fetching a product:", error);
+      console.error("Error while fetching a product:", error);
       return null;
     }
   }

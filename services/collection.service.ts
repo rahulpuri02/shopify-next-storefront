@@ -87,7 +87,7 @@ class CollectionService {
       });
       return reshapeCollection(response.body);
     } catch (error) {
-      console.log("Error while fetching collection:", error);
+      console.error("Error while fetching collection:", error);
       return null;
     }
   }
@@ -130,7 +130,7 @@ class CollectionService {
       });
       return reshapeCollections(response.body, { key, value });
     } catch (error) {
-      console.log("Error while fetching collections", error);
+      console.error("Error while fetching collections", error);
     }
   }
 }

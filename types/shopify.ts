@@ -18,6 +18,29 @@ export type ShopifyMenuOperation = {
   };
 };
 
+export type ShopifyProductVariant = {
+  edges: {
+    node: {
+      id: string;
+      title: string;
+      availableForSale: boolean;
+      currentlyNotInStock: boolean;
+      price: {
+        amount: string;
+        currencyCode: string;
+      };
+      image: {
+        url: string;
+        altText: string | null;
+      } | null;
+      selectedOptions: {
+        name: string;
+        value: string;
+      }[];
+    };
+  }[];
+};
+
 export type ShopifyCollectionOperation = {
   data: {
     collection?: {
@@ -49,28 +72,7 @@ export type ShopifyCollectionOperation = {
                 currencyCode: string;
               };
             };
-            variants: {
-              edges: {
-                node: {
-                  id: string;
-                  title: string;
-                  availableForSale: boolean;
-                  currentlyNotInStock: boolean;
-                  price: {
-                    amount: string;
-                    currencyCode: string;
-                  };
-                  image: {
-                    url: string;
-                    altText: string | null;
-                  } | null;
-                  selectedOptions: {
-                    name: string;
-                    value: string;
-                  }[];
-                };
-              }[];
-            };
+            variants: ShopifyProductVariant;
           };
         }[];
       };
@@ -138,27 +140,25 @@ export type ShopifyProductOperation = {
       description: string;
       handle: string;
       tags: string[];
+      priceRange: {
+        maxVariantPrice: {
+          amount: string;
+          currencyCode: string;
+        };
+        minVariantPrice: {
+          amount: string;
+          currencyCode: string;
+        };
+      };
       images: {
-        edges: Array<{
+        edges: {
           node: {
             url: string;
             altText: string | null;
           };
-        }>;
+        }[];
       };
-      variants: {
-        edges: Array<{
-          node: {
-            id: string;
-            title: string;
-            availableForSale: boolean;
-            price: {
-              amount: string;
-              currencyCode: string;
-            };
-          };
-        }>;
-      };
+      variants: ShopifyProductVariant;
     } | null;
   };
   variables: {
