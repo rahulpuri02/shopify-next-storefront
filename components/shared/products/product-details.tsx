@@ -2,11 +2,11 @@
 
 import FavoriteIcon from "@/components/icons/favorite-icon";
 import { GENERICS, SHIPPING_NOTE } from "@/constants/shared";
-import type { Product } from "@/types/shared";
-import SizeSelector from "./SizeSelector";
 import { capitalize, cn } from "@/lib/utils";
-import { useSearchParams } from "next/navigation";
+import type { Product } from "@/types/shared";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import SizeSelector from "./SizeSelector";
 
 type ComponentProps = {
   product: Product;
@@ -42,6 +42,7 @@ export function ProductDetails({ product }: ComponentProps) {
         <div className="mt-4 flex gap-3">
           {product.variants.map((variant) => (
             <Link
+              scroll={false}
               href={`?${new URLSearchParams({ color: variant.colorName.toLowerCase() })}`}
               className={cn(
                 "cursor-pointer rounded-full",

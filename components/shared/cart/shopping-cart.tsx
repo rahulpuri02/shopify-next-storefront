@@ -48,8 +48,8 @@ export function ShoppingCart() {
       <DrawerTrigger asChild />
       <DrawerContent
         className={cn(
-          "h-screen w-[90%] rounded-none p-0 md:max-w-md",
-          cartItems.length === 0 && "h-fit w-[85%] md:h-[320px] md:w-[350px]"
+          "flex h-screen w-[90%] flex-col rounded-none p-0 md:max-w-md",
+          cartItems.length === 0 ? "h-fit w-[85%] md:h-[320px] md:w-[350px]" : "h-screen"
         )}
       >
         <DrawerHeader className="px-6 py-4">
@@ -93,14 +93,15 @@ export function ShoppingCart() {
                 ))}
               </ul>
             </ScrollArea>
-
-            <div className="fixed right-0 bottom-14 z-100 w-full space-y-4 border-t bg-white px-4 py-3 sm:bottom-0">
-              <div className="flex justify-between border-t-gray-200 text-base font-medium">
-                <span>{CART.total}</span>
-                <span>{formatPrice({ amount: totalPrice.toString(), currencyCode: "INR" })}</span>
-              </div>
-              <Button className="w-full px-4 font-normal">{CART.goToCheckout}</Button>
+          </div>
+        )}
+        {cartItems.length > 0 && (
+          <div className="sticky right-0 bottom-0 left-0 mt-auto border-t bg-white px-4 py-3 shadow-sm">
+            <div className="flex justify-between border-t-gray-200 text-base font-medium">
+              <span>{CART.total}</span>
+              <span>{formatPrice({ amount: totalPrice.toString(), currencyCode: "INR" })}</span>
             </div>
+            <Button className="mt-4 w-full px-4 font-normal">{CART.goToCheckout}</Button>
           </div>
         )}
       </DrawerContent>
