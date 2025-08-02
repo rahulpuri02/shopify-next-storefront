@@ -77,7 +77,8 @@ export default function SizeSelector({ product, selectedColor }: ComponentProps)
         <Card
           className={cn(
             "w-full",
-            isOpen ? "gap-0 border-none py-0 shadow-2xl" : "m-0 gap-0 border-none p-0 py-0"
+            isOpen ? "gap-0 border-none py-0 shadow-2xl" : "m-0 gap-0 border-none p-0 py-0",
+            isAddingSize && "pointer-events-none"
           )}
         >
           <div className="overflow-hidden transition-all duration-300">

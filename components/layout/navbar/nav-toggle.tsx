@@ -129,6 +129,7 @@ function NavToggle({ side = "left", mainMenu }: ComponentProps) {
           </SheetTitle>
           <SheetClose className="absolute right-5 cursor-pointer">
             <XIcon
+              className="h-auto w-6 cursor-pointer stroke-1"
               onClick={() => {
                 setSelectedParent("");
                 setCurrentMenuItems(rootItems);

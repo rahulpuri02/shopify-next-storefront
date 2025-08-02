@@ -4,16 +4,17 @@ import FavoriteIcon from "@/components/icons/favorite-icon";
 import { GENERICS, SHIPPING_NOTE } from "@/constants/shared";
 import type { Product } from "@/types/shared";
 import SizeSelector from "./SizeSelector";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { capitalize, cn } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 type ComponentProps = {
   product: Product;
 };
 
 export function ProductDetails({ product }: ComponentProps) {
-  const colors = ["bg-blue-700", "bg-slate-300"];
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
+  const searchParams = useSearchParams();
+  const selectedColor = searchParams.get("color") || product.variants[0]?.colorName.toLowerCase();
 
   return (
     <div className="relative mt-10 w-full space-y-6">
@@ -25,9 +26,7 @@ export function ProductDetails({ product }: ComponentProps) {
       </div>
 
       <div className="border-b pb-8">
-        <span className="text-sm">
-          {product.variants[0]?.price.amount} {product.variants[0]?.price.currencyCode}
-        </span>
+        <span className="text-sm">{product.price}</span>
       </div>
 
       <p className="py-2 md:py-3">
@@ -39,21 +38,26 @@ export function ProductDetails({ product }: ComponentProps) {
 
       <div className="text-sm">
         <span className="mr-1.5 inline-block uppercase">{GENERICS.color}:</span>
-        {"Navy Blue #200"}
-        <ul className="mt-4 flex gap-3">
-          {colors.map((color) => (
-            <li
-              onClick={() => setSelectedColor(color)}
+        {capitalize(selectedColor)}
+        <div className="mt-4 flex gap-3">
+          {product.variants.map((variant) => (
+            <Link
+              href={`?${new URLSearchParams({ color: variant.colorName.toLowerCase() })}`}
               className={cn(
                 "cursor-pointer rounded-full",
-                selectedColor === color ? "border border-black" : ""
+                selectedColor.toLowerCase() === variant.colorName.toLowerCase()
+                  ? "border border-black"
+                  : ""
               )}
-              key={color}
+              key={variant.colorName}
             >
-              <p className={`h-6 w-6 ${color} m-0.5 rounded-full`} />
-            </li>
+              <p
+                className={`m-0.5 h-6 w-6 rounded-full`}
+                style={{ backgroundColor: `${variant.colorCode}` }}
+              />
+            </Link>
           ))}
-        </ul>
+        </div>
       </div>
       <SizeSelector product={product} selectedColor={selectedColor} />
 

@@ -8,6 +8,7 @@ export const GENERICS = {
   color: "color",
   newArrivals: "new arrivals",
   essentials: "essentials",
+  freeShipping: "Free Shipping",
   shopNow: "SHOP NOW",
   seeAll: "see all",
   styleWith: "style with",
@@ -136,6 +137,8 @@ export const CART = {
   goToCheckout: "Go to Checkout",
   leftForFreeShipping: "left for free shipping",
   remove: "Remove",
+  emptyCartMessage: "Your cart is empty!",
+  continueShopping: "Continue Shopping",
 } as const;
 
 export const MENS_CLOTHING_TITLE = "MEN'S CLOTHING";

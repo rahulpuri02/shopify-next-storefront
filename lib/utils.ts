@@ -18,6 +18,13 @@ export function filterMenuItems(
   });
 }
 
+export function capitalize(input: string): string {
+  return input
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+}
+
 export function formatPrice(minPrice: { amount: string; currencyCode: string }): string {
   const number = parseFloat(minPrice.amount || "0");
 

@@ -34,7 +34,7 @@ class ProductService {
               }
             }
           }
-          variants(first: $productCount) {
+          variants(first: $variantCount) {
             edges {
               node {
                 id

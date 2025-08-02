@@ -18,7 +18,7 @@ type ComponentProps = {
 
 const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
   const pathname = usePathname();
-  const { showCart } = useCart();
+  const { showCart, cartItems } = useCart();
   const [showSearchPanel, setShowSearchPanel] = useState(false);
 
   const isHomePage = pathname === "/";
@@ -37,8 +37,9 @@ const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
   return (
     <div className={`group relative ${isHomePage ? "text-white" : "text-black"}`}>
       {item.title.toLowerCase() === "bag" ? (
-        <p onClick={() => showCart(true)} className="cursor-pointer">
+        <p onClick={() => showCart(true)} className="flex cursor-pointer gap-1">
           {item.title}
+          {cartItems.length > 0 && <span>{cartItems.length}</span>}
         </p>
       ) : item.path === ROUTES.search ? (
         <div

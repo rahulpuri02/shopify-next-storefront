@@ -24,10 +24,10 @@ function CartItem({ item }: ComponentProps) {
       <div className="flex flex-1 flex-col justify-between text-xs">
         <div className="flex justify-between px-1 py-1.5 text-xs">
           <div className="flex flex-col">
-            <p className="text-slate-900 uppercase">Julio</p>
-            <p className="text-muted-foreground">Open Collar Linen Shirt</p>
+            <p className="text-slate-900 uppercase">{item.title.split("-")[0]}</p>
+            <p className="text-muted-foreground">{item.title.split("-")[1]}</p>
             <p className="text-muted-foreground mt-2 text-xs">Croc Green #374</p>
-            <p className="text-muted-foreground text-xs">L</p>
+            <p className="text-muted-foreground text-xs">{item.selectedSize}</p>
           </div>
           <button className="text-xs underline underline-offset-4">{CART.remove}</button>
         </div>
@@ -42,7 +42,7 @@ function CartItem({ item }: ComponentProps) {
               +
             </Button>
           </div>
-          <div className="text-xs">{CART.currency} 399</div>
+          <div className="text-xs">{item.price}</div>
         </div>
       </div>
     </li>
