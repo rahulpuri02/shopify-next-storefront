@@ -26,7 +26,6 @@ class NavigationService {
     try {
       const response = await shopifyFetch<ShopifyMenuOperation>({
         query: print(query),
-        tags: [TAGS.collections],
         variables: {
           handle,
         },

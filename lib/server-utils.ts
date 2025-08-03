@@ -9,10 +9,11 @@ import type {
   ShopifyMenuOperation,
   ShopifyProductOperation,
   ShopifyProductVariant,
+  ShopifyRecommendedProductsOperation,
 } from "@/types/shopify";
+import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { revalidatePath, revalidateTag } from "next/cache";
 import { formatPrice, getColorCodeByName } from "./utils";
 
 export function reshapeMenus(response: ShopifyMenuOperation): Menu[] {
@@ -102,7 +103,9 @@ export function reshapeCollection(response: ShopifyCollectionOperation): Collect
   };
 }
 
-export function reshapeProduct(response: ShopifyProductOperation): Product | null {
+export function reshapeProduct(
+  response: ShopifyProductOperation
+): (Product & { imageUrl: string; imageAlt?: string | null }) | null {
   const product = response.data.product;
   if (!product) return null;
   const formattedPrice = product.priceRange?.minVariantPrice?.amount
@@ -118,9 +121,37 @@ export function reshapeProduct(response: ShopifyProductOperation): Product | nul
       url: node.url,
       altText: node.altText,
     })),
+    imageUrl: product.images.edges[0].node.url,
+    imageAlt: product.images.edges[0].node.altText,
     price: formattedPrice,
     variants: getProductVariants(product.variants),
   };
+}
+
+export function reshapeProducts(
+  response: ShopifyRecommendedProductsOperation
+): Collection["products"] {
+  if (!response?.data?.productRecommendations.length) return [];
+  return response.data.productRecommendations
+    .map((product) => {
+      if (!product) return null;
+      const firstImage = product.images.edges[0]?.node || null;
+
+      const formattedPrice = product.priceRange?.minVariantPrice?.amount
+        ? formatPrice(product.priceRange.minVariantPrice)
+        : null;
+
+      return {
+        id: product.id,
+        title: product.title.trim(),
+        handle: product.handle,
+        imageUrl: firstImage?.url || null,
+        imageAlt: firstImage?.altText || null,
+        price: formattedPrice,
+        variants: getProductVariants(product.variants),
+      };
+    })
+    .filter((item) => item !== null);
 }
 
 export function reshapeCollections(
@@ -167,7 +198,5 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
   if (isProductUpdate) {
     revalidateTag(TAGS.products);
   }
-  revalidatePath("/");
-
   return NextResponse.json({ status: 200, revalidated: true, now: Date.now() });
 }

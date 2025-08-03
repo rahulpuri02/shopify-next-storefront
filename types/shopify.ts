@@ -167,3 +167,14 @@ export type ShopifyProductOperation = {
     variantCount: number;
   };
 };
+
+export type ShopifyRecommendedProductsOperation = {
+  data: {
+    productRecommendations: ShopifyProductOperation["data"]["product"][];
+  };
+  variables: {
+    productHandle: string;
+    imageCount: number;
+    variantCount: number;
+  };
+};

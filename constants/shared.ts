@@ -11,7 +11,6 @@ export const GENERICS = {
   freeShipping: "Free Shipping",
   shopNow: "SHOP NOW",
   seeAll: "see all",
-  styleWith: "style with",
   bag: "Bag",
   recommendForYou: "Recommended for you",
   notResultFound: "No results found",

@@ -1,8 +1,8 @@
-import { DEFAULT_IMAGES_COUNT, DEFAULT_VARIANTS_COUNT } from "@/constants/shopify";
-import { reshapeProduct } from "@/lib/server-utils";
+import { DEFAULT_IMAGES_COUNT, DEFAULT_VARIANTS_COUNT, TAGS } from "@/constants/shopify";
+import { reshapeProduct, reshapeProducts } from "@/lib/server-utils";
 import { shopifyFetch } from "@/lib/shopify/client";
 import type { Product } from "@/types/shared";
-import type { ShopifyProductOperation } from "@/types/shopify";
+import type { ShopifyProductOperation, ShopifyRecommendedProductsOperation } from "@/types/shopify";
 import { print } from "graphql";
 import gql from "graphql-tag";
 
@@ -68,10 +68,85 @@ class ProductService {
           imageCount: DEFAULT_IMAGES_COUNT,
           variantCount: DEFAULT_VARIANTS_COUNT,
         },
+        tags: [TAGS.products],
       });
       return reshapeProduct(response.body);
     } catch (error) {
       console.error("Error while fetching a product:", error);
+      return null;
+    }
+  }
+
+  async getProductRecommendations(productHandle: string) {
+    const query = gql`
+      query getProductRecommendations(
+        $productHandle: String
+        $imageCount: Int
+        $variantCount: Int
+      ) {
+        productRecommendations(productHandle: $productHandle) {
+          id
+          title
+          description
+          handle
+          priceRange {
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          tags
+          images(first: $imageCount) {
+            edges {
+              node {
+                url
+                altText
+              }
+            }
+          }
+          variants(first: $variantCount) {
+            edges {
+              node {
+                id
+                title
+                availableForSale
+                currentlyNotInStock
+                price {
+                  amount
+                  currencyCode
+                }
+                image {
+                  url
+                  altText
+                }
+                selectedOptions {
+                  name
+                  value
+                }
+              }
+            }
+          }
+        }
+      }
+    `;
+
+    try {
+      const response = await shopifyFetch<ShopifyRecommendedProductsOperation>({
+        query: print(query),
+        tags: [TAGS.products],
+        variables: {
+          productHandle,
+          imageCount: DEFAULT_IMAGES_COUNT,
+          variantCount: DEFAULT_VARIANTS_COUNT,
+        },
+      });
+      return reshapeProducts(response.body);
+    } catch (error) {
+      console.error("Error while getting product recommendations:", error);
       return null;
     }
   }
