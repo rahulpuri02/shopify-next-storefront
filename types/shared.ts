@@ -1,4 +1,5 @@
 import { FILTER_OPERATIONS } from "@/constants/shared";
+import { Image } from "./shopify";
 
 export type FilterOperation = (typeof FILTER_OPERATIONS)[keyof typeof FILTER_OPERATIONS];
 
@@ -8,10 +9,15 @@ export type Menu = {
   items?: Menu[];
 };
 
-export type ColorGroup = {
+export type SizeStock = {
+  name: string;
+  stock: number;
+};
+
+export type ColorVariant = {
   colorName: string;
   colorCode: string | null;
-  availableSizes: { name: string; stock: number }[];
+  availableSizes: SizeStock[];
 };
 
 export type Product = {
@@ -19,41 +25,35 @@ export type Product = {
   title: string;
   description: string;
   handle: string;
-  tags: string[];
   price: string | null;
-  images: {
-    url: string;
-    altText: string | null;
-  }[];
-  variants: {
-    colorName: string;
-    colorCode: string | null;
-    availableSizes: {
-      name: string;
-      stock: number;
-    }[];
-  }[];
+  images: Image[];
+  variants: ColorVariant[];
+};
+
+export type CollectionProduct = {
+  id: string;
+  title: string;
+  handle: string;
+  imageUrl: string | null;
+  imageAlt: string | null;
+  price: string | null;
+  variants: ColorVariant[];
 };
 
 export type Collection = {
   title: string;
   description: string;
   descriptionHtml: string;
-  products: {
-    id: string;
-    title: string;
-    handle: string;
-    imageUrl: string | null;
-    imageAlt: string | null;
-    price: string | null;
-    variants: {
-      colorName: string;
-      colorCode: string | null;
-      availableSizes: {
-        name: string;
-        stock: number;
-      }[];
-    }[];
-  }[];
+  products: CollectionProduct[];
 };
-export type CartItem = Product & { selectedSize: string | number; quantity: number };
+
+export type CartItem = Product & {
+  selectedSize: string | number;
+  quantity: number;
+};
+
+export type ColorGroup = {
+  colorName: string;
+  colorCode: string | null;
+  availableSizes: SizeStock[];
+};

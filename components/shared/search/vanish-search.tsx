@@ -7,7 +7,7 @@ type ComponentProps = {
   value: string;
   setValue: React.Dispatch<SetStateAction<string>>;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: () => void;
   haveBorder?: boolean;
 };
 
@@ -127,11 +127,12 @@ export function VanishSearch({ onChange, onSubmit, value, setValue }: ComponentP
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !animating) {
-      vanish();
+      vanish(true);
     }
   };
 
-  const vanish = () => {
+  const vanish = (isSubmiting = false) => {
+    debugger;
     setAnimating(true);
     draw();
 
@@ -142,20 +143,14 @@ export function VanishSearch({ onChange, onSubmit, value, setValue }: ComponentP
         0
       );
       animate(maxX);
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    vanish();
-    if (onSubmit) {
-      onSubmit(e);
+      if (isSubmiting && onSubmit) {
+        onSubmit();
+      }
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
+    <div
       className={cn(
         "relative mx-auto h-10 w-full overflow-hidden",
         value && "animate-fade-in border-b md:border-none"
@@ -165,6 +160,7 @@ export function VanishSearch({ onChange, onSubmit, value, setValue }: ComponentP
         <button
           onClick={(e) => {
             e.preventDefault();
+            e.stopPropagation();
             vanish();
           }}
           className="absolute top-[30%] right-2 z-[100] border-b border-b-slate-900 pb-[0.5px] text-xs"
@@ -198,6 +194,6 @@ export function VanishSearch({ onChange, onSubmit, value, setValue }: ComponentP
           animating && "text-transparent dark:text-transparent"
         )}
       />
-    </form>
+    </div>
   );
 }

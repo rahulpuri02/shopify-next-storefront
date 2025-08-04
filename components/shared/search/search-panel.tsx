@@ -5,8 +5,9 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { X } from "lucide-react";
 import { useState } from "react";
 import { VanishSearch } from "./vanish-search";
-
-const suggestions = ["Theo chinos", "Adam tee", "Jeans", "Linen shirts", "Chinos"];
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/constants/routes";
+import { SUGGESTIONS } from "@/constants/shared";
 
 type ComponentProps = {
   open: boolean;
@@ -15,8 +16,19 @@ type ComponentProps = {
 
 export default function SearchPanel({ open, onOpenChange }: ComponentProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
 
-  const handleSearch = () => {};
+  const handleSearch = (query = "") => {
+    if (query) {
+      router.push(ROUTES.search(query));
+      onOpenChange(false);
+      return;
+    }
+    if (searchQuery) {
+      router.push(ROUTES.search(searchQuery));
+      setTimeout(() => onOpenChange(false), 1200);
+    }
+  };
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -49,8 +61,12 @@ export default function SearchPanel({ open, onOpenChange }: ComponentProps) {
             Suggestions:
           </div>
           <ul className="flex items-center gap-4">
-            {suggestions.map((item, i) => (
-              <li key={i} className="cursor-pointer hover:underline">
+            {SUGGESTIONS.map((item, i) => (
+              <li
+                onClick={() => handleSearch(item)}
+                key={i}
+                className="cursor-pointer hover:underline"
+              >
                 {item}
               </li>
             ))}
@@ -62,8 +78,12 @@ export default function SearchPanel({ open, onOpenChange }: ComponentProps) {
         </div>
 
         <ul className="mt-2 space-y-2 text-[17px] font-light md:hidden">
-          {suggestions.map((item, i) => (
-            <li key={i} className="cursor-pointer hover:underline">
+          {SUGGESTIONS.map((item, i) => (
+            <li
+              onClick={() => handleSearch(item)}
+              key={i}
+              className="cursor-pointer hover:underline"
+            >
               {item}
             </li>
           ))}

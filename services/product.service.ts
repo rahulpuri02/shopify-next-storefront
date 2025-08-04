@@ -1,8 +1,13 @@
+import { DEFAULT_PRODUCTS_SEARCH_COUNT } from "@/constants/shared";
 import { DEFAULT_IMAGES_COUNT, DEFAULT_VARIANTS_COUNT, TAGS } from "@/constants/shopify";
-import { reshapeProduct, reshapeProducts } from "@/lib/server-utils";
+import { reshapeProduct, reshapeProducts, reshapeSearchResults } from "@/lib/server-utils";
 import { shopifyFetch } from "@/lib/shopify/client";
 import type { Product } from "@/types/shared";
-import type { ShopifyProductOperation, ShopifyRecommendedProductsOperation } from "@/types/shopify";
+import type {
+  ShopifyProductOperation,
+  ShopifyRecommendedProductsOperation,
+  ShopifySearchResultsOperation,
+} from "@/types/shopify";
 import { print } from "graphql";
 import gql from "graphql-tag";
 
@@ -44,10 +49,6 @@ class ProductService {
                 price {
                   amount
                   currencyCode
-                }
-                image {
-                  url
-                  altText
                 }
                 selectedOptions {
                   name
@@ -119,10 +120,6 @@ class ProductService {
                   amount
                   currencyCode
                 }
-                image {
-                  url
-                  altText
-                }
                 selectedOptions {
                   name
                   value
@@ -147,6 +144,75 @@ class ProductService {
       return reshapeProducts(response.body);
     } catch (error) {
       console.error("Error while getting product recommendations:", error);
+      return null;
+    }
+  }
+
+  async getSearchResults(searchQuery: string) {
+    const query = gql`
+      query getSearchResults($first: Int!, $query: String!, $variantCount: Int!) {
+        products(query: $query, first: $first) {
+          edges {
+            node {
+              id
+              title
+              description
+              handle
+              priceRange {
+                maxVariantPrice {
+                  amount
+                  currencyCode
+                }
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              featuredImage {
+                altText
+                url
+              }
+              variants(first: $variantCount) {
+                edges {
+                  node {
+                    id
+                    title
+                    availableForSale
+                    currentlyNotInStock
+                    price {
+                      amount
+                      currencyCode
+                    }
+                    image {
+                      url
+                      altText
+                    }
+                    selectedOptions {
+                      name
+                      value
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `;
+
+    try {
+      const response = await shopifyFetch<ShopifySearchResultsOperation>({
+        query: print(query),
+        variables: {
+          query: searchQuery,
+          first: DEFAULT_PRODUCTS_SEARCH_COUNT,
+          variantCount: DEFAULT_VARIANTS_COUNT,
+        },
+        tags: [TAGS.products],
+      });
+      return reshapeSearchResults(response.body);
+    } catch (error) {
+      console.error("Error while searching products:", error);
       return null;
     }
   }

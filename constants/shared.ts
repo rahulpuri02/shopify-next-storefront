@@ -9,6 +9,8 @@ export const GENERICS = {
   newArrivals: "new arrivals",
   essentials: "essentials",
   freeShipping: "Free Shipping",
+  searchPath: "/search",
+  searchResult: "Search Result",
   shopNow: "SHOP NOW",
   seeAll: "see all",
   bag: "Bag",
@@ -124,9 +126,11 @@ export const STATIC_MOBILE_MENU_ITEMS = [
   { title: "my account", hasChilds: false, items: [] },
   { title: "assistance", hasChilds: true, items: [] },
 ];
+
 export const SHIPPING_NOTE =
   "SAME DAY DISPATCH - ORDER BEFORE 3 PM IST / FREE SHIPPING ABOVE ₹ 999";
 
+export const SUGGESTIONS = ["Jeans", "T-shirts", "Trousers", "Jackets", "New Arrivals", "Shirts"];
 export const ADD_TO_CART = "Add to Cart";
 export const ADDING = "Adding";
 
@@ -146,3 +150,5 @@ export const MENS_CLOTHING_DESCRIPTION =
   "Check out all the freshest styles your closet needs in our men's clothing range. Discover our collection of simple and sober men's clothing, perfect for building a versatile wardrobe. We focus on everyday essentials from comfortable tops and T-shirts to classic pants in staple colors. Need a refined touch? Our select blazers and shirts offer understated elegance. When the weather shifts, our jackets provide practical coverage without compromising on a clean aesthetic.";
 
 export const COLLECTION_PRODUCT_IMAGES_COUNT = 2;
+
+export const DEFAULT_PRODUCTS_SEARCH_COUNT = 50;

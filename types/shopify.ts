@@ -1,3 +1,61 @@
+export type Money = {
+  amount: string;
+  currencyCode: string;
+};
+
+export type Image = {
+  url: string;
+  altText: string | null;
+};
+
+export type SelectedOption = {
+  name: string;
+  value: string;
+};
+
+export type ProductVariant = {
+  id: string;
+  title: string;
+  availableForSale: boolean;
+  currentlyNotInStock: boolean;
+  price: Money;
+  selectedOptions: SelectedOption[];
+};
+
+export type ProductVariantConnection = {
+  edges: {
+    node: ProductVariant;
+  }[];
+};
+
+export type ProductImageConnection = {
+  edges: {
+    node: Image;
+  }[];
+};
+
+export type ProductPriceRange = {
+  maxVariantPrice: Money;
+  minVariantPrice: Money;
+};
+
+export type Product = {
+  id: string;
+  title: string;
+  handle: string;
+  description: string;
+  tags?: string[];
+  images: ProductImageConnection;
+  priceRange: ProductPriceRange;
+  variants: ProductVariantConnection;
+};
+
+export type ShopifyProductVariant = {
+  edges: {
+    node: ProductVariant;
+  }[];
+};
+
 export type ExtractVariables<T> = T extends { variables: infer V } ? V : never;
 
 export type ShopifyMenuOperation = {
@@ -18,29 +76,6 @@ export type ShopifyMenuOperation = {
   };
 };
 
-export type ShopifyProductVariant = {
-  edges: {
-    node: {
-      id: string;
-      title: string;
-      availableForSale: boolean;
-      currentlyNotInStock: boolean;
-      price: {
-        amount: string;
-        currencyCode: string;
-      };
-      image: {
-        url: string;
-        altText: string | null;
-      } | null;
-      selectedOptions: {
-        name: string;
-        value: string;
-      }[];
-    };
-  }[];
-};
-
 export type ShopifyCollectionOperation = {
   data: {
     collection?: {
@@ -49,31 +84,7 @@ export type ShopifyCollectionOperation = {
       descriptionHtml: string;
       products: {
         edges: {
-          node: {
-            id: string;
-            title: string;
-            handle: string;
-            description: string;
-            images: {
-              edges: {
-                node: {
-                  url: string;
-                  altText: string | null;
-                };
-              }[];
-            };
-            priceRange: {
-              maxVariantPrice: {
-                amount: string;
-                currencyCode: string;
-              };
-              minVariantPrice: {
-                amount: string;
-                currencyCode: string;
-              };
-            };
-            variants: ShopifyProductVariant;
-          };
+          node: Product;
         }[];
       };
     } | null;
@@ -94,10 +105,7 @@ export type ShopifyCollectionsOperation = {
           handle: string;
           title: string;
           description: string;
-          image: {
-            altText: string | null;
-            url: string;
-          } | null;
+          image: Image | null;
           metafield: {
             key: string;
             value: string;
@@ -134,32 +142,7 @@ export type ShopifyPageOperation = {
 
 export type ShopifyProductOperation = {
   data: {
-    product: {
-      id: string;
-      title: string;
-      description: string;
-      handle: string;
-      tags: string[];
-      priceRange: {
-        maxVariantPrice: {
-          amount: string;
-          currencyCode: string;
-        };
-        minVariantPrice: {
-          amount: string;
-          currencyCode: string;
-        };
-      };
-      images: {
-        edges: {
-          node: {
-            url: string;
-            altText: string | null;
-          };
-        }[];
-      };
-      variants: ShopifyProductVariant;
-    } | null;
+    product: Product | null;
   };
   variables: {
     handle: string;
@@ -170,11 +153,31 @@ export type ShopifyProductOperation = {
 
 export type ShopifyRecommendedProductsOperation = {
   data: {
-    productRecommendations: ShopifyProductOperation["data"]["product"][];
+    productRecommendations: Product[];
   };
   variables: {
     productHandle: string;
     imageCount: number;
     variantCount: number;
+  };
+};
+
+export type ShopifySearchResultsOperation = {
+  data: {
+    products: {
+      edges: {
+        node: Product & {
+          featuredImage: {
+            altText?: string;
+            url: string;
+          };
+        };
+      }[];
+    };
+  };
+  variables: {
+    query: string;
+    variantCount: number;
+    first: number;
   };
 };

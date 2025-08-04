@@ -5,7 +5,7 @@ import Link from "next/link";
 import { SearchIcon } from "lucide-react";
 import { filterMenuItems } from "@/lib/utils";
 import { ROUTES } from "@/constants/routes";
-import { FILTER_OPERATIONS } from "@/constants/shared";
+import { FILTER_OPERATIONS, GENERICS } from "@/constants/shared";
 import { Menu } from "@/types/shared";
 import { useCart } from "@/contexts/cart-context";
 import { useState } from "react";
@@ -41,7 +41,7 @@ const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
           {item.title}
           {cartItems.length > 0 && <span>{cartItems.length}</span>}
         </p>
-      ) : item.path === ROUTES.search ? (
+      ) : item.path === GENERICS.searchPath ? (
         <div
           onClick={() => setShowSearchPanel(true)}
           className="flex cursor-pointer items-center gap-1 transition hover:opacity-60"
@@ -54,7 +54,7 @@ const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
           href={item.path || "#"}
           className="flex items-center gap-1 transition hover:opacity-60"
         >
-          {item.path === ROUTES.search && <SearchIcon className="h-auto w-4" />}
+          {item.path === GENERICS.searchPath && <SearchIcon className="h-auto w-4" />}
           <p>{item.title}</p>
         </Link>
       )}

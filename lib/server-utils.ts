@@ -10,6 +10,7 @@ import type {
   ShopifyProductOperation,
   ShopifyProductVariant,
   ShopifyRecommendedProductsOperation,
+  ShopifySearchResultsOperation,
 } from "@/types/shopify";
 import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
@@ -103,6 +104,24 @@ export function reshapeCollection(response: ShopifyCollectionOperation): Collect
   };
 }
 
+export function reshapeCollections(
+  response: ShopifyCollectionsOperation,
+  { key, value }: Record<string, string>
+) {
+  const collections = response.data.collections.edges.map((collection) => ({
+    id: collection.node.id,
+    title: collection.node.title.trim(),
+    handle: collection.node.handle,
+    imageUrl: collection.node.image?.url || null,
+    imageAlt: collection.node.image?.altText || null,
+    metafield: collection.node.metafield,
+    description: collection.node.description.trim(),
+  }));
+  return collections.filter(
+    (collection) => collection.metafield?.key === key && collection.metafield.value === value
+  );
+}
+
 export function reshapeProduct(
   response: ShopifyProductOperation
 ): (Product & { imageUrl: string; imageAlt?: string | null }) | null {
@@ -116,7 +135,6 @@ export function reshapeProduct(
     title: product.title.trim(),
     description: product.description.trim(),
     handle: product.handle,
-    tags: product.tags,
     images: product.images.edges.map(({ node }) => ({
       url: node.url,
       altText: node.altText,
@@ -154,22 +172,30 @@ export function reshapeProducts(
     .filter((item) => item !== null);
 }
 
-export function reshapeCollections(
-  response: ShopifyCollectionsOperation,
-  { key, value }: Record<string, string>
-) {
-  const collections = response.data.collections.edges.map((collection) => ({
-    id: collection.node.id,
-    title: collection.node.title.trim(),
-    handle: collection.node.handle,
-    imageUrl: collection.node.image?.url || null,
-    imageAlt: collection.node.image?.altText || null,
-    metafield: collection.node.metafield,
-    description: collection.node.description.trim(),
-  }));
-  return collections.filter(
-    (collection) => collection.metafield?.key === key && collection.metafield.value === value
-  );
+export function reshapeSearchResults(
+  response: ShopifySearchResultsOperation
+): Collection["products"] {
+  if (!response?.data?.products?.edges?.length) return [];
+  return response.data.products.edges
+    .map(({ node: product }) => {
+      if (!product) return null;
+      const firstImage = product.featuredImage;
+
+      const formattedPrice = product.priceRange?.minVariantPrice
+        ? formatPrice(product.priceRange.minVariantPrice)
+        : null;
+
+      return {
+        id: product.id,
+        title: product.title.trim(),
+        handle: product.handle,
+        imageUrl: firstImage?.url || null,
+        imageAlt: firstImage?.altText || null,
+        price: formattedPrice,
+        variants: getProductVariants(product.variants),
+      };
+    })
+    .filter((item) => item !== null);
 }
 
 export async function revalidate(req: NextRequest): Promise<NextResponse> {
