@@ -49,7 +49,7 @@ function ProductCard({ product }: ComponentProps) {
             )}
           </div>
         </div>
-        <p> {[product.price]}</p>
+        <p className="text-start"> {[product.price]}</p>
       </div>
     </Link>
   );

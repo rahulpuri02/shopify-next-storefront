@@ -132,7 +132,6 @@ export function VanishSearch({ onChange, onSubmit, value, setValue }: ComponentP
   };
 
   const vanish = (isSubmiting = false) => {
-    debugger;
     setAnimating(true);
     draw();
 

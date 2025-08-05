@@ -56,6 +56,7 @@ function NavToggle({ side = "left", mainMenu }: ComponentProps) {
     }
     const updatedItems = getCurrentItems(rootItems, parentTitle);
     setCurrentParent(parentTitle);
+    // @ts-expect-error - TypeScript may not recognize the structure of updatedItemss
     setCurrentMenuItems(updatedItems);
   };
 

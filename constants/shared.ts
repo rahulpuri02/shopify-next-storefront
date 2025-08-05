@@ -6,6 +6,8 @@ export const FILTER_OPERATIONS = {
 export const GENERICS = {
   shop: "shop",
   color: "color",
+  about: "about",
+  aboutUs: "about us",
   newArrivals: "new arrivals",
   essentials: "essentials",
   freeShipping: "Free Shipping",
@@ -123,9 +125,8 @@ export const COLOR_CODES = [
 ];
 
 export const STATIC_MOBILE_MENU_ITEMS = [
-  { title: "brand", hasChilds: true },
   { title: "my account", hasChilds: false, items: [] },
-  { title: "assistance", hasChilds: true, items: [] },
+  { title: "About Us", hasChilds: true, items: [], path: "/about" },
 ];
 
 export const SHIPPING_NOTE =

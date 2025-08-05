@@ -1,7 +1,8 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ROUTES } from "@/constants/routes";
 import { SHOPIFY_URL_PREFIXS } from "@/constants/shopify";
 import type { Menu } from "@/types/shared";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 type ComponentProps = {
   item: {
@@ -27,14 +28,16 @@ const MobileMenuItem = ({ item, onNavigate }: ComponentProps) => {
       {!items?.length && path ? (
         <Link
           onClick={() => onNavigate("", true)}
-          href={`${SHOPIFY_URL_PREFIXS.collections}${path}`}
+          href={path === ROUTES.about ? path : `${SHOPIFY_URL_PREFIXS.collections}${path}`}
         >
           <p>{title.toUpperCase()}</p>
         </Link>
       ) : (
         <p>{title.toUpperCase()}</p>
       )}
-      {hasChilds && <ArrowRight className="h-auto w-5 cursor-pointer" onClick={handleClick} />}
+      {hasChilds && items && items?.length > 0 && (
+        <ArrowRight className="h-auto w-5 cursor-pointer" onClick={handleClick} />
+      )}
     </li>
   );
 };
