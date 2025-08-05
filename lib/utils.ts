@@ -1,4 +1,4 @@
-import { COLOR_CODES, FILTER_OPERATIONS } from "@/constants/shared";
+import { COLOR_CODES, FILTER_OPERATIONS, PATHS, SOCIAL_DOMAINS } from "@/constants/shared";
 import { FilterOperation, Menu } from "@/types/shared";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -49,4 +49,37 @@ export function getColorCodeByName(colorName: string): string | null {
     (color) => color.name.toLowerCase() === colorName.trim().toLowerCase()
   );
   return match?.code || null;
+}
+
+export function generateSocialLinks(path: string, title = ""): string {
+  const isSocialLink = path.startsWith(PATHS.SOCIAL_INDICATOR);
+  if (isSocialLink) {
+    const platform = title.toLowerCase();
+    if (Object.values(SOCIAL_DOMAINS).includes(platform as keyof typeof SOCIAL_DOMAINS)) {
+      return `https://www.${platform}.com`;
+    }
+  }
+  return `/${PATHS.CUSTOMER_SERVICE}${path}`;
+}
+
+export function getCurrentItems(
+  rootItems: {
+    title: string;
+    hasChilds: boolean;
+    items?: Menu[];
+    path?: string;
+  }[],
+  parentId = ""
+) {
+  if (!parentId) return rootItems;
+
+  const parent = rootItems.find((i) => i.title === parentId);
+  if (!parent || !parent.items) return [];
+
+  return parent.items.map((m) => ({
+    title: m.title,
+    hasChilds: Boolean(m.items?.length),
+    items: m.items,
+    path: m.path,
+  }));
 }

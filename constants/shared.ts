@@ -30,6 +30,7 @@ export const BANNER_VIDEO_URL =
 export const FOOTER = {
   signUpNewsletter: "Sign up for CN. 74 newsletter",
   emailPlaceholder: "EMAIL",
+  thanksForSubscribing: "Thank you for subscribing!",
   termsLabel: "I have read, understood and accepted the terms and conditions.",
   siteAuthor: "SITE BY RAHUL PURI",
   authorContact: "https://linkedin.com/in/rahulpuri02",
@@ -152,3 +153,16 @@ export const MENS_CLOTHING_DESCRIPTION =
 export const COLLECTION_PRODUCT_IMAGES_COUNT = 2;
 
 export const DEFAULT_PRODUCTS_SEARCH_COUNT = 50;
+
+export const PATHS = {
+  CUSTOMER_SERVICE: "customer-service",
+  SOCIAL_INDICATOR: "#",
+} as const;
+
+export const SOCIAL_DOMAINS = {
+  facebook: "facebook",
+  twitter: "twitter",
+  instagram: "instagram",
+  linkedin: "linkedin",
+  youtube: "youtube",
+} as const;

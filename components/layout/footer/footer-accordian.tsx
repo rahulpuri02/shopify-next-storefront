@@ -6,7 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { generateSocialLinks } from "@/lib/utils";
 import { Menu } from "@/types/shared";
+import Link from "next/link";
 
 type ComponentProps = {
   footerMenu: Menu[];
@@ -27,7 +29,9 @@ function FooterAccordian({ footerMenu }: ComponentProps) {
             <ul className="mt-2 space-y-1 text-sm">
               {col.items?.map((subItem) => (
                 <li key={subItem.title} className="cursor-pointer">
-                  {subItem.title}
+                  <Link href={generateSocialLinks(subItem.path, subItem.title)}>
+                    {subItem.title}
+                  </Link>
                 </li>
               ))}
             </ul>

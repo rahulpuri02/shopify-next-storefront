@@ -3,7 +3,6 @@
 import BagIcon from "@/components/icons/bag-icon";
 import CompanyLogo from "@/components/icons/company-logo";
 import FavoriteIcon from "@/components/icons/favorite-icon";
-import NavToggle from "@/components/layout/navbar/nav-toggle";
 import SearchPanel from "@/components/shared/search/search-panel";
 import { useCart } from "@/contexts/cart-context";
 import { useScroll } from "@/hooks/use-scroll";
@@ -12,6 +11,7 @@ import type { Menu } from "@/types/shared";
 import { Search } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import NavToggle from "./nav-toggle/nav-toggle";
 
 type ComponentProps = { mainMenu: Menu[] };
 

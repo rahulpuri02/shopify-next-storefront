@@ -20,14 +20,10 @@ export default function SearchPanel({ open, onOpenChange }: ComponentProps) {
 
   const handleSearch = (query = "") => {
     if (query) {
-      router.push(ROUTES.search(query));
-      onOpenChange(false);
-      return;
+      setSearchQuery(query);
     }
-    if (searchQuery) {
-      router.push(ROUTES.search(searchQuery));
-      setTimeout(() => onOpenChange(false), 1200);
-    }
+    router.push(ROUTES.search(query || searchQuery));
+    setTimeout(() => onOpenChange(false), 1200);
   };
 
   return (

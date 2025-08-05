@@ -27,7 +27,7 @@ export default function CustomerServiceLayout({ children }: { children: React.Re
   }, [pathname]);
 
   return (
-    <div className="mt-16 px-6 py-10">
+    <div className="mt-16 px-6 py-10 md:px-10 2xl:px-20">
       <div className="mb-8 block md:hidden">
         <ScrollArea className="invisible-scrollbar w-full overflow-x-auto whitespace-nowrap">
           <div className="flex gap-6">
@@ -81,7 +81,7 @@ export default function CustomerServiceLayout({ children }: { children: React.Re
                 <Link
                   href={href}
                   className={cn(
-                    "text-sm font-semibold",
+                    "text-base font-semibold",
                     pathname === href ? "text-black" : "text-gray-500"
                   )}
                 >
