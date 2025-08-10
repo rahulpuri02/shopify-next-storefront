@@ -1,12 +1,15 @@
 "use client";
 
+import { getCart } from "@/app/actions/cart";
 import { CartItem } from "@/types/shared";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 type ContextProps = {
   cartItems: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
   showCart: (value: boolean) => void;
+  cart: any;
+  setCart: any;
   isShowCart: boolean;
 };
 
@@ -19,13 +22,27 @@ export const CartContext = React.createContext<ContextProps | null>(null);
 export function CartProvider({ children }: ComponentProps) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isShowCart, setIsShowCart] = useState(false);
+  const [cart, setCart] = useState<any>();
 
   function showCart(isShow: boolean) {
     setIsShowCart(isShow);
   }
 
+  useEffect(() => {
+    const initCart = async () => {
+      try {
+        const cart = await getCart();
+        cart && setCart(cart);
+      } catch (error) {
+        console.error("Error initializing cart:", error);
+      }
+    };
+
+    initCart();
+  }, []);
+
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems, showCart, isShowCart }}>
+    <CartContext.Provider value={{ cartItems, setCartItems, showCart, isShowCart, cart, setCart }}>
       {children}
     </CartContext.Provider>
   );

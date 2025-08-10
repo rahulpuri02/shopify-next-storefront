@@ -22,6 +22,7 @@ async function Footer() {
           </h2>
           <NewsletterForm />
           <Link
+            target="_blank"
             href={FOOTER.authorContact}
             className="mt-6 flex items-center gap-2 text-sm font-bold uppercase"
           >
@@ -62,6 +63,7 @@ async function Footer() {
           <div className="mt-8 flex items-center justify-between">
             <Link
               href={FOOTER.authorContact}
+              target="_blank"
               className="flex items-center gap-2 text-sm font-semibold"
             >
               <ChevronsLeftRight className="h-auto w-5" />

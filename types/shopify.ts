@@ -181,3 +181,43 @@ export type ShopifySearchResultsOperation = {
     first: number;
   };
 };
+
+export type ShopifyCartOperation = {
+  data: {
+    cart: {
+      id: string;
+      cost: {
+        checkoutChargeAmount: Money;
+        totalAmount: Money;
+      };
+      checkoutUrl: string;
+      lines: {
+        edges: {
+          node: {
+            merchandise: {
+              availableForSale: boolean;
+              compareAtPrice: Money | null;
+              currentlyNotInStock: boolean;
+              image: Image | null;
+              price: Money;
+              selectedOptions: SelectedOption[];
+              quantity: number;
+              estimatedCost: Money;
+            };
+          };
+        }[];
+      };
+    } | null;
+  };
+  variables: {
+    id: string;
+  };
+};
+
+export type ShopifyCreateCartOperation = {
+  data: {
+    cartCreate: {
+      cart: ShopifyCartOperation["data"]["cart"];
+    } | null;
+  };
+};

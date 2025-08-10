@@ -4,6 +4,7 @@ import { SHOPIFY_URL_PREFIXS, TAGS } from "@/constants/shopify";
 import { environment } from "@/environment";
 import type { Collection, ColorGroup, Menu, Product } from "@/types/shared";
 import type {
+  ShopifyCartOperation,
   ShopifyCollectionOperation,
   ShopifyCollectionsOperation,
   ShopifyMenuOperation,
@@ -196,6 +197,15 @@ export function reshapeSearchResults(
       };
     })
     .filter((item) => item !== null);
+}
+
+export function reshapeCart(
+  responseCart: ShopifyCartOperation["data"]["cart"] | null
+): ShopifyCartOperation["data"]["cart"] | null {
+  if (!responseCart) {
+    return null;
+  }
+  return responseCart;
 }
 
 export async function revalidate(req: NextRequest): Promise<NextResponse> {
