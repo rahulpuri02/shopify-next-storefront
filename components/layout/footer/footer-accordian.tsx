@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { generateSocialLinks } from "@/lib/utils";
+import { generatePaths } from "@/lib/utils";
 import { Menu } from "@/types/shared";
 import Link from "next/link";
 
@@ -16,7 +16,7 @@ type ComponentProps = {
 
 function FooterAccordian({ footerMenu }: ComponentProps) {
   return (
-    <Accordion type="multiple" className="w-full space-y-1">
+    <Accordion type="single" collapsible className="w-full space-y-1">
       {footerMenu.map((col) => (
         <AccordionItem className="w-full border-none" key={col.title} value={col.title}>
           <AccordionTrigger
@@ -29,9 +29,7 @@ function FooterAccordian({ footerMenu }: ComponentProps) {
             <ul className="mt-2 space-y-1 text-sm">
               {col.items?.map((subItem) => (
                 <li key={subItem.title} className="cursor-pointer">
-                  <Link href={generateSocialLinks(subItem.path, subItem.title)}>
-                    {subItem.title}
-                  </Link>
+                  <Link href={generatePaths(subItem.path, subItem.title)}>{subItem.title}</Link>
                 </li>
               ))}
             </ul>

@@ -136,6 +136,13 @@ export const SUGGESTIONS = ["Jeans", "T-shirts", "Trousers", "Jackets", "New Arr
 export const ADD_TO_CART = "Add to Cart";
 export const ADDING = "Adding";
 
+export const CUSTOMER_SERVICE = {
+  title: "Customer Service",
+  description:
+    "Seeking answers to your order status, have questions about shipping or returns. You can find answers to frequently asked questions and contact our customer service here.",
+  handle: "customer-service-menu",
+} as const;
+
 export const CART = {
   currency: "₹",
   total: "Total:",
@@ -166,4 +173,33 @@ export const SOCIAL_DOMAINS = {
   instagram: "instagram",
   linkedin: "linkedin",
   youtube: "youtube",
+} as const;
+
+export const FAQ_PAGE = {
+  title: "FAQ",
+  items: [
+    {
+      value: "ordering",
+      trigger: "ORDERING",
+      content: [
+        {
+          question: "CAN I CHANGE AN ORDER I HAVE ALREADY PLACED?",
+          answer:
+            "No, already placed orders cannot be changed. Please place a new order containing the right items and contact customer service to cancel the faulty order.",
+        },
+      ],
+    },
+    {
+      value: "taxes",
+      trigger: "TAXES AND DUTIES",
+      content:
+        "Duties and taxes may apply depending on your country. You’ll see any applicable charges at checkout.",
+    },
+    {
+      value: "order-status",
+      trigger: "ORDER STATUS",
+      content:
+        "You can check your order status by logging into your account or using the tracking link in your confirmation email.",
+    },
+  ],
 } as const;

@@ -2,11 +2,11 @@ import MasterCardIcon from "@/components/icons/master-card-icon";
 import VisaCardIcon from "@/components/icons/visa-card-icon";
 import { FOOTER } from "@/constants/shared";
 import { MENUS } from "@/constants/shopify";
+import { generatePaths } from "@/lib/utils";
 import { navigationService } from "@/services/navigation.service";
 import { ChevronsLeftRight } from "lucide-react";
 import Link from "next/link";
 import FooterAccordian from "./footer-accordian";
-import { generateSocialLinks } from "@/lib/utils";
 import NewsletterForm from "./newsletter-form";
 
 async function Footer() {
@@ -37,9 +37,7 @@ async function Footer() {
               <ul className="flex flex-col space-y-1.5 text-sm">
                 {col.items?.map((subItem) => (
                   <li className="cursor-pointer" key={subItem.title}>
-                    <Link href={generateSocialLinks(subItem.path, subItem.title)}>
-                      {subItem.title}
-                    </Link>
+                    <Link href={generatePaths(subItem.path, subItem.title)}>{subItem.title}</Link>
                   </li>
                 ))}
               </ul>

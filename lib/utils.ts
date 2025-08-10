@@ -51,7 +51,7 @@ export function getColorCodeByName(colorName: string): string | null {
   return match?.code || null;
 }
 
-export function generateSocialLinks(path: string, title = ""): string {
+export function generatePaths(path: string, title = ""): string {
   const isSocialLink = path.startsWith(PATHS.SOCIAL_INDICATOR);
   if (isSocialLink) {
     const platform = title.toLowerCase();

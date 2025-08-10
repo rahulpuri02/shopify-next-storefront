@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/navbar/navbar";
 import ScreenIndicator from "@/components/shared/indicators/screen-indicator";
 import { CartProvider } from "@/contexts/cart-context";
 import { ShoppingCart } from "@/components/shared/cart/shopping-cart";
+import { FavoriteProvider } from "@/contexts/favorite-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,13 +34,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col justify-between antialiased`}
       >
         <CartProvider>
-          <Navbar />
-          <main>
-            <ShoppingCart />
-            {children}
-          </main>
-          <ScreenIndicator />
-          <Footer />
+          <FavoriteProvider>
+            <Navbar />
+            <main>
+              <ShoppingCart />
+              {children}
+            </main>
+            <ScreenIndicator />
+            <Footer />
+          </FavoriteProvider>
         </CartProvider>
       </body>
     </html>
