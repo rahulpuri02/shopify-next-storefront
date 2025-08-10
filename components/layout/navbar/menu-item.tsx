@@ -8,8 +8,9 @@ import { ROUTES } from "@/constants/routes";
 import { FILTER_OPERATIONS, GENERICS } from "@/constants/shared";
 import { Menu } from "@/types/shared";
 import { useCart } from "@/contexts/cart-context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchPanel from "@/components/shared/search/search-panel";
+import { useFavorite } from "@/contexts/favorite-context";
 
 type ComponentProps = {
   item: Menu;
@@ -19,7 +20,13 @@ type ComponentProps = {
 const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
   const pathname = usePathname();
   const { showCart, cartItems } = useCart();
+  const { favItems } = useFavorite();
   const [showSearchPanel, setShowSearchPanel] = useState(false);
+  const [favItemsCount, setFavItemsCount] = useState(0);
+
+  useEffect(() => {
+    setFavItemsCount(favItems.length);
+  }, [favItems]);
 
   const isHomePage = pathname === "/";
 
@@ -41,6 +48,11 @@ const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
           {item.title}
           {cartItems.length > 0 && <span>{cartItems.length}</span>}
         </p>
+      ) : item.title.toLowerCase() === "favorites" ? (
+        <Link href={item.path || "#"} className="flex cursor-pointer gap-1">
+          {item.title}
+          {favItemsCount > 0 && <span>{favItemsCount}</span>}
+        </Link>
       ) : item.path === GENERICS.searchPath ? (
         <div
           onClick={() => setShowSearchPanel(true)}

@@ -1,3 +1,5 @@
+"use client";
+
 import { CollectionProduct } from "@/types/shared";
 import { createContext, useContext, useState } from "react";
 
@@ -23,7 +25,7 @@ export function FavoriteProvider({ children }: ComponentProps) {
   const [favItems, setFavItems] = useState<CollectionProduct[]>(getFavorites());
 
   function isProductInFavorites(selectedProduct: CollectionProduct) {
-    return favItems.some((i) => i.handle === selectedProduct.handle);
+    return favItems.some((i) => i.id === selectedProduct.id);
   }
 
   function handleFavState(selectedProduct: CollectionProduct) {

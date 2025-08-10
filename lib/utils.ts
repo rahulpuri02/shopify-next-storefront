@@ -1,5 +1,5 @@
 import { COLOR_CODES, FILTER_OPERATIONS, PATHS, SOCIAL_DOMAINS } from "@/constants/shared";
-import { FilterOperation, Menu } from "@/types/shared";
+import { CollectionProduct, FilterOperation, Menu, Product } from "@/types/shared";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -82,4 +82,12 @@ export function getCurrentItems(
     items: m.items,
     path: m.path,
   }));
+}
+
+export function reshapeFavoriteItem(product: Product): CollectionProduct {
+  return {
+    ...product,
+    imageUrl: product.images[0]?.url || null,
+    imageAlt: product.images[0]?.altText || null,
+  };
 }

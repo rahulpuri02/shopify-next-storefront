@@ -1,15 +1,28 @@
+"use client";
+
+import FavoriteIcon from "@/components/icons/favorite-icon";
 import { ROUTES } from "@/constants/routes";
 import { FallbackImage, NO_IMAGE_FOUND } from "@/constants/shared";
+import { useFavorite } from "@/contexts/favorite-context";
 import { cn } from "@/lib/utils";
 import type { Collection } from "@/types/shared";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type ComponentProps = {
+  showFavoriteIcon?: boolean;
   product: Collection["products"][number];
 };
 
-function ProductCard({ product }: ComponentProps) {
+function ProductCard({ product, showFavoriteIcon = false }: ComponentProps) {
+  const { handleFavState, isProductInFavorites, favItems } = useFavorite();
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    setIsFavorite(isProductInFavorites(product));
+  }, [favItems, product, isProductInFavorites]);
+
   return (
     <Link href={ROUTES.product(product.handle)}>
       <div className="relative aspect-[2/3]">
@@ -19,6 +32,20 @@ function ProductCard({ product }: ComponentProps) {
           fill
           className="object-contain"
         />
+        {showFavoriteIcon && (
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleFavState(product);
+            }}
+            className="absolute top-3 right-3 z-10 flex"
+          >
+            <FavoriteIcon
+              className={cn("absolute top-3 right-3 stroke-black", isFavorite && "fill-black")}
+            />
+          </div>
+        )}
       </div>
       <div className="mt-4 flex w-full flex-col gap-1 px-2 text-xs text-black uppercase">
         <div className="flex flex-wrap items-center justify-between gap-2">

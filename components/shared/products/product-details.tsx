@@ -2,10 +2,12 @@
 
 import FavoriteIcon from "@/components/icons/favorite-icon";
 import { GENERICS, SHIPPING_NOTE } from "@/constants/shared";
-import { capitalize, cn } from "@/lib/utils";
+import { useFavorite } from "@/contexts/favorite-context";
+import { capitalize, cn, reshapeFavoriteItem } from "@/lib/utils";
 import type { Product } from "@/types/shared";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import SizeSelector from "./SizeSelector";
 
 type ComponentProps = {
@@ -15,13 +17,26 @@ type ComponentProps = {
 export function ProductDetails({ product }: ComponentProps) {
   const searchParams = useSearchParams();
   const selectedColor = searchParams.get("color") || product.variants[0]?.colorName.toLowerCase();
+  const { handleFavState, isProductInFavorites, favItems } = useFavorite();
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    setIsFavorite(isProductInFavorites(reshapeFavoriteItem(product)));
+  }, [favItems, product, isProductInFavorites]);
 
   return (
     <div className="relative mt-10 w-full space-y-6">
       <div className="flex justify-between">
         <h1 className="w-[70%] flex-wrap text-3xl font-normal">{product.title || "test"}</h1>
         <div className="mt-2">
-          <FavoriteIcon className="stroke-black" />
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              handleFavState(reshapeFavoriteItem(product));
+            }}
+          >
+            <FavoriteIcon className={cn("stroke-black", isFavorite && "fill-black")} />
+          </div>
         </div>
       </div>
 

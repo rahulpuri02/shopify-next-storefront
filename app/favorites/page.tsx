@@ -9,12 +9,14 @@ function FavoritePage() {
     <div className="mt-16 px-6 py-8">
       <div className="mb-5 flex items-center gap-1 text-xl md:text-2xl">
         <p className="tracking-wide">Favorites</p>
-        <sup className="mt-2 text-sm font-normal">02</sup>
+        <sup className="mt-2 text-sm font-normal">{favItems.length}</sup>
       </div>
 
       <div className="mt-10 grid grid-cols-2 gap-4 md:mt-14 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
         {favItems &&
-          favItems.map((product) => <ProductCard product={product} key={product.handle} />)}
+          favItems.map((product) => (
+            <ProductCard product={product} key={product.handle} showFavoriteIcon={true} />
+          ))}
       </div>
     </div>
   );

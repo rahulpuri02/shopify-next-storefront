@@ -24,7 +24,9 @@ async function SearchPage({ searchParams }: ComponentProps) {
         </sup>
         <div className="mt-10 grid grid-cols-2 gap-4 md:mt-14 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
           {products &&
-            products.map((product) => <ProductCard product={product} key={product.handle} />)}
+            products.map((product) => (
+              <ProductCard product={product} key={product.handle} showFavoriteIcon={true} />
+            ))}
         </div>
       </div>
     </div>
