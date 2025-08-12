@@ -86,7 +86,7 @@ export function ShoppingCart() {
               />
               <div />
             </div>
-            <ScrollArea className="invisible-scrollbar h-[63vh] overflow-y-scroll py-3 pb-0 sm:h-[calc(100vh-300px)]">
+            <ScrollArea className="invisible-scrollbar h-[calc(100vh-300px)] overflow-y-scroll py-3 pb-0 sm:h-[calc(100vh-300px)]">
               <ul className="flex flex-col space-y-3">
                 {cartItems.map((item) => (
                   <CartItem item={item} key={item.id} />

@@ -1,5 +1,5 @@
 import { FILTER_OPERATIONS } from "@/constants/shared";
-import { Image } from "./shopify";
+import { Image, ShopifyCartOperation } from "./shopify";
 
 export type FilterOperation = (typeof FILTER_OPERATIONS)[keyof typeof FILTER_OPERATIONS];
 
@@ -57,3 +57,5 @@ export type ColorGroup = {
   colorCode: string | null;
   availableSizes: SizeStock[];
 };
+
+export type Cart = ShopifyCartOperation["data"]["cart"];

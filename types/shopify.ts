@@ -218,6 +218,22 @@ export type ShopifyCreateCartOperation = {
   data: {
     cartCreate: {
       cart: ShopifyCartOperation["data"]["cart"];
-    } | null;
+    };
+  };
+  variables: {
+    cartId: string;
+  };
+};
+
+export type ShopifyAddToCartOperation = {
+  data: {
+    cartLinesAdd: ShopifyCreateCartOperation["data"]["cartCreate"];
+  };
+  variables: {
+    cartId: string;
+    lines: {
+      merchandiseId: string;
+      quantity: number;
+    }[];
   };
 };

@@ -1,15 +1,15 @@
 "use client";
 
 import { getCart } from "@/app/actions/cart";
-import { CartItem } from "@/types/shared";
+import type { Cart, CartItem } from "@/types/shared";
 import React, { useContext, useEffect, useState } from "react";
 
 type ContextProps = {
   cartItems: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
   showCart: (value: boolean) => void;
-  cart: any;
-  setCart: any;
+  cart: Cart;
+  setCart: React.Dispatch<React.SetStateAction<Cart>>;
   isShowCart: boolean;
 };
 
@@ -22,7 +22,7 @@ export const CartContext = React.createContext<ContextProps | null>(null);
 export function CartProvider({ children }: ComponentProps) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isShowCart, setIsShowCart] = useState(false);
-  const [cart, setCart] = useState<any>();
+  const [cart, setCart] = useState<Cart>();
 
   function showCart(isShow: boolean) {
     setIsShowCart(isShow);
