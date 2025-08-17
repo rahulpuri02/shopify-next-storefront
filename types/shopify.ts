@@ -146,8 +146,6 @@ export type ShopifyProductOperation = {
   };
   variables: {
     handle: string;
-    imageCount: number;
-    variantCount: number;
   };
 };
 
@@ -157,8 +155,6 @@ export type ShopifyRecommendedProductsOperation = {
   };
   variables: {
     productHandle: string;
-    imageCount: number;
-    variantCount: number;
   };
 };
 
@@ -177,7 +173,6 @@ export type ShopifySearchResultsOperation = {
   };
   variables: {
     query: string;
-    variantCount: number;
     first: number;
   };
 };

@@ -44,9 +44,9 @@ function getProductVariants(variants: ShopifyProductVariant): ColorGroup[] {
   const colorGroups: Record<string, ColorGroup> = {};
 
   for (const { node: variant } of variants.edges) {
-    const colorOpt = variant.selectedOptions.find((opt) => opt.name.toLowerCase() === "color");
+    const colorOpt = variant?.selectedOptions?.find((opt) => opt.name.toLowerCase() === "color");
 
-    const sizeOpt = variant.selectedOptions.find((opt) => opt.name.toLowerCase() === "size");
+    const sizeOpt = variant.selectedOptions?.find((opt) => opt.name.toLowerCase() === "size");
 
     if (!colorOpt || !sizeOpt) continue;
     const [colorName, initialColorCode] = colorOpt.value.split("|");

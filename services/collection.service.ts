@@ -6,10 +6,10 @@ import {
 } from "@/constants/shopify";
 import { reshapeCollection, reshapeCollections } from "@/lib/server-utils";
 import { shopifyFetch } from "@/lib/shopify/client";
+import { getCollectionQuery, getCollectionsQuery } from "@/lib/shopify/queries/collection";
 import type { Collection } from "@/types/shared";
 import type { ShopifyCollectionOperation, ShopifyCollectionsOperation } from "@/types/shopify";
 import { print } from "graphql";
-import gql from "graphql-tag";
 
 class CollectionService {
   async getCollection(
@@ -17,68 +17,9 @@ class CollectionService {
     productCount = DEFAULT_PRODUCTS_COUNT,
     imageCount = COLLECTION_PRODUCT_IMAGES_COUNT
   ): Promise<Collection | null> {
-    const query = gql`
-      query getCollection($handle: String!, $productCount: Int!, $imageCount: Int!) {
-        collection(handle: $handle) {
-          title
-          description
-          descriptionHtml
-          products(first: $productCount) {
-            edges {
-              node {
-                id
-                title
-                handle
-                description
-                priceRange {
-                  maxVariantPrice {
-                    amount
-                    currencyCode
-                  }
-                  minVariantPrice {
-                    amount
-                    currencyCode
-                  }
-                }
-                images(first: $imageCount) {
-                  edges {
-                    node {
-                      url
-                      altText
-                    }
-                  }
-                }
-                variants(first: $productCount) {
-                  edges {
-                    node {
-                      id
-                      title
-                      availableForSale
-                      currentlyNotInStock
-                      price {
-                        amount
-                        currencyCode
-                      }
-                      image {
-                        url
-                        altText
-                      }
-                      selectedOptions {
-                        name
-                        value
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `;
     try {
       const response = await shopifyFetch<ShopifyCollectionOperation>({
-        query: print(query),
+        query: print(getCollectionQuery),
         variables: {
           handle,
           productCount,
@@ -101,31 +42,9 @@ class CollectionService {
     key?: string;
     value?: string;
   }) {
-    const query = gql`
-      query getCollections($count: Int!, $key: String!, $namespace: String!) {
-        collections(first: $count) {
-          edges {
-            node {
-              id
-              handle
-              title
-              description
-              image {
-                altText
-                url
-              }
-              metafield(namespace: $namespace, key: $key) {
-                key
-                value
-              }
-            }
-          }
-        }
-      }
-    `;
     try {
       const response = await shopifyFetch<ShopifyCollectionsOperation>({
-        query: print(query),
+        query: print(getCollectionsQuery),
         variables: { count, key, namespace: SHOPIFY_CUSTOM_METAFIELDS.name },
       });
       return reshapeCollections(response.body, { key, value });

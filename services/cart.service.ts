@@ -1,86 +1,23 @@
 import "server-only";
 
+import { TAGS } from "@/constants/shopify";
 import { reshapeCart } from "@/lib/server-utils";
 import { shopifyFetch } from "@/lib/shopify/client";
+import { addToCartMutation, createCartMutation } from "@/lib/shopify/mutations/cart";
+import { getCartQuery } from "@/lib/shopify/queries/cart";
 import {
   ShopifyAddToCartOperation,
   ShopifyCartOperation,
   ShopifyCreateCartOperation,
 } from "@/types/shopify";
 import { print } from "graphql";
-import gql from "graphql-tag";
 import { cookies } from "next/headers";
-import { TAGS } from "@/constants/shopify";
 
 class CartService {
   async createCart() {
-    const query = gql`
-      mutation createCart {
-        cartCreate {
-          cart {
-            id
-            cost {
-              subtotalAmount {
-                amount
-                currencyCode
-              }
-              totalAmount {
-                amount
-                currencyCode
-              }
-            }
-            checkoutUrl
-            lines(first: 10) {
-              edges {
-                node {
-                  id
-                  merchandise {
-                    ... on ProductVariant {
-                      id
-                      availableForSale
-                      currentlyNotInStock
-                      compareAtPrice {
-                        amount
-                        currencyCode
-                      }
-                      price {
-                        amount
-                        currencyCode
-                      }
-                      image {
-                        altText
-                        url
-                      }
-                      product {
-                        title
-                      }
-                      selectedOptions {
-                        name
-                        value
-                      }
-                    }
-                  }
-                  quantity
-                  estimatedCost {
-                    subtotalAmount {
-                      amount
-                      currencyCode
-                    }
-                    totalAmount {
-                      amount
-                      currencyCode
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `;
     try {
       const response = await shopifyFetch<ShopifyCreateCartOperation>({
-        query: print(query),
+        query: print(createCartMutation),
         cache: "no-cache",
       });
       const cart = reshapeCart(response.body.data!.cartCreate!.cart);
@@ -93,69 +30,6 @@ class CartService {
   }
 
   async getCart() {
-    const query = gql`
-      query getCart($id: ID!) {
-        cart(id: $id) {
-          id
-          cost {
-            subtotalAmount {
-              amount
-              currencyCode
-            }
-            totalAmount {
-              amount
-              currencyCode
-            }
-          }
-          checkoutUrl
-          lines(first: 10) {
-            edges {
-              node {
-                id
-                merchandise {
-                  ... on ProductVariant {
-                    id
-                    availableForSale
-                    currentlyNotInStock
-                    compareAtPrice {
-                      amount
-                      currencyCode
-                    }
-                    price {
-                      amount
-                      currencyCode
-                    }
-                    image {
-                      altText
-                      url
-                    }
-                    product {
-                      title
-                    }
-                    selectedOptions {
-                      name
-                      value
-                    }
-                  }
-                }
-                quantity
-                estimatedCost {
-                  subtotalAmount {
-                    amount
-                    currencyCode
-                  }
-                  totalAmount {
-                    amount
-                    currencyCode
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `;
-
     try {
       const cartId = (await cookies()).get("cartId")?.value;
       if (!cartId) {
@@ -163,7 +37,7 @@ class CartService {
         return cart;
       } else {
         const response = await shopifyFetch<ShopifyCartOperation>({
-          query: print(query),
+          query: print(getCartQuery),
           variables: { id: cartId },
           cache: "no-cache",
           tags: [TAGS.cart],
@@ -179,72 +53,8 @@ class CartService {
   async addToCart(lines: { merchandiseId: string; quantity: number }[]) {
     try {
       const cartId = (await cookies()).get("cartId")?.value!;
-      const query = gql`
-        mutation addToCart($cartId: ID!, $lines: [CartLineInput!]!) {
-          cartLinesAdd(cartId: $cartId, lines: $lines) {
-            cart {
-              id
-              cost {
-                subtotalAmount {
-                  amount
-                  currencyCode
-                }
-                totalAmount {
-                  amount
-                  currencyCode
-                }
-              }
-              checkoutUrl
-              lines(first: 10) {
-                edges {
-                  node {
-                    id
-                    merchandise {
-                      ... on ProductVariant {
-                        id
-                        availableForSale
-                        currentlyNotInStock
-                        compareAtPrice {
-                          amount
-                          currencyCode
-                        }
-                        price {
-                          amount
-                          currencyCode
-                        }
-                        image {
-                          altText
-                          url
-                        }
-                        selectedOptions {
-                          name
-                          value
-                        }
-                        product {
-                          title
-                        }
-                      }
-                    }
-                    quantity
-                    estimatedCost {
-                      subtotalAmount {
-                        amount
-                        currencyCode
-                      }
-                      totalAmount {
-                        amount
-                        currencyCode
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      `;
       const response = await shopifyFetch<ShopifyAddToCartOperation>({
-        query: print(query),
+        query: print(addToCartMutation),
         variables: {
           cartId,
           lines,
