@@ -153,6 +153,9 @@ export const CART = {
   continueShopping: "Continue Shopping",
 } as const;
 
+export const SIZE_SELECTION_STOCK_NOTE =
+  "Note that you can choose a size that is out of stock and get notified whenit gets back in stock.";
+
 export const MENS_CLOTHING_TITLE = "MEN'S CLOTHING";
 
 export const MENS_CLOTHING_DESCRIPTION =

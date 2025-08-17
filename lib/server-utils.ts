@@ -2,7 +2,7 @@ import "server-only";
 
 import { SHOPIFY_URL_PREFIXS, TAGS } from "@/constants/shopify";
 import { environment } from "@/environment";
-import type { Collection, ColorGroup, Menu, Product } from "@/types/shared";
+import type { Cart, Collection, ColorGroup, Menu, Product } from "@/types/shared";
 import type {
   ShopifyCartOperation,
   ShopifyCollectionOperation,
@@ -70,7 +70,7 @@ function getProductVariants(variants: ShopifyProductVariant): ColorGroup[] {
     if (existingSize) {
       existingSize.stock += 1;
     } else {
-      sizes.push({ name: sizeOpt.value, stock: 1 });
+      sizes.push({ name: sizeOpt.value, stock: 1, variantId: variant.id });
     }
   }
 
@@ -199,13 +199,32 @@ export function reshapeSearchResults(
     .filter((item) => item !== null);
 }
 
-export function reshapeCart(
-  responseCart: ShopifyCartOperation["data"]["cart"] | null
-): ShopifyCartOperation["data"]["cart"] | null {
-  if (!responseCart) {
-    return null;
-  }
-  return responseCart;
+export function reshapeCart(responseCart: ShopifyCartOperation["data"]["cart"]): Cart {
+  const items = responseCart.lines.edges.map(({ node: item }) => ({
+    id: item.id,
+    title: item.merchandise.product.title,
+    price: item.merchandise.price,
+    variantId: item.merchandise.id,
+    outOfStock: item.merchandise.currentlyNotInStock,
+    totalCost: item.estimatedCost.totalAmount,
+    subTotal: item.estimatedCost.subtotalAmount,
+    imageUrl: item.merchandise.image?.url,
+    imageAlt: item.merchandise.image?.altText,
+    selectedColor: item.merchandise.selectedOptions.find(
+      (opt) => opt.name.toLowerCase() === "color"
+    )?.value,
+    selectedSize: item.merchandise.selectedOptions.find((opt) => opt.name.toLowerCase() === "size")
+      ?.value,
+    quantity: item.quantity,
+  }));
+
+  return {
+    cartId: responseCart.id,
+    checkoutUrl: responseCart.checkoutUrl,
+    totalAmount: responseCart.cost.totalAmount,
+    subTotal: responseCart.cost.subtotalAmount,
+    items,
+  };
 }
 
 export async function revalidate(req: NextRequest): Promise<NextResponse> {

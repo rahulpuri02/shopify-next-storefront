@@ -51,6 +51,9 @@ class CartService {
                         altText
                         url
                       }
+                      product {
+                        title
+                      }
                       selectedOptions {
                         name
                         value
@@ -81,7 +84,7 @@ class CartService {
         cache: "no-cache",
       });
       const cart = reshapeCart(response.body.data!.cartCreate!.cart);
-      (await cookies()).set("cartId", cart!.id);
+      (await cookies()).set("cartId", cart!.cartId);
       return reshapeCart(response.body.data!.cartCreate!.cart);
     } catch (error) {
       console.error("Error while creating new cart:", error);
@@ -92,8 +95,7 @@ class CartService {
   async getCart() {
     const query = gql`
       query getCart($id: ID!) {
-        cart(id: $id)
-        cart {
+        cart(id: $id) {
           id
           cost {
             subtotalAmount {
@@ -127,6 +129,9 @@ class CartService {
                       altText
                       url
                     }
+                    product {
+                      title
+                    }
                     selectedOptions {
                       name
                       value
@@ -152,10 +157,10 @@ class CartService {
     `;
 
     try {
-      const cartId = (await cookies()).get("cart")?.value;
+      const cartId = (await cookies()).get("cartId")?.value;
       if (!cartId) {
-        const response = await this.createCart();
-        return reshapeCart(response);
+        const cart = await this.createCart();
+        return cart;
       } else {
         const response = await shopifyFetch<ShopifyCartOperation>({
           query: print(query),
@@ -214,6 +219,9 @@ class CartService {
                         selectedOptions {
                           name
                           value
+                        }
+                        product {
+                          title
                         }
                       }
                     }

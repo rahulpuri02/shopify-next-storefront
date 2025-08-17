@@ -20,7 +20,7 @@ type ComponentProps = { mainMenu: Menu[] };
 
 function MobileMenu({ mainMenu }: ComponentProps) {
   const pathname = usePathname();
-  const { showCart, cartItems } = useCart();
+  const { showCart, cart } = useCart();
   const { favItems } = useFavorite();
 
   const { isScrollingStart } = useScroll(200);
@@ -59,13 +59,29 @@ function MobileMenu({ mainMenu }: ComponentProps) {
             <FavoriteIcon
               className={`${isHomePage || (isProductPage && !isScrollingStart) ? "stroke-white" : "stroke-black"}`}
             />
-            {favItemsCount > 0 && <span>{favItemsCount}</span>}
+            {favItemsCount > 0 && (
+              <span
+                className={cn(
+                  isHomePage || (!isScrollingStart && isProductPage) ? "text-white" : ""
+                )}
+              >
+                {favItemsCount}
+              </span>
+            )}
           </Link>
           <div className="flex items-center gap-1" onClick={() => showCart(true)}>
             <BagIcon
               className={`${isHomePage || (isProductPage && !isScrollingStart) ? "fill-white" : "fill-black"} cursor-pointer`}
             />
-            {cartItems?.length > 0 && <span>{cartItems.length}</span>}
+            {cart?.items && cart?.items?.length > 0 && (
+              <span
+                className={cn(
+                  isHomePage || (!isScrollingStart && isProductPage) ? "text-white" : ""
+                )}
+              >
+                {cart.items.length}
+              </span>
+            )}
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { FILTER_OPERATIONS } from "@/constants/shared";
-import { Image, ShopifyCartOperation } from "./shopify";
+import { Image, Money, SelectedOption, ShopifyCartOperation } from "./shopify";
 
 export type FilterOperation = (typeof FILTER_OPERATIONS)[keyof typeof FILTER_OPERATIONS];
 
@@ -12,6 +12,7 @@ export type Menu = {
 export type SizeStock = {
   name: string;
   stock: number;
+  variantId: string;
 };
 
 export type ColorVariant = {
@@ -47,15 +48,31 @@ export type Collection = {
   products: CollectionProduct[];
 };
 
-export type CartItem = Product & {
-  selectedSize: string | number;
-  quantity: number;
-};
-
 export type ColorGroup = {
   colorName: string;
   colorCode: string | null;
   availableSizes: SizeStock[];
 };
 
-export type Cart = ShopifyCartOperation["data"]["cart"];
+export type CartItem = {
+  id: string;
+  title: string;
+  price: Money;
+  variantId: string;
+  outOfStock: boolean;
+  totalCost: Money;
+  subTotal: Money;
+  imageUrl: string | undefined;
+  imageAlt: string | null | undefined;
+  selectedColor: string | undefined;
+  selectedSize: string | undefined;
+  quantity: number;
+};
+
+export type Cart = {
+  cartId: string;
+  subTotal: Money;
+  totalAmount: Money;
+  checkoutUrl: string;
+  items: CartItem[];
+};

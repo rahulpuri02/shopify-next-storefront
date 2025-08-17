@@ -187,13 +187,18 @@ export type ShopifyCartOperation = {
     cart: {
       id: string;
       cost: {
-        checkoutChargeAmount: Money;
+        subtotalAmount: Money;
         totalAmount: Money;
       };
       checkoutUrl: string;
       lines: {
         edges: {
           node: {
+            id: string;
+            estimatedCost: {
+              subtotalAmount: Money;
+              totalAmount: Money;
+            };
             merchandise: {
               availableForSale: boolean;
               compareAtPrice: Money | null;
@@ -201,13 +206,16 @@ export type ShopifyCartOperation = {
               image: Image | null;
               price: Money;
               selectedOptions: SelectedOption[];
-              quantity: number;
-              estimatedCost: Money;
+              id: string;
+              product: {
+                title: string;
+              };
             };
+            quantity: number;
           };
         }[];
       };
-    } | null;
+    };
   };
   variables: {
     id: string;

@@ -1,15 +1,13 @@
 "use client";
 
 import { getCart } from "@/app/actions/cart";
-import type { Cart, CartItem } from "@/types/shared";
+import type { Cart } from "@/types/shared";
 import React, { useContext, useEffect, useState } from "react";
 
 type ContextProps = {
-  cartItems: CartItem[];
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
   showCart: (value: boolean) => void;
-  cart: Cart;
-  setCart: React.Dispatch<React.SetStateAction<Cart>>;
+  cart: Cart | undefined;
+  setCart: React.Dispatch<React.SetStateAction<Cart | undefined>>;
   isShowCart: boolean;
 };
 
@@ -20,7 +18,6 @@ type ComponentProps = {
 export const CartContext = React.createContext<ContextProps | null>(null);
 
 export function CartProvider({ children }: ComponentProps) {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isShowCart, setIsShowCart] = useState(false);
   const [cart, setCart] = useState<Cart>();
 
@@ -42,7 +39,7 @@ export function CartProvider({ children }: ComponentProps) {
   }, []);
 
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems, showCart, isShowCart, cart, setCart }}>
+    <CartContext.Provider value={{ showCart, isShowCart, cart, setCart }}>
       {children}
     </CartContext.Provider>
   );

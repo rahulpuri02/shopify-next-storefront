@@ -15,7 +15,6 @@ import { useCart } from "@/contexts/cart-context";
 import { cn, formatPrice } from "@/lib/utils";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { ShoppingCartIcon, XIcon } from "lucide-react";
-import { useMemo } from "react";
 import CartItem from "./cart-item";
 
 export default function EmptyCart() {
@@ -34,14 +33,11 @@ export default function EmptyCart() {
 }
 
 export function ShoppingCart() {
-  const { showCart, isShowCart, cartItems } = useCart();
+  const { showCart, isShowCart, cart } = useCart();
 
-  const totalPrice = useMemo(() => {
-    return cartItems.reduce((total, item) => {
-      const price = parseFloat(item.price!.replace(/[^0-9.-]+/g, ""));
-      return total + price * (item.quantity || 1);
-    }, 0);
-  }, [cartItems]);
+  if (!cart || !cart?.items?.length) return <EmptyCart />;
+
+  const totalPrice = Number(cart.subTotal.amount);
 
   return (
     <Drawer onOpenChange={showCart} open={isShowCart}>
@@ -49,25 +45,25 @@ export function ShoppingCart() {
       <DrawerContent
         className={cn(
           "flex h-screen w-[90%] flex-col rounded-none p-0 md:max-w-md",
-          cartItems.length === 0 ? "h-fit w-[85%] md:h-[320px] md:w-[350px]" : "h-screen"
+          cart?.items.length === 0 ? "h-fit w-[85%] md:h-[320px] md:w-[350px]" : "h-screen"
         )}
       >
         <DrawerHeader className="px-6 py-4">
           <DrawerTitle className="relative mt-5 flex items-center justify-center text-2xl font-medium md:mt-6">
-            {cartItems.length > 0 && <CompanyLogo className="fill-black" />}
+            {cart.items.length > 0 && <CompanyLogo className="fill-black" />}
             <XIcon
               className="absolute right-0 h-auto w-6 cursor-pointer stroke-1"
               onClick={() => showCart(false)}
             />
           </DrawerTitle>
         </DrawerHeader>
-        {cartItems.length === 0 ? (
+        {cart.items.length === 0 ? (
           <EmptyCart />
         ) : (
           <div className="px-3 sm:px-4">
             <div className="my-4 mb-5 flex items-center gap-1 text-lg md:text-xl">
               <p className="tracking-wide">{GENERICS.bag}</p>
-              <sup className="mt-2">{cartItems.length}</sup>
+              <sup className="mt-2">{cart?.items.length}</sup>
             </div>
             <div className="flex flex-col space-y-3">
               {totalPrice < 1000 ? (
@@ -88,14 +84,12 @@ export function ShoppingCart() {
             </div>
             <ScrollArea className="invisible-scrollbar h-[calc(100vh-300px)] overflow-y-scroll py-3 pb-0 sm:h-[calc(100vh-300px)]">
               <ul className="flex flex-col space-y-3">
-                {cartItems.map((item) => (
-                  <CartItem item={item} key={item.id} />
-                ))}
+                {cart?.items.map((item) => <CartItem item={item} key={item.id} />)}
               </ul>
             </ScrollArea>
           </div>
         )}
-        {cartItems.length > 0 && (
+        {cart.items && cart?.items.length > 0 && (
           <div className="sticky right-0 bottom-0 left-0 mt-auto border-t bg-white px-4 py-3 shadow-sm">
             <div className="flex justify-between border-t-gray-200 text-base font-medium">
               <span>{CART.total}</span>

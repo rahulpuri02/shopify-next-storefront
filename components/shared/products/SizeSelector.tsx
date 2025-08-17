@@ -1,16 +1,15 @@
 "use client";
 
+import { addItem } from "@/app/actions/cart";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ADD_TO_CART, ADDING } from "@/constants/shared";
+import { ADD_TO_CART, ADDING, SIZE_SELECTION_STOCK_NOTE } from "@/constants/shared";
 import { useCart } from "@/contexts/cart-context";
 import useClickOutside from "@/hooks/use-click-outside";
 import { cn } from "@/lib/utils";
-import { Product } from "@/types/shared";
+import { Product, SizeStock } from "@/types/shared";
 import { InfoIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-
-const sizes = ["S", "M", "L", "XL", "XXL"];
 
 type ComponentProps = {
   product: Product;
@@ -18,11 +17,15 @@ type ComponentProps = {
 };
 
 export default function SizeSelector({ product, selectedColor }: ComponentProps) {
+  const selectedVariant = product.variants.find(
+    (v) => v.colorName.toLowerCase() === selectedColor.toLowerCase()
+  );
+
   const [isOpen, setIsOpen] = useState(false);
   const [isAddingSize, setIsAddingSize] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const { setCartItems, showCart } = useCart();
+  const { showCart } = useCart();
 
   useClickOutside(ref, () => {
     setIsOpen(false);
@@ -43,18 +46,17 @@ export default function SizeSelector({ product, selectedColor }: ComponentProps)
     };
   }, [isOpen]);
 
-  const handleSelectSize = (size: string) => {
-    setSelectedSize(size);
+  const handleSelectSize = async ({ name, variantId }: SizeStock) => {
+    setSelectedSize(name);
     setIsAddingSize(true);
+    const error = await addItem(variantId);
     setTimeout(() => {
-      setIsAddingSize(false);
-      setIsOpen(false);
-      setCartItems((prev) => [
-        ...prev,
-        { ...product, quantity: 1, selectedSize: size, selectedColor },
-      ]);
-      showCart(true);
-      setSelectedSize("");
+      if (!error) {
+        setIsAddingSize(false);
+        setIsOpen(false);
+        showCart(true);
+        setSelectedSize("");
+      }
     }, 1200);
   };
 
@@ -88,25 +90,22 @@ export default function SizeSelector({ product, selectedColor }: ComponentProps)
                   <div className="flex flex-col space-y-4">
                     <p className="text-sm tracking-wide">SIZE</p>
                     <ul className="grid grid-cols-4 gap-4 pr-2 md:grid-cols-5 md:pr-4">
-                      {sizes.map((s) => (
+                      {selectedVariant?.availableSizes.map((s) => (
                         <li
-                          key={s}
                           onClick={() => handleSelectSize(s)}
+                          key={s.variantId}
                           className={cn(
-                            "cursor-pointer border py-2 text-center transition-all ease-in-out hover:border-black",
-                            selectedSize === s ? "border-black bg-gray-100" : "border-gray-300"
+                            "cursor-pointer border py-2 text-center uppercase transition-all ease-in-out hover:border-black",
+                            selectedSize === s.name ? "border-black bg-gray-100" : "border-gray-300"
                           )}
                         >
-                          {s}
+                          {s.name}
                         </li>
                       ))}
                     </ul>
                     <div className="mt-2 flex items-start gap-1.5 pb-1 text-sm md:pb-2">
                       <InfoIcon className="mt-[2px] h-4 w-4 shrink-0 stroke-1" />
-                      <p>
-                        Note that you can choose a size that is out of stock and get notified when
-                        it gets back in stock.
-                      </p>
+                      <p>{SIZE_SELECTION_STOCK_NOTE}</p>
                     </div>
                   </div>
                 </div>

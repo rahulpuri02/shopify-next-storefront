@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { CART, NO_IMAGE_FOUND } from "@/constants/shared";
+import { formatPrice } from "@/lib/utils";
 import type { CartItem } from "@/types/shared";
 import Image from "next/image";
 import React from "react";
@@ -13,7 +14,7 @@ function CartItem({ item }: ComponentProps) {
     <li className="flex items-start gap-4">
       <div className="relative h-[144px] w-[94px] shrink-0 overflow-hidden">
         <Image
-          src={item.images?.[0]?.url || NO_IMAGE_FOUND}
+          src={item.imageUrl || NO_IMAGE_FOUND}
           alt="Product"
           fill
           sizes="94px"
@@ -26,8 +27,8 @@ function CartItem({ item }: ComponentProps) {
           <div className="flex flex-col">
             <p className="text-slate-900 uppercase">{item.title.split("-")[0]}</p>
             <p className="text-muted-foreground">{item.title.split("-")[1]}</p>
-            <p className="text-muted-foreground mt-2 text-xs">Croc Green #374</p>
-            <p className="text-muted-foreground text-xs">{item.selectedSize}</p>
+            <p className="text-muted-foreground mt-2 text-xs">{item.selectedColor}</p>
+            <p className="text-muted-foreground text-xs">{item?.selectedSize}</p>
           </div>
           <button className="text-xs underline underline-offset-4">{CART.remove}</button>
         </div>
@@ -37,12 +38,12 @@ function CartItem({ item }: ComponentProps) {
             <Button size="icon" variant="outline" className="h-7 w-7 p-0 text-sm">
               −
             </Button>
-            <span className="text-sm">1</span>
+            <span className="text-sm">{item.quantity}</span>
             <Button size="icon" variant="outline" className="h-7 w-7 p-0 text-sm">
               +
             </Button>
           </div>
-          <div className="text-xs">{item.price}</div>
+          <div className="text-xs">{formatPrice(item.subTotal)}</div>
         </div>
       </div>
     </li>

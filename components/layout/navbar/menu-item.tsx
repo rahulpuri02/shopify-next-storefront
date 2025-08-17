@@ -19,7 +19,7 @@ type ComponentProps = {
 
 const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
   const pathname = usePathname();
-  const { showCart, cartItems } = useCart();
+  const { showCart, cart } = useCart();
   const { favItems } = useFavorite();
   const [showSearchPanel, setShowSearchPanel] = useState(false);
   const [favItemsCount, setFavItemsCount] = useState(0);
@@ -46,7 +46,7 @@ const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
       {item.title.toLowerCase() === "bag" ? (
         <p onClick={() => showCart(true)} className="flex cursor-pointer gap-1">
           {item.title}
-          {cartItems.length > 0 && <span>{cartItems.length}</span>}
+          {cart?.items && cart?.items.length > 0 && <span>{cart?.items.length}</span>}
         </p>
       ) : item.title.toLowerCase() === "favorites" ? (
         <Link href={item.path || "#"} className="flex cursor-pointer gap-1">
