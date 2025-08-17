@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { Product, SizeStock } from "@/types/shared";
 import { InfoIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 type ComponentProps = {
   product: Product;
@@ -25,7 +26,7 @@ export default function SizeSelector({ product, selectedColor }: ComponentProps)
   const [isAddingSize, setIsAddingSize] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const { showCart } = useCart();
+  const { showCart, setCart } = useCart();
 
   useClickOutside(ref, () => {
     setIsOpen(false);
@@ -49,9 +50,11 @@ export default function SizeSelector({ product, selectedColor }: ComponentProps)
   const handleSelectSize = async ({ name, variantId }: SizeStock) => {
     setSelectedSize(name);
     setIsAddingSize(true);
-    const error = await addItem(variantId);
+    const updatedCart = await addItem(variantId);
+    if (typeof updatedCart === "string") return toast(updatedCart);
+    setCart(updatedCart);
     setTimeout(() => {
-      if (!error) {
+      if (typeof updatedCart !== "string") {
         setIsAddingSize(false);
         setIsOpen(false);
         showCart(true);

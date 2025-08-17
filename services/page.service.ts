@@ -1,29 +1,13 @@
 import { shopifyFetch } from "@/lib/shopify/client";
-import gql from "graphql-tag";
-import { print } from "graphql";
+import { getPageQuery } from "@/lib/shopify/queries/page";
 import { ShopifyPageOperation } from "@/types/shopify";
+import { print } from "graphql";
 
 class PageService {
   async getPageData(handle: string) {
-    console;
-    const query = gql`
-      query getPageByHandle($handle: String!) {
-        pageByHandle(handle: $handle) {
-          id
-          title
-          handle
-          body
-          bodySummary
-          seo {
-            title
-            description
-          }
-        }
-      }
-    `;
     try {
       const response = await shopifyFetch<ShopifyPageOperation>({
-        query: print(query),
+        query: print(getPageQuery),
         variables: { handle },
       });
       return response?.body?.data?.pageByHandle || null;

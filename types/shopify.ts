@@ -240,3 +240,26 @@ export type ShopifyAddToCartOperation = {
     }[];
   };
 };
+
+export type ShopifyUpdateCartOperation = {
+  data: {
+    cartLinesUpdate: ShopifyCreateCartOperation["data"]["cartCreate"];
+  };
+  variables: {
+    cartId: string;
+    lines: {
+      merchandiseId: string;
+      quantity: number;
+    }[];
+  };
+};
+
+export type ShopifyRemoveFromCartOperation = {
+  data: {
+    cartLinesRemove: ShopifyCreateCartOperation["data"]["cartCreate"];
+  };
+  variables: {
+    cartId: string;
+    lineIds: string[];
+  };
+};

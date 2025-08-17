@@ -58,7 +58,7 @@ export type CartItem = {
   id: string;
   title: string;
   price: Money;
-  variantId: string;
+  merchandiseId: string;
   outOfStock: boolean;
   totalCost: Money;
   subTotal: Money;

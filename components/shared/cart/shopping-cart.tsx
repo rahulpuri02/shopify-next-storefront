@@ -16,6 +16,9 @@ import { cn, formatPrice } from "@/lib/utils";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { ShoppingCartIcon, XIcon } from "lucide-react";
 import CartItem from "./cart-item";
+import { useState } from "react";
+import LoadingDots from "@/components/ui/loading-dots";
+import { redirectToCheckout } from "@/app/actions/cart";
 
 export default function EmptyCart() {
   const { showCart } = useCart();
@@ -35,9 +38,16 @@ export default function EmptyCart() {
 export function ShoppingCart() {
   const { showCart, isShowCart, cart } = useCart();
 
-  if (!cart || !cart?.items?.length) return <EmptyCart />;
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  if (!cart) return;
 
   const totalPrice = Number(cart.subTotal.amount);
+
+  async function handleCheckout() {
+    setIsProcessing(true);
+    await redirectToCheckout();
+  }
 
   return (
     <Drawer onOpenChange={showCart} open={isShowCart}>
@@ -45,7 +55,8 @@ export function ShoppingCart() {
       <DrawerContent
         className={cn(
           "flex h-screen w-[90%] flex-col rounded-none p-0 md:max-w-md",
-          cart?.items.length === 0 ? "h-fit w-[85%] md:h-[320px] md:w-[350px]" : "h-screen"
+          cart?.items.length === 0 ? "h-fit w-[85%] md:h-[320px] md:w-[350px]" : "h-screen",
+          isProcessing && "pointer-events-none"
         )}
       >
         <DrawerHeader className="px-6 py-4">
@@ -95,7 +106,9 @@ export function ShoppingCart() {
               <span>{CART.total}</span>
               <span>{formatPrice({ amount: totalPrice.toString(), currencyCode: "INR" })}</span>
             </div>
-            <Button className="mt-4 w-full px-4 font-normal">{CART.goToCheckout}</Button>
+            <Button onClick={handleCheckout} className="mt-4 w-full px-4 font-normal">
+              {isProcessing ? <LoadingDots className="bg-white" /> : CART.goToCheckout}
+            </Button>
           </div>
         )}
       </DrawerContent>

@@ -7,6 +7,7 @@ import ScreenIndicator from "@/components/shared/indicators/screen-indicator";
 import { CartProvider } from "@/contexts/cart-context";
 import { ShoppingCart } from "@/components/shared/cart/shopping-cart";
 import { FavoriteProvider } from "@/contexts/favorite-context";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
           <FavoriteProvider>
             <Navbar />
             <main>
+              <Toaster position="top-right" />
               <ShoppingCart />
               {children}
             </main>

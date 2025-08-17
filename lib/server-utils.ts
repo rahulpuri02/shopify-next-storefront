@@ -204,7 +204,7 @@ export function reshapeCart(responseCart: ShopifyCartOperation["data"]["cart"]):
     id: item.id,
     title: item.merchandise.product.title,
     price: item.merchandise.price,
-    variantId: item.merchandise.id,
+    merchandiseId: item.merchandise.id,
     outOfStock: item.merchandise.currentlyNotInStock,
     totalCost: item.estimatedCost.totalAmount,
     subTotal: item.estimatedCost.subtotalAmount,
