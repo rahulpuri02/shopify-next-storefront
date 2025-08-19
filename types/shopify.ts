@@ -1,3 +1,7 @@
+import type { CreateAccountRequest, SignInAccountRequest } from "@/app/actions/auth";
+
+export type ExtractVariables<T> = T extends { variables: infer V } ? V : never;
+
 export type Money = {
   amount: string;
   currencyCode: string;
@@ -55,8 +59,6 @@ export type ShopifyProductVariant = {
     node: ProductVariant;
   }[];
 };
-
-export type ExtractVariables<T> = T extends { variables: infer V } ? V : never;
 
 export type ShopifyMenuOperation = {
   data: {
@@ -261,5 +263,38 @@ export type ShopifyRemoveFromCartOperation = {
   variables: {
     cartId: string;
     lineIds: string[];
+  };
+};
+
+export type ShoppifyCreateCustomerOperation = {
+  data: {
+    customerCreate: {
+      customerUserErrors: {
+        message: string;
+      }[];
+      customer: {
+        id: string;
+      } | null;
+    };
+  };
+  variables: {
+    input: CreateAccountRequest;
+  };
+};
+
+export type ShopifyCreateAccessTokenOperation = {
+  data: {
+    customerAccessTokenCreate: {
+      customerUserErrors: {
+        message: string;
+      }[];
+      customerAccessToken: {
+        accessToken: string;
+        expiresAt: string;
+      } | null;
+    };
+  };
+  variables: {
+    input: SignInAccountRequest;
   };
 };

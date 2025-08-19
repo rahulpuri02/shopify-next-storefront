@@ -43,7 +43,7 @@ function CartItem({ item }: ComponentProps) {
   }
 
   return (
-    <li className={cn("flex items-start gap-4", isProcessing && "pointer-events-none opacity-40")}>
+    <li className={cn("flex items-start gap-4", isProcessing && "pointer-events-none opacity-50")}>
       <div className="relative h-[144px] w-[94px] shrink-0 overflow-hidden">
         <Image
           src={item.imageUrl || NO_IMAGE_FOUND}

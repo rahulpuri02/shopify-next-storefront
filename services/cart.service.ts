@@ -31,7 +31,7 @@ class CartService {
       });
       const cart = reshapeCart(response.body.data!.cartCreate!.cart);
       (await cookies()).set("cartId", cart!.cartId);
-      return reshapeCart(response.body.data!.cartCreate!.cart);
+      return cart;
     } catch (error) {
       console.error("Error while creating new cart:", error);
       throw error;

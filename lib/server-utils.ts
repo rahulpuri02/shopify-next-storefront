@@ -17,6 +17,11 @@ import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { formatPrice, getColorCodeByName } from "./utils";
+import { type SafeParseError } from "zod";
+
+export function getZodFirstErrorMessage<T>(obj: SafeParseError<T>) {
+  return Object.entries(obj.error.flatten().fieldErrors)[0][1];
+}
 
 export function reshapeMenus(response: ShopifyMenuOperation): Menu[] {
   const items = response.data.menu?.items;
