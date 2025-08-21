@@ -79,7 +79,7 @@ class AuthService {
     }
   }
 
-  async createCustomerAddress(customerAccessToken: string, address: CustomerAddress) {
+  async createCustomerAddress(customerAccessToken: string, address: Partial<CustomerAddress>) {
     try {
       const response = await shopifyFetch<any>({
         query: print(createCustomerAddressMutation),
