@@ -2,11 +2,12 @@ import "server-only";
 
 import { SHOPIFY_URL_PREFIXS, TAGS } from "@/constants/shopify";
 import { environment } from "@/environment";
-import type { Cart, Collection, ColorGroup, Menu, Product } from "@/types/shared";
+import type { Cart, Collection, ColorGroup, Customer, Menu, Product } from "@/types/shared";
 import type {
   ShopifyCartOperation,
   ShopifyCollectionOperation,
   ShopifyCollectionsOperation,
+  ShopifyGetCustomerOperation,
   ShopifyMenuOperation,
   ShopifyProductOperation,
   ShopifyProductVariant,
@@ -20,7 +21,7 @@ import { formatPrice, getColorCodeByName } from "./utils";
 import { type SafeParseError } from "zod";
 
 export function getZodFirstErrorMessage<T>(obj: SafeParseError<T>) {
-  return Object.entries(obj.error.flatten().fieldErrors)[0][1];
+  return (Object.entries(obj.error.flatten().fieldErrors)[0][1] as string[])[0];
 }
 
 export function reshapeMenus(response: ShopifyMenuOperation): Menu[] {
@@ -229,6 +230,17 @@ export function reshapeCart(responseCart: ShopifyCartOperation["data"]["cart"]):
     totalAmount: responseCart.cost.totalAmount,
     subTotal: responseCart.cost.subtotalAmount,
     items,
+  };
+}
+
+export function reshapeCustomer(
+  responseCustomer: ShopifyGetCustomerOperation["data"]["customer"]
+): Customer {
+  const addressEdges = responseCustomer.addresses.edges;
+  return {
+    ...responseCustomer,
+    addresses: addressEdges.map((edge) => edge.node),
+    defaultAddress: addressEdges[0].node,
   };
 }
 

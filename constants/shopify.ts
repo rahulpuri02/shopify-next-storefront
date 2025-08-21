@@ -7,6 +7,7 @@ export const TAGS = {
   collections: "collections",
   products: "products",
   cart: "cart",
+  customer: "customer",
 } as const;
 
 export const COLLECTIONS = {

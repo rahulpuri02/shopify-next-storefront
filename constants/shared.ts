@@ -125,7 +125,7 @@ export const COLOR_CODES = [
 ];
 
 export const STATIC_MOBILE_MENU_ITEMS = [
-  { title: "my account", hasChilds: false, items: [] },
+  { title: "my account", hasChilds: false, items: [], path: "/my-account" },
   { title: "About Us", hasChilds: true, items: [], path: "/about" },
 ];
 

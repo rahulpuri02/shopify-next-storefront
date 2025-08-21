@@ -51,7 +51,7 @@ export default function SizeSelector({ product, selectedColor }: ComponentProps)
     setSelectedSize(name);
     setIsAddingSize(true);
     const updatedCart = await addItem(variantId);
-    if (typeof updatedCart === "string") return toast(updatedCart);
+    if (typeof updatedCart === "string") return toast.error(updatedCart);
     setCart(updatedCart);
     setTimeout(() => {
       if (typeof updatedCart !== "string") {

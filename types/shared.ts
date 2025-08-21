@@ -1,5 +1,6 @@
 import { FILTER_OPERATIONS } from "@/constants/shared";
-import { Image, Money, SelectedOption, ShopifyCartOperation } from "./shopify";
+import { Image, Money } from "./shopify";
+import { type CustomerAddress } from "@/app/actions/auth";
 
 export type FilterOperation = (typeof FILTER_OPERATIONS)[keyof typeof FILTER_OPERATIONS];
 
@@ -75,4 +76,15 @@ export type Cart = {
   totalAmount: Money;
   checkoutUrl: string;
   items: CartItem[];
+};
+
+export type Customer = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  acceptsMarketing: boolean;
+  email: string;
+  phone: string;
+  addresses: CustomerAddress[];
+  defaultAddress: CustomerAddress;
 };

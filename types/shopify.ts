@@ -1,4 +1,10 @@
-import type { CreateAccountRequest, SignInAccountRequest } from "@/app/actions/auth";
+import type {
+  CreateAccountRequest,
+  CustomerAddress,
+  SignInAccountRequest,
+} from "@/app/actions/auth";
+
+export type ShopifyError = { error: { message: string; status: number }; query: string };
 
 export type ExtractVariables<T> = T extends { variables: infer V } ? V : never;
 
@@ -297,4 +303,23 @@ export type ShopifyCreateAccessTokenOperation = {
   variables: {
     input: SignInAccountRequest;
   };
+};
+
+export type ShopifyGetCustomerOperation = {
+  data: {
+    customer: {
+      id: string;
+      firstName: string;
+      lastName: string;
+      acceptsMarketing: boolean;
+      email: string;
+      phone: string;
+      addresses: {
+        edges: {
+          node: CustomerAddress;
+        }[];
+      };
+    };
+  };
+  variables: { token: string };
 };

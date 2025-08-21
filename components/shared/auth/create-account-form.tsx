@@ -5,13 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 
 export default function CreateAccountForm() {
-  const [error, formAction, isPending] = useActionState(createAccount, "");
+  const [error, formAction, isPending] = useActionState(createAccount, null);
+
+  useEffect(() => {
+    if (typeof error === "string") {
+      toast.error(error);
+    }
+  }, [error]);
 
   return (
-    <form action={formAction} className="flex w-full flex-col space-y-4 sm:w-[400px]">
+    <form action={formAction} className="flex w-full flex-col space-y-8 sm:w-[400px]">
       <div className="flex flex-col space-y-4">
         <div className="space-y-2">
           <Label htmlFor="firstName" className="text-xs uppercase">
@@ -31,29 +38,20 @@ export default function CreateAccountForm() {
           <Label htmlFor="email" className="text-xs uppercase">
             Email Address *
           </Label>
-          <Input name="email" type="email" placeholder="Email" />
+          <Input name="email" type="email" placeholder="Email" required />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="password" className="text-xs uppercase">
             Password *
           </Label>
-          <Input name="password" type="password" placeholder="Password" />
+          <Input name="password" type="password" placeholder="Password" required />
         </div>
       </div>
 
-      <Button
-        disabled={isPending}
-        className={cn(
-          "w-full",
-          isPending
-            ? "bg-gray-200 text-gray-500 hover:bg-gray-200"
-            : "bg-black text-white hover:bg-black"
-        )}
-      >
+      <Button className={cn("w-full font-normal", isPending && "pointer-events-none")}>
         {isPending ? "Creating..." : "Create Account"}
       </Button>
-      {(error as string) && <p className="mt-2 text-center text-red-500">{error as string}</p>}
     </form>
   );
 }
