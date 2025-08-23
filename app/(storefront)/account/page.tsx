@@ -16,13 +16,13 @@ async function MyAccountPage() {
           <TabsList className="mt-3 mb-10 flex w-[400px] items-center justify-center space-x-2">
             <TabsTrigger
               value="signin"
-              className="text-gray-500 data-[state=active]:font-semibold data-[state=active]:text-black"
+              className="text-gray-500 uppercase data-[state=active]:font-semibold data-[state=active]:text-black"
             >
               {CUSTOMER.signIn}
             </TabsTrigger>
             <TabsTrigger
               value="create-account"
-              className="text-gray-500 data-[state=active]:font-semibold data-[state=active]:text-black"
+              className="text-gray-500 uppercase data-[state=active]:font-semibold data-[state=active]:text-black"
             >
               {CUSTOMER.createAccount}
             </TabsTrigger>
