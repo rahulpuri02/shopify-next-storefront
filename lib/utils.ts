@@ -1,10 +1,15 @@
 import { COLOR_CODES, FILTER_OPERATIONS, PATHS, SOCIAL_DOMAINS } from "@/constants/shared";
+import { SHOPIFY_CUSTOMER_ID_PREFIX } from "@/constants/shopify";
 import { CollectionProduct, FilterOperation, Menu, Product } from "@/types/shared";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function setupCustomerId(id: string) {
+  return `${SHOPIFY_CUSTOMER_ID_PREFIX}/${id}`;
 }
 
 export function filterMenuItems(

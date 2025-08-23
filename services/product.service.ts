@@ -24,7 +24,6 @@ class ProductService {
         },
         tags: [TAGS.products],
       });
-      console.log({ response });
       return reshapeProduct(response.body);
     } catch (error) {
       console.error("Error while fetching a product:", error);

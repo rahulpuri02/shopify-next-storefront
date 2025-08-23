@@ -1,0 +1,17 @@
+import { getCustomer } from "@/app/actions/auth";
+import { MY_ACCOUNT } from "@/constants/shared";
+import { redirect } from "next/navigation";
+import React from "react";
+
+async function OrderHistoryPage() {
+  const customer = await getCustomer();
+  if (!customer) return redirect("/account");
+  return (
+    <div className="flex flex-col space-y-10">
+      <h1 className="mb-10 text-2xl">{MY_ACCOUNT.orderHistory}</h1>
+      <p className="text-sm">{MY_ACCOUNT.noOrdersText}</p>
+    </div>
+  );
+}
+
+export default OrderHistoryPage;

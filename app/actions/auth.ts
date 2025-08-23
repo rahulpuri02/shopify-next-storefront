@@ -1,9 +1,8 @@
 "use server";
 
-import { TAGS } from "@/constants/shopify";
 import { getZodFirstErrorMessage } from "@/lib/server-utils";
 import { authService } from "@/services/auth.service";
-import { revalidateTag } from "next/cache";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -13,6 +12,7 @@ const createAccountSchema = z.object({
   lastName: z.string().optional(),
   email: z.string().email({ message: "Enter a valid email address" }),
   password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+  acceptsMarketing: z.preprocess((val) => val === "on", z.boolean().default(false)),
 });
 
 export async function createAccount(_: unknown, formData: FormData) {
@@ -21,13 +21,15 @@ export async function createAccount(_: unknown, formData: FormData) {
 
   if (!parsedAccount.success) {
     const firstErrorMessage = getZodFirstErrorMessage(parsedAccount);
-    return firstErrorMessage;
+    return { success: false, error: firstErrorMessage };
   }
   try {
     const error = await authService.createAccount(parsedAccount.data);
-    if (error) return error;
-  } catch {
-    return "Unable to create your account please try again";
+    if (error) return { error, success: false };
+    return { success: true, error: null };
+  } catch (error) {
+    console.error("Error while creating an account:", error);
+    return { error, success: false };
   }
 }
 
@@ -59,9 +61,12 @@ export async function signInAccount(_: unknown, formData: FormData) {
         secure: true,
         sameSite: "lax",
       });
-      redirect("/my-account/overview");
+      redirect("/account/overview");
     }
-  } catch {
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
     return "Unable to login your account please try again";
   }
 }
@@ -86,67 +91,54 @@ export async function forgotPassword(_: unknown, formData: FormData) {
   return await authService.forgotPassword(parsedEmail.data);
 }
 
-const customerAddressSchema = z.object({
-  address1: z.string().optional(),
-  address2: z.string().optional(),
-  city: z.string().optional(),
-  country: z.string().optional(),
-  firstName: z.string().optional(),
-  lastName: z.string().optional(),
-  phone: z.string().optional(),
-  zip: z.string().optional(),
-});
+export async function resetPassword(_: unknown, formData: FormData) {
+  const password = formData.get("newPassword");
+  const repeatPassword = formData.get("repeatPassword");
+  const resetToken = formData.get("token") as string;
+  const customerId = formData.get("customerId") as string;
+  const parsedPassword = z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" })
+    .safeParse(password);
+  if (parsedPassword.error) {
+    return { success: false, error: getZodFirstErrorMessage(parsedPassword) };
+  }
+  if (password !== repeatPassword)
+    return { success: false, error: "Both passwords not match with each other" };
 
-export async function createCustomerAddress(_: unknown, formData: FormData) {
   try {
-    const customerAddress = Object.fromEntries(formData.entries());
-    const parsedCustomerAddress = customerAddressSchema.safeParse(customerAddress);
-
-    if (!parsedCustomerAddress.success) {
-      const firstErrorMessage = getZodFirstErrorMessage(parsedCustomerAddress);
-      return { success: false, error: firstErrorMessage };
-    }
-
-    const token = (await cookies())?.get("token")?.value;
-    if (!token)
-      return { success: false, error: "Something went wrong, please refresh the page again" };
-
-    await authService.createCustomerAddress(token, parsedCustomerAddress.data);
-    revalidateTag(TAGS.customer);
-    return { success: false, error: null };
+    const response = await authService.resetPassword(customerId, {
+      password: parsedPassword.data,
+      resetToken,
+    });
+    if (response.success) redirect("/account/overview");
+    return response;
   } catch (error) {
-    console.error("Error while getting customer", error);
+    console.error("Error while reset password", error);
     return { success: false, error: "Something went wrong, please refresh the page" };
   }
 }
 
-export async function updateCustomerAddress(_: unknown, formData: FormData) {
+export async function signOut() {
   try {
-    const customerAddress = Object.fromEntries(formData.entries());
-    const parsedCustomerAddress = customerAddressSchema.safeParse(customerAddress);
-
-    if (!parsedCustomerAddress.success) {
-      const firstErrorMessage = getZodFirstErrorMessage(parsedCustomerAddress);
-      return { success: false, error: firstErrorMessage };
-    }
-
-    const token = (await cookies())?.get("token")?.value;
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
     if (!token)
       return { success: false, error: "Something went wrong, please refresh the page again" };
-
-    await authService.updateCustomerAddress(
-      token,
-      parsedCustomerAddress.data,
-      customerAddress.id as string
-    );
-    revalidateTag(TAGS.customer);
-    return { success: true, error: null };
+    const response = await authService.signOut(token);
+    if (response.success) {
+      cookieStore.delete("token");
+      redirect("/");
+    }
+    return response;
   } catch (error) {
-    console.error("Error while getting customer", error);
+    if (isRedirectError(error)) {
+      throw error;
+    }
+    console.error("Error while signing out the account;", error);
     return { success: false, error: "Something went wrong, please refresh the page" };
   }
 }
 
 export type SignInAccountRequest = z.infer<typeof signInAccountSchema>;
 export type CreateAccountRequest = z.infer<typeof createAccountSchema>;
-export type CustomerAddress = z.infer<typeof customerAddressSchema> & { id: string };

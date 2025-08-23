@@ -37,9 +37,9 @@ export const forgotPasswordMutation = gql`
   }
 `;
 
-export const createCustomerAddressMutation = gql`
-  mutation customerAddressCreate($customerAccessToken: String!, $address: MailingAddressInput!) {
-    customerAddressCreate(customerAccessToken: $customerAccessToken, address: $address) {
+export const resetPasswordMutation = gql`
+  mutation customerReset($id: ID!, $input: CustomerResetInput!) {
+    customerReset(id: $id, input: $input) {
       customerUserErrors {
         message
       }
@@ -47,14 +47,10 @@ export const createCustomerAddressMutation = gql`
   }
 `;
 
-export const updateCustomerAddressMutation = gql`
-  mutation customerAddressUpdate(
-    $customerAccessToken: String!
-    $address: MailingAddressInput!
-    $id: ID!
-  ) {
-    customerAddressUpdate(customerAccessToken: $customerAccessToken, address: $address, id: $id) {
-      customerUserErrors {
+export const signOutMutation = gql`
+  mutation customerAccessTokenDelete($customerAccessToken: String!) {
+    customerAccessTokenDelete(customerAccessToken: $customerAccessToken) {
+      userErrors {
         message
       }
     }

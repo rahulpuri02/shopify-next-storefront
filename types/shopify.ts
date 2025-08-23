@@ -1,8 +1,5 @@
-import type {
-  CreateAccountRequest,
-  CustomerAddress,
-  SignInAccountRequest,
-} from "@/app/actions/auth";
+import type { CreateAccountRequest, SignInAccountRequest } from "@/app/actions/auth";
+import { CustomerAddress } from "@/app/actions/customer";
 
 export type ShopifyError = { error: { message: string; status: number }; query: string };
 
@@ -322,4 +319,56 @@ export type ShopifyGetCustomerOperation = {
     };
   };
   variables: { token: string };
+};
+
+export type ShopifyForgotPasswordOperation = {
+  data: {
+    customerRecover: {
+      customerUserErrors: { message: string }[];
+    };
+  };
+  variables: { email: string };
+};
+
+export type ShopifyResetPasswordOperation = {
+  data: {
+    customerReset: {
+      customerUserErrors: { message: string }[];
+    };
+  };
+  variables: { id: string; input: { password: string; resetToken: string } };
+};
+
+export type ShopifySignOutOperation = {
+  data: {
+    customerAccessTokenDelete: {
+      userErrors: { message: string }[];
+    };
+  };
+  variables: { customerAccessToken: string };
+};
+
+export type ShopifyCreateCustomerAddressOperation = {
+  data: {
+    customerAddress: {
+      customerUserErrors: { message: string }[];
+    };
+  };
+  variables: {
+    customerAccessToken: string;
+    address: Partial<CustomerAddress>;
+  };
+};
+
+export type ShopifyUpdateCustomerAddressOperation = {
+  data: {
+    customerAddressUpdate: {
+      customerUserErrors: { message: string }[];
+    };
+  };
+  variables: {
+    customerAccessToken: string;
+    address: Partial<CustomerAddress>;
+    id: string;
+  };
 };

@@ -16,8 +16,13 @@ export const GENERICS = {
   shopNow: "SHOP NOW",
   seeAll: "see all",
   bag: "Bag",
+  myInformation: "My information",
   recommendForYou: "Recommended for you",
   notResultFound: "No results found",
+  emailAddress: "Email address",
+  overview: "Overview",
+  signOut: "Sign Out",
+  signingOut: "Signing out",
 };
 
 export const NO_IMAGE_FOUND = "No image found";
@@ -125,7 +130,7 @@ export const COLOR_CODES = [
 ];
 
 export const STATIC_MOBILE_MENU_ITEMS = [
-  { title: "my account", hasChilds: false, items: [], path: "/my-account" },
+  { title: "my account", hasChilds: false, items: [], path: "/account" },
   { title: "About Us", hasChilds: true, items: [], path: "/about" },
 ];
 
@@ -205,4 +210,127 @@ export const FAQ_PAGE = {
         "You can check your order status by logging into your account or using the tracking link in your confirmation email.",
     },
   ],
+} as const;
+
+export const MY_ACCOUNT_NAV_ITEMS = [
+  { label: "Overview", href: "/account/overview" },
+  { label: "My Information", href: "/account/my-information" },
+  { label: "Order History", href: "/account/order-history" },
+] as const;
+
+export const MY_ACCOUNT = {
+  orderHistory: "Order History",
+  noOrdersText: "You have no previous orders.",
+  recentOrders: "Recent Orders",
+  noRecentOrdersText: "You have no recent orders",
+  billyAdress: "Billing address",
+  noAddressText: "You have no billing address",
+  changePassword: "Change Password",
+  changePasswordText: "To change your password, please enter your account email.",
+} as const;
+
+export const CUSTOMER = {
+  signIn: "sign in",
+  createAccount: "create account",
+  resetPassword: "Reset Password",
+} as const;
+
+export const CREATE_ACCOUNT_FORM = {
+  labels: {
+    firstName: "First Name",
+    lastName: "Last Name",
+    email: "Email Address *",
+    password: "Password *",
+    newsletter: "Subscribe to our newsletter",
+  },
+  placeholders: {
+    firstName: "First Name",
+    lastName: "Last Name",
+    email: "Email",
+    password: "Password",
+  },
+  messages: {
+    newsletter: "Stay on top of news and offers",
+    creating: "Creating...",
+    createAccount: "Create Account",
+    accountCreated: "Account activation email sent, check your inbox",
+  },
+} as const;
+
+export const FORGOT_PASSWORD_FORM = {
+  title: "Forgotton your password?",
+  description: "To reset your password, please enter your account email.",
+  labels: {
+    email: "Email address *",
+  },
+  placeholders: {
+    email: "Email",
+  },
+  messages: {
+    sending: "Sending...",
+    send: "Send",
+    success: "Password reset email sent, check your inbox.",
+  },
+} as const;
+
+export const RESET_PASSWORD_FORM = {
+  description: "To reset your password, please enter new password.",
+  labels: {
+    newPassword: "New Password *",
+    repeatPassword: "Repeat Password *",
+  },
+  placeholders: {
+    newPassword: "New Password",
+    repeatPassword: "Repeat Password",
+  },
+  messages: {
+    updating: "Updating...",
+    update: "Update",
+  },
+} as const;
+
+export const SIGN_IN_FORM = {
+  labels: {
+    email: "Email Address *",
+    password: "Password *",
+  },
+  placeholders: {
+    email: "Email",
+    password: "Password",
+  },
+  messages: {
+    logging: "Logging...",
+    login: "Log in",
+  },
+  links: {
+    forgotPassword: "Forgotton your password?",
+  },
+} as const;
+
+export const MY_INFORMATION_FORM = {
+  labels: {
+    firstName: "First Name",
+    lastName: "Last Name",
+    address1: "Address",
+    address2: "Landmark",
+    city: "City",
+    zip: "PIN CODE",
+    country: "Country",
+    phone: "Phone Number",
+  },
+  placeholders: {
+    firstName: "Enter your first name",
+    lastName: "Enter your last name",
+    address1: "Enter your address",
+    address2: "Enter landmark (optional)",
+    city: "Enter city",
+    zip: "Enter PIN code",
+    country: "Enter country",
+    phone: "Enter phone number",
+  },
+  messages: {
+    updating: "Updating...",
+    updated: "Information Updated",
+    update: "Update",
+  },
 } as const;

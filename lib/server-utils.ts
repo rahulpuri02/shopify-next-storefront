@@ -17,8 +17,8 @@ import type {
 import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { formatPrice, getColorCodeByName } from "./utils";
 import { type SafeParseError } from "zod";
+import { formatPrice, getColorCodeByName } from "./utils";
 
 export function getZodFirstErrorMessage<T>(obj: SafeParseError<T>) {
   return (Object.entries(obj.error.flatten().fieldErrors)[0][1] as string[])[0];

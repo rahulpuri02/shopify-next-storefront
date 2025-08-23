@@ -1,27 +1,26 @@
 import "server-only";
 
+import type { CreateAccountRequest, SignInAccountRequest } from "@/app/actions/auth";
+import { TAGS } from "@/constants/shopify";
+import { reshapeCustomer } from "@/lib/server-utils";
 import { shopifyFetch } from "@/lib/shopify/client";
 import {
-  createCustomerAddressMutation,
   createCustomerMutation,
   customerAccessTokenCreateMutation,
   forgotPasswordMutation,
-  updateCustomerAddressMutation,
+  resetPasswordMutation,
+  signOutMutation,
 } from "@/lib/shopify/mutations/auth";
 import { getCustomerQuery } from "@/lib/shopify/queries/auth";
 import type {
   ShopifyCreateAccessTokenOperation,
+  ShopifyForgotPasswordOperation,
   ShopifyGetCustomerOperation,
+  ShopifyResetPasswordOperation,
+  ShopifySignOutOperation,
   ShoppifyCreateCustomerOperation,
 } from "@/types/shopify";
 import { print } from "graphql";
-import type {
-  CreateAccountRequest,
-  CustomerAddress,
-  SignInAccountRequest,
-} from "@/app/actions/auth";
-import { reshapeCustomer } from "@/lib/server-utils";
-import { TAGS } from "@/constants/shopify";
 
 class AuthService {
   async createAccount(input: CreateAccountRequest) {
@@ -67,7 +66,7 @@ class AuthService {
 
   async forgotPassword(email: string) {
     try {
-      const response: any = await shopifyFetch<{ variables: { email: string } }>({
+      const response = await shopifyFetch<ShopifyForgotPasswordOperation>({
         query: print(forgotPasswordMutation),
         variables: { email },
       });
@@ -79,32 +78,27 @@ class AuthService {
     }
   }
 
-  async createCustomerAddress(customerAccessToken: string, address: Partial<CustomerAddress>) {
+  async resetPassword(id: string, input: { password: string; resetToken: string }) {
     try {
-      const response = await shopifyFetch<any>({
-        query: print(createCustomerAddressMutation),
-        variables: { address, customerAccessToken },
-        tags: [TAGS.customer],
+      const response = await shopifyFetch<ShopifyResetPasswordOperation>({
+        query: print(resetPasswordMutation),
+        variables: { input, id },
       });
-      const haveErrors = response?.body?.data?.customerAddress?.customerUserErrors;
+      const haveErrors = response.body.data?.customerReset.customerUserErrors;
       if (haveErrors?.length) return { success: false, error: haveErrors[0]?.message };
+      return { success: true, error: null };
     } catch (error) {
       return { success: false, error: "Something went wrong, please try again!" };
     }
   }
 
-  async updateCustomerAddress(
-    customerAccessToken: string,
-    address: Partial<CustomerAddress>,
-    id: string
-  ) {
+  async signOut(customerAccessToken: string) {
     try {
-      const response = await shopifyFetch<any>({
-        query: print(updateCustomerAddressMutation),
-        variables: { address, customerAccessToken, id },
-        tags: [TAGS.customer],
+      const response = await shopifyFetch<ShopifySignOutOperation>({
+        query: print(signOutMutation),
+        variables: { customerAccessToken },
       });
-      const haveErrors = response?.body?.data?.customerAddressUpdate?.customerUserErrors;
+      const haveErrors = response?.body?.data?.customerAccessTokenDelete?.userErrors;
       if (haveErrors?.length) return { success: false, error: haveErrors[0]?.message };
       return { success: true, error: null };
     } catch (error) {

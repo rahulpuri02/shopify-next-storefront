@@ -3,8 +3,15 @@ import HighlightCollections from "@/components/shared/collections/highlight-coll
 import ShowcaseCollection from "@/components/shared/collections/showcase-collection";
 import { COLLECTIONS } from "@/constants/shopify";
 import { collectionService } from "@/services/collection.service";
+import { redirect } from "next/navigation";
 
-export default async function Home() {
+type ComponentProps = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export default async function Home({ searchParams }: ComponentProps) {
+  const syclid = (await searchParams)?.syclid;
+  if (syclid) return redirect("/account");
   const showcaseCollection = await collectionService.getCollection(COLLECTIONS.refreshYourWardrobe);
   return (
     <div className="h-auto max-w-screen">

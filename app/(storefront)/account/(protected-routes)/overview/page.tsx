@@ -1,21 +1,21 @@
 import { getCustomer } from "@/app/actions/auth";
-import { Button } from "@/components/ui/button";
+import SignOutForm from "@/components/shared/auth/sign-out-form";
+import { GENERICS, MY_ACCOUNT } from "@/constants/shared";
 import { redirect } from "next/navigation";
-import React from "react";
 
 async function MyAccountOverviewPage() {
   const customer = await getCustomer();
-  if (!customer) return redirect("/my-account");
+  if (!customer) return redirect("/account");
   const { defaultAddress: address } = customer;
   return (
     <div>
-      <h1 className="mb-10 text-2xl">Overview</h1>
+      <h1 className="mb-10 text-2xl">{GENERICS.overview}</h1>
       <div className="flex flex-col space-y-10 pb-10">
-        <h3 className="text-lg font-semibold">Recent Orders</h3>
-        <p className="text-sm">You have no recent orders</p>
+        <h3 className="text-lg font-semibold">{MY_ACCOUNT.recentOrders}</h3>
+        <p className="text-sm">{MY_ACCOUNT.noRecentOrdersText}</p>
       </div>
       <div className="pb-4">
-        <h3 className="mb-6 text-lg font-semibold">Billing address</h3>
+        <h3 className="mb-6 text-lg font-semibold">{MY_ACCOUNT.billyAdress}</h3>
         <div className="mb-6 border-b" />
         {address ? (
           <div className="mb-6 text-xs">
@@ -32,11 +32,11 @@ async function MyAccountOverviewPage() {
             {address.phone && <div>{address.phone}</div>}
           </div>
         ) : (
-          <p className="text-sm">You have no billing address</p>
+          <p className="text-sm">{MY_ACCOUNT.noAddressText}</p>
         )}
         <div className="mb-6 border-b" />
       </div>
-      <Button className="text-xs font-normal uppercase">SIGN OUT</Button>
+      <SignOutForm />
     </div>
   );
 }

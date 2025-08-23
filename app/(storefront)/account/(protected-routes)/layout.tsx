@@ -1,6 +1,7 @@
 "use client";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { MY_ACCOUNT_NAV_ITEMS } from "@/constants/shared";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,12 +10,6 @@ import { useEffect, useRef } from "react";
 type ComponentProps = {
   children: React.ReactNode;
 };
-
-const navItems = [
-  { label: "Overview", href: "overview" },
-  { label: "My Information", href: "my-information" },
-  { label: "Order History", href: "order-history" },
-];
 
 export default function MyAccountLayout({ children }: ComponentProps) {
   const pathname = usePathname();
@@ -31,7 +26,7 @@ export default function MyAccountLayout({ children }: ComponentProps) {
       <div className="mb-8 block md:hidden">
         <ScrollArea className="invisible-scrollbar w-full overflow-x-auto whitespace-nowrap">
           <div className="flex gap-6">
-            {navItems.map(({ label, href }) => {
+            {MY_ACCOUNT_NAV_ITEMS.map(({ label, href }) => {
               const isActive = pathname === href;
               return (
                 <Link
@@ -56,7 +51,7 @@ export default function MyAccountLayout({ children }: ComponentProps) {
         {/* Desktop Sidebar Layout */}
         <aside className="sticky top-24 hidden w-60 self-start md:block">
           <ul className="space-y-3">
-            {navItems.map(({ label, href }) => (
+            {MY_ACCOUNT_NAV_ITEMS.map(({ label, href }) => (
               <li key={href}>
                 <Link
                   href={href}

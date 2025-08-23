@@ -1,6 +1,6 @@
 import { FILTER_OPERATIONS } from "@/constants/shared";
 import { Image, Money } from "./shopify";
-import { type CustomerAddress } from "@/app/actions/auth";
+import { type CustomerAddress } from "@/app/actions/customer";
 
 export type FilterOperation = (typeof FILTER_OPERATIONS)[keyof typeof FILTER_OPERATIONS];
 

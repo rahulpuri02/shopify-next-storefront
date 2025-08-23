@@ -25,6 +25,8 @@ export const LEFT_SIDE_MENU = {
   search: "Search",
 };
 
+export const SHOPIFY_CUSTOMER_ID_PREFIX = "gid://shopify/Customer";
+
 export const HIGHLIGHT_MENUS = ["essentials", "new arrivals"] as const;
 
 export const STORE_NAME = { shortName: "CN. 74", fullName: "Calm & Noble" } as const;
