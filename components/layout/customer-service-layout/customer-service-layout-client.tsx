@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { CUSTOMER_SERVICE } from "@/constants/shared";
+import { ROUTES } from "@/constants/routes";
 
 type ComponentProps = {
   children: React.ReactNode;
@@ -27,7 +28,7 @@ export default function CustomerServiceLayoutClient({ children, navItems }: Comp
       <div className="mb-8 block md:hidden">
         <ScrollArea className="invisible-scrollbar w-full overflow-x-auto whitespace-nowrap">
           <div className="flex gap-6">
-            <Link href={"/customer-service"}>
+            <Link href={ROUTES.customerService}>
               <h2
                 className={cn(
                   "shrink-0 pb-1 text-lg font-semibold transition-colors",
@@ -61,11 +62,11 @@ export default function CustomerServiceLayoutClient({ children, navItems }: Comp
       <div className="flex gap-12">
         {/* Desktop Sidebar Layout */}
         <aside className="sticky top-24 hidden w-60 self-start md:block">
-          <Link href={"/customer-service"}>
+          <Link href={ROUTES.customerService}>
             <h2
               className={cn(
                 "mb-4 text-lg font-medium",
-                pathname === "/customer-service" ? "text-black" : "text-gray-500"
+                pathname === ROUTES.customerService ? "text-black" : "text-gray-500"
               )}
             >
               {CUSTOMER_SERVICE.title}

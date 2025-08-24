@@ -11,14 +11,17 @@ import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function SignInForm() {
-  const [error, formAction, isPending] = useActionState(signInAccount, null);
+  const [state, formAction, isPending] = useActionState(signInAccount, {
+    success: false,
+    error: "",
+  });
   const [showForgetPasswordForm, setShowForgetPasswordForm] = useState(false);
 
   useEffect(() => {
-    if (typeof error === "string") {
-      toast.error(error);
+    if (state.error) {
+      toast.error(state.error);
     }
-  }, [error]);
+  }, [state]);
 
   if (showForgetPasswordForm)
     return <ForgotPasswordForm setShowForgetPasswordForm={setShowForgetPasswordForm} />;

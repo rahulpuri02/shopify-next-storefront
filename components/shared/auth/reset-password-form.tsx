@@ -21,8 +21,9 @@ function ResetPasswordForm({ slug }: ComponentProps) {
   });
 
   useEffect(() => {
+    if (state.success) toast.success("Password is reset successfully");
     if (state.error) toast.error(state.error);
-  }, [state.error]);
+  }, [state]);
 
   return (
     <div className="w-full sm:w-[400px]">

@@ -1,5 +1,6 @@
 "use server";
 
+import { ROUTES } from "@/constants/routes";
 import { getZodFirstErrorMessage } from "@/lib/server-utils";
 import { authService } from "@/services/auth.service";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
@@ -44,30 +45,31 @@ export async function signInAccount(_: unknown, formData: FormData) {
 
   if (!parsedAccount.success) {
     const firstErrorMessage = getZodFirstErrorMessage(parsedAccount);
-    return firstErrorMessage;
+    return { success: false, error: firstErrorMessage };
   }
 
   try {
     const response = await authService.signInAccount(parsedAccount.data);
-    if (typeof response === "string") return response;
+    if (typeof response === "string") return { success: false, error: response };
 
     const token = response?.accessToken;
-    const tokenExpiry = response?.tokenExpiry;
+    const tokenExpiry = response?.expiresAt;
 
     if (token) {
       (await cookies()).set("token", token, {
-        expires: tokenExpiry,
+        expires: new Date(tokenExpiry),
         httpOnly: true,
         secure: true,
         sameSite: "lax",
+        path: "/",
       });
-      redirect("/account/overview");
     }
+    redirect("/account/overview");
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
     }
-    return "Unable to login your account please try again";
+    return { success: false, error: "Unable to login your account please try again" };
   }
 }
 
@@ -75,7 +77,9 @@ export async function getCustomer() {
   try {
     const token = (await cookies())?.get("token")?.value;
     if (!token) return null;
-    return await authService.getCustomer(token);
+    const customer = await authService.getCustomer(token);
+    if (!customer) (await cookies()).delete("token");
+    return customer;
   } catch (error) {
     console.error("Error while getting customer", error);
     return null;
@@ -111,9 +115,12 @@ export async function resetPassword(_: unknown, formData: FormData) {
       password: parsedPassword.data,
       resetToken,
     });
-    if (response.success) redirect("/account/overview");
+    if (response.success) redirect(ROUTES.account);
     return response;
   } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
     console.error("Error while reset password", error);
     return { success: false, error: "Something went wrong, please refresh the page" };
   }
@@ -128,7 +135,7 @@ export async function signOut() {
     const response = await authService.signOut(token);
     if (response.success) {
       cookieStore.delete("token");
-      redirect("/");
+      redirect(ROUTES.root);
     }
     return response;
   } catch (error) {

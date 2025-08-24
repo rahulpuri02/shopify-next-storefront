@@ -350,7 +350,7 @@ export type ShopifySignOutOperation = {
 
 export type ShopifyCreateCustomerAddressOperation = {
   data: {
-    customerAddress: {
+    customerAddressCreate: {
       customerUserErrors: { message: string }[];
     };
   };

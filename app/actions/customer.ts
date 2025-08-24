@@ -19,8 +19,8 @@ const customerAddressSchema = z.object({
 });
 
 export async function createCustomerAddress(_: unknown, formData: FormData) {
+  const customerAddress = Object.fromEntries(formData.entries());
   try {
-    const customerAddress = Object.fromEntries(formData.entries());
     const parsedCustomerAddress = customerAddressSchema.safeParse(customerAddress);
 
     if (!parsedCustomerAddress.success) {
@@ -32,18 +32,23 @@ export async function createCustomerAddress(_: unknown, formData: FormData) {
     if (!token)
       return { success: false, error: "Something went wrong, please refresh the page again" };
 
-    await customerService.createCustomerAddress(token, parsedCustomerAddress.data);
-    revalidateTag(TAGS.customer);
-    return { success: false, error: null };
+    const response = await customerService.createCustomerAddress(token, parsedCustomerAddress.data);
+    if (response.success) {
+      revalidateTag(TAGS.customer);
+    }
+    return { success: true, error: null, data: customerAddress };
   } catch (error) {
     console.error("Error while getting customer", error);
-    return { success: false, error: "Something went wrong, please refresh the page" };
+    return {
+      success: false,
+      error: "Something went wrong, please refresh the page",
+    };
   }
 }
 
 export async function updateCustomerAddress(_: unknown, formData: FormData) {
+  const customerAddress = Object.fromEntries(formData.entries());
   try {
-    const customerAddress = Object.fromEntries(formData.entries());
     const parsedCustomerAddress = customerAddressSchema.safeParse(customerAddress);
 
     if (!parsedCustomerAddress.success) {
@@ -53,18 +58,26 @@ export async function updateCustomerAddress(_: unknown, formData: FormData) {
 
     const token = (await cookies())?.get("token")?.value;
     if (!token)
-      return { success: false, error: "Something went wrong, please refresh the page again" };
+      return {
+        success: false,
+        error: "Something went wrong, please refresh the page again",
+      };
 
-    await customerService.updateCustomerAddress(
+    const response = await customerService.updateCustomerAddress(
       token,
       parsedCustomerAddress.data,
       customerAddress.id as string
     );
-    revalidateTag(TAGS.customer);
-    return { success: true, error: null };
+    if (response.success) {
+      revalidateTag(TAGS.customer);
+    }
+    return response;
   } catch (error) {
     console.error("Error while getting customer", error);
-    return { success: false, error: "Something went wrong, please refresh the page" };
+    return {
+      success: false,
+      error: "Something went wrong, please refresh the page",
+    };
   }
 }
 

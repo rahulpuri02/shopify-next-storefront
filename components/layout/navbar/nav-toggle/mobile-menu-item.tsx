@@ -28,7 +28,11 @@ const MobileMenuItem = ({ item, onNavigate }: ComponentProps) => {
       {!items?.length && path ? (
         <Link
           onClick={() => onNavigate("", true)}
-          href={path === ROUTES.about ? path : `${SHOPIFY_URL_PREFIXS.collections}${path}`}
+          href={
+            path === ROUTES.about || path === ROUTES.account
+              ? path
+              : `${SHOPIFY_URL_PREFIXS.collections}${path}`
+          }
         >
           <p>{title.toUpperCase()}</p>
         </Link>

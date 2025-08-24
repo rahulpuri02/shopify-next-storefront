@@ -20,8 +20,9 @@ class CustomerService {
         variables: { address, customerAccessToken },
         tags: [TAGS.customer],
       });
-      const haveErrors = response?.body?.data?.customerAddress?.customerUserErrors;
+      const haveErrors = response?.body?.data?.customerAddressCreate?.customerUserErrors;
       if (haveErrors?.length) return { success: false, error: haveErrors[0]?.message };
+      return { success: true, error: null };
     } catch (error) {
       return { success: false, error: "Something went wrong, please try again!" };
     }

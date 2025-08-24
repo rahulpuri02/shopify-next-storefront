@@ -57,6 +57,8 @@ class AuthService {
         variables: { token },
         tags: [TAGS.customer],
       });
+      const responseCustomer = response?.body?.data?.customer;
+      if (!responseCustomer) return null;
       return reshapeCustomer(response?.body?.data?.customer);
     } catch (error) {
       console.error("Error while getting customer:", error);

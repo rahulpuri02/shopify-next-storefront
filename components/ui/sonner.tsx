@@ -81,7 +81,7 @@ const Toaster = () => {
             group-[.toast]:flex-shrink-0 group-[.toast]:mt-0.5
           `,
           content: `
-            group-[.toast]:flex-1 group-[.toast]:min-w-0
+            group-[.toast]:flex-1 group-[.toast]:min-w-0 mt-[2.5px]
           `,
           success: `
             group-[.toast]:border-green-200 group-[.toast]:bg-green-50

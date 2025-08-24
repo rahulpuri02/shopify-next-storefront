@@ -240,7 +240,7 @@ export function reshapeCustomer(
   return {
     ...responseCustomer,
     addresses: addressEdges.map((edge) => edge.node),
-    defaultAddress: addressEdges[0].node,
+    defaultAddress: addressEdges[0]?.node,
   };
 }
 

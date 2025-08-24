@@ -42,7 +42,9 @@ function MyInformationForm({ customer }: ComponentProps) {
   return (
     <form action={formAction}>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <input className="hidden" name="id" defaultValue={defaultAddress.id as string} />
+        {defaultAddress && (
+          <input className="hidden" name="id" defaultValue={defaultAddress.id as string} />
+        )}
 
         {Object.entries(MY_INFORMATION_FORM.labels).map(([field, label]) => (
           <div key={field} className="flex flex-col space-y-2">
@@ -57,7 +59,7 @@ function MyInformationForm({ customer }: ComponentProps) {
                   field as keyof typeof MY_INFORMATION_FORM.placeholders
                 ]
               }
-              defaultValue={defaultAddress[field as keyof typeof defaultAddress] ?? ""}
+              defaultValue={defaultAddress?.[field as keyof typeof defaultAddress] ?? ""}
             />
           </div>
         ))}

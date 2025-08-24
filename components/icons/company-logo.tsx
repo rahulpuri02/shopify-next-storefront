@@ -1,5 +1,6 @@
 "use client";
 
+import { ROUTES } from "@/constants/routes";
 import { STORE_NAME } from "@/constants/shopify";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -16,7 +17,7 @@ function CompanyLogo({ className, isAbsolute = true }: ComponentProps) {
 
   return (
     <Link
-      href={"/"}
+      href={ROUTES.root}
       className={cn(isAbsolute ? "absolute left-1/2 -translate-x-1/2 transform" : "")}
     >
       <svg

@@ -1,11 +1,12 @@
 import { getCustomer } from "@/app/actions/auth";
 import SignOutForm from "@/components/shared/auth/sign-out-form";
+import { ROUTES } from "@/constants/routes";
 import { GENERICS, MY_ACCOUNT } from "@/constants/shared";
 import { redirect } from "next/navigation";
 
 async function MyAccountOverviewPage() {
   const customer = await getCustomer();
-  if (!customer) return redirect("/account");
+  if (!customer) redirect(ROUTES.account);
   const { defaultAddress: address } = customer;
   return (
     <div>
@@ -32,7 +33,7 @@ async function MyAccountOverviewPage() {
             {address.phone && <div>{address.phone}</div>}
           </div>
         ) : (
-          <p className="text-sm">{MY_ACCOUNT.noAddressText}</p>
+          <p className="mb-6 text-sm">{MY_ACCOUNT.noAddressText}</p>
         )}
         <div className="mb-6 border-b" />
       </div>
