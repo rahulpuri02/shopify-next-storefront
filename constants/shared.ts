@@ -127,6 +127,14 @@ export const COLOR_CODES = [
     name: "Purple",
     code: "#8B5CF6",
   },
+  {
+    name: "Light Blue",
+    code: "#ADD8E6",
+  },
+  {
+    name: "Steel Blue",
+    code: "#5A7D9A",
+  },
 ];
 
 export const STATIC_MOBILE_MENU_ITEMS = [

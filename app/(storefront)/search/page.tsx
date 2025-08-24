@@ -1,3 +1,4 @@
+import FiltersAndSort from "@/components/shared/filters/filters-and-sort";
 import ProductCard from "@/components/shared/products/product-card";
 import { GENERICS } from "@/constants/shared";
 import { productService } from "@/services/product.service";
@@ -22,7 +23,10 @@ async function SearchPage({ searchParams }: ComponentProps) {
         <sup className="absolute top-3 text-[11px] font-normal">
           {searchTerm && products ? products.length : 0}
         </sup>
-        <div className="mt-10 grid grid-cols-2 gap-4 md:mt-14 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
+        <div className="mt-6 flex text-xs font-normal md:mt-16">
+          <FiltersAndSort />
+        </div>
+        <div className="mt-8 grid grid-cols-2 gap-4 md:mt-6 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
           {products &&
             products.map((product) => (
               <ProductCard product={product} key={product.handle} showFavoriteIcon={true} />
