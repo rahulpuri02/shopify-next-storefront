@@ -30,7 +30,6 @@ function ProductCard({ product, showFavoriteIcon = false }: ComponentProps) {
           src={product.imageUrl || FallbackImage}
           alt={product.imageAlt || NO_IMAGE_FOUND}
           fill
-          className="object-contain"
         />
         {showFavoriteIcon && (
           <div

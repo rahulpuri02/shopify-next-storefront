@@ -13,6 +13,7 @@ import type {
   ShopifyProductVariant,
   ShopifyRecommendedProductsOperation,
   ShopifySearchResultsOperation,
+  ShopifySearchVariables,
 } from "@/types/shopify";
 import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
@@ -22,6 +23,45 @@ import { formatPrice, getColorCodeByName } from "./utils";
 
 export function getZodFirstErrorMessage<T>(obj: SafeParseError<T>) {
   return (Object.entries(obj.error.flatten().fieldErrors)[0][1] as string[])[0];
+}
+
+export function getSearchFilters(query: {
+  [key: string]: string | undefined;
+}): ShopifySearchVariables {
+  const sort = (query.sort as string)?.toUpperCase() === "PRICE" ? "PRICE" : "RELEVANCE";
+  const priceFilter = query?.price ? (query?.price === "min" ? { min: 1 } : { max: 200000 }) : null;
+  const filters = [];
+
+  if (query.size) {
+    filters.push({
+      variantOption: { name: "Size", value: query.size },
+    });
+  }
+
+  if (query.color) {
+    filters.push({
+      variantOption: { name: "Color", value: query.color },
+    });
+  }
+
+  if (priceFilter) {
+    filters.push({
+      price: priceFilter,
+    });
+  }
+
+  if (query.category) {
+    filters.push({
+      category: { id: query.category },
+    });
+  }
+
+  return {
+    query: query.s as string,
+    productFilters: filters,
+    first: 50,
+    sortKey: sort,
+  };
 }
 
 export function reshapeMenus(response: ShopifyMenuOperation): Menu[] {
@@ -182,10 +222,10 @@ export function reshapeProducts(
 export function reshapeSearchResults(
   response: ShopifySearchResultsOperation
 ): Collection["products"] {
-  if (!response?.data?.products?.edges?.length) return [];
-  return response.data.products.edges
+  if (!response?.data?.search?.edges?.length) return [];
+  return response.data.search.edges
     .map(({ node: product }) => {
-      if (!product) return null;
+      if (!product || !Object.keys(product)?.length) return null;
       const firstImage = product.featuredImage;
 
       const formattedPrice = product.priceRange?.minVariantPrice

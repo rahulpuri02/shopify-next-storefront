@@ -4,6 +4,7 @@ import React from "react";
 import parse from "html-react-parser";
 import ProductCard from "@/components/shared/products/product-card";
 import { GENERICS } from "@/constants/shared";
+import FiltersAndSort from "@/components/shared/filters/filters-and-sort";
 
 type ComponentProps = {
   params: Promise<{ handle: string }>;
@@ -24,11 +25,16 @@ async function CollectionPage({ params }: ComponentProps) {
         {parse(collection.descriptionHtml)}
       </div>
       {collection.products && collection.products.length > 0 ? (
-        <div className="mt-8 grid grid-cols-2 gap-4 md:mt-8 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
-          {collection.products.map((product) => (
-            <ProductCard product={product} key={product.handle} showFavoriteIcon={true} />
-          ))}
-        </div>
+        <>
+          <div className="mt-6 flex text-xs font-normal md:mt-16">
+            <FiltersAndSort />
+          </div>
+          <div className="mt-8 grid grid-cols-2 gap-4 font-normal md:mt-8 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
+            {collection.products.map((product) => (
+              <ProductCard product={product} key={product.handle} showFavoriteIcon={true} />
+            ))}
+          </div>
+        </>
       ) : (
         <p className="mt-6 text-gray-500">{GENERICS.notResultFound}</p>
       )}

@@ -137,6 +137,20 @@ export const COLOR_CODES = [
   },
 ];
 
+export const CATEGORIES = [
+  "TROUSERS",
+  "SHIRTS",
+  "T-SHIRTS & POLOS",
+  "SHORTS",
+  "KNITWEAR",
+  "JACKETS",
+  "OVERSHIRTS & BLAZERS",
+  "SWEATSHIRTS",
+  "ACCESSORIES",
+];
+
+export const SIZES = ["S", "M", "L", "xl", "2xl", "28", "30", "32", "34"];
+
 export const STATIC_MOBILE_MENU_ITEMS = [
   { title: "my account", hasChilds: false, items: [], path: "/account" },
   { title: "About Us", hasChilds: true, items: [], path: "/about" },
@@ -342,3 +356,21 @@ export const MY_INFORMATION_FORM = {
     update: "Update",
   },
 } as const;
+
+export const FILTERS = [
+  {
+    id: "size",
+    name: "Size",
+    content: SIZES,
+  },
+  {
+    id: "category",
+    name: "Category",
+    content: CATEGORIES,
+  },
+  {
+    id: "color",
+    name: "Color",
+    content: COLOR_CODES.map((c) => c.name),
+  },
+];

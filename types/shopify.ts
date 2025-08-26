@@ -163,9 +163,20 @@ export type ShopifyRecommendedProductsOperation = {
   };
 };
 
+export type ShopifySearchVariables = {
+  query: string;
+  first: number;
+  sortKey?: "PRICE" | "RELEVANCE";
+  productFilters?: Array<
+    | { price: { min?: number; max?: number } }
+    | { category: { id: string } }
+    | { variantOption: { name: string; value: string } }
+  >;
+};
+
 export type ShopifySearchResultsOperation = {
   data: {
-    products: {
+    search: {
       edges: {
         node: Product & {
           featuredImage: {
@@ -176,10 +187,7 @@ export type ShopifySearchResultsOperation = {
       }[];
     };
   };
-  variables: {
-    query: string;
-    first: number;
-  };
+  variables: ShopifySearchVariables;
 };
 
 export type ShopifyCartOperation = {

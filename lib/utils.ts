@@ -1,6 +1,6 @@
 import { COLOR_CODES, FILTER_OPERATIONS, PATHS, SOCIAL_DOMAINS } from "@/constants/shared";
 import { SHOPIFY_CUSTOMER_ID_PREFIX } from "@/constants/shopify";
-import { CollectionProduct, FilterOperation, Menu, Product } from "@/types/shared";
+import type { CollectionProduct, FilterOperation, Menu, Product } from "@/types/shared";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -94,5 +94,22 @@ export function reshapeFavoriteItem(product: Product): CollectionProduct {
     ...product,
     imageUrl: product.images[0]?.url || null,
     imageAlt: product.images[0]?.altText || null,
+  };
+}
+
+export function getActiveFilters(searchParams: URLSearchParams) {
+  return {
+    size: (searchParams.get("size") || "").split(",").filter(Boolean),
+    category: (searchParams.get("category") || "").split(",").filter(Boolean),
+    color: (searchParams.get("color") || "").split(",").filter(Boolean),
+    sort: (() => {
+      const sort = searchParams.get("sort");
+      const price = searchParams.get("price");
+
+      if (sort === "price") {
+        return price === "min" ? "PRICE (LOW - HIGH)" : "PRICE (HIGH - LOW)";
+      }
+      return "RELEVANCE";
+    })(),
   };
 }

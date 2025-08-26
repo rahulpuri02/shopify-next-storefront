@@ -4,7 +4,7 @@ import { GENERICS } from "@/constants/shared";
 import { productService } from "@/services/product.service";
 
 type ComponentProps = {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
 async function SearchPage({ searchParams }: ComponentProps) {
@@ -24,9 +24,9 @@ async function SearchPage({ searchParams }: ComponentProps) {
           {searchTerm && products ? products.length : 0}
         </sup>
         <div className="mt-6 flex text-xs font-normal md:mt-16">
-          <FiltersAndSort />
+          {products?.length && <FiltersAndSort />}
         </div>
-        <div className="mt-8 grid grid-cols-2 gap-4 md:mt-6 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-4 font-normal md:mt-6 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
           {products &&
             products.map((product) => (
               <ProductCard product={product} key={product.handle} showFavoriteIcon={true} />
