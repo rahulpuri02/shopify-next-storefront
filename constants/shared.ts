@@ -359,18 +359,14 @@ export const MY_INFORMATION_FORM = {
 
 export const FILTERS = [
   {
-    id: "size",
-    name: "Size",
-    content: SIZES,
-  },
-  {
     id: "category",
     name: "Category",
     content: CATEGORIES,
   },
-  {
-    id: "color",
-    name: "Color",
-    content: COLOR_CODES.map((c) => c.name),
-  },
+];
+
+export const SORTING = [
+  { title: "Relevance", slug: "relevance", sortKey: "RELEVANCE" },
+  { title: "Price (Low - High)", slug: "price-asc", sortKey: "PRICE" },
+  { title: "Price: (High - Low)", slug: "price-desc", sortKey: "PRICE" },
 ];

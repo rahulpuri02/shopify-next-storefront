@@ -176,7 +176,7 @@ export type ShopifySearchVariables = {
 
 export type ShopifySearchResultsOperation = {
   data: {
-    search: {
+    products: {
       edges: {
         node: Product & {
           featuredImage: {

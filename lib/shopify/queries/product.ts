@@ -20,13 +20,8 @@ export const getProductRecommendationsQuery = gql`
 `;
 
 export const getSearchResultsQuery = gql`
-  query getSearchResults(
-    $first: Int!
-    $query: String!
-    $sortKey: SearchSortKeys
-    $productFilters: [ProductFilter!]
-  ) {
-    search(query: $query, first: $first, sortKey: $sortKey, productFilters: $productFilters) {
+  query getSearchResults($first: Int!, $query: String!) {
+    products(query: $query, first: $first) {
       edges {
         node {
           ...productFragment

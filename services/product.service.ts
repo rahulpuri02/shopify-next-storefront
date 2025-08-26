@@ -11,6 +11,7 @@ import type {
   ShopifyProductOperation,
   ShopifyRecommendedProductsOperation,
   ShopifySearchResultsOperation,
+  ShopifySearchVariables,
 } from "@/types/shopify";
 import { print } from "graphql";
 

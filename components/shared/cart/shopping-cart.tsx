@@ -47,9 +47,6 @@ export function ShoppingCart() {
   async function handleCheckout() {
     setIsProcessing(true);
     await redirectToCheckout();
-    setTimeout(() => {
-      setIsProcessing(false);
-    }, 1200);
   }
 
   return (

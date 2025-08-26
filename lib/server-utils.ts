@@ -222,8 +222,8 @@ export function reshapeProducts(
 export function reshapeSearchResults(
   response: ShopifySearchResultsOperation
 ): Collection["products"] {
-  if (!response?.data?.search?.edges?.length) return [];
-  return response.data.search.edges
+  if (!response?.data?.products?.edges?.length) return [];
+  return response.data.products.edges
     .map(({ node: product }) => {
       if (!product || !Object.keys(product)?.length) return null;
       const firstImage = product.featuredImage;

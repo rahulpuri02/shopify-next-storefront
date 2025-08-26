@@ -24,17 +24,15 @@ async function CollectionPage({ params }: ComponentProps) {
       <div className="mt-4 max-w-[550px] text-base md:mt-6">
         {parse(collection.descriptionHtml)}
       </div>
+      <div className="mt-6 flex text-xs font-normal md:mt-16">
+        <FiltersAndSort />
+      </div>
       {collection.products && collection.products.length > 0 ? (
-        <>
-          <div className="mt-6 flex text-xs font-normal md:mt-16">
-            <FiltersAndSort />
-          </div>
-          <div className="mt-8 grid grid-cols-2 gap-4 font-normal md:mt-8 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
-            {collection.products.map((product) => (
-              <ProductCard product={product} key={product.handle} showFavoriteIcon={true} />
-            ))}
-          </div>
-        </>
+        <div className="mt-8 grid grid-cols-2 gap-4 font-normal md:mt-8 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
+          {collection.products.map((product) => (
+            <ProductCard product={product} key={product.handle} showFavoriteIcon={true} />
+          ))}
+        </div>
       ) : (
         <p className="mt-6 text-gray-500">{GENERICS.notResultFound}</p>
       )}
