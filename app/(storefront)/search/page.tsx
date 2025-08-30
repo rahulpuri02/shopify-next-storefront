@@ -1,7 +1,6 @@
 import FiltersAndSort from "@/components/shared/filters/filters-and-sort";
 import ProductCard from "@/components/shared/products/product-card";
 import { GENERICS } from "@/constants/shared";
-import { getSearchFilters } from "@/lib/server-utils";
 import { productService } from "@/services/product.service";
 
 type ComponentProps = {
@@ -12,7 +11,7 @@ async function SearchPage({ searchParams }: ComponentProps) {
   const query = await searchParams;
   const searchTerm = query.s as string;
 
-  const products = searchTerm && (await productService.getSearchResults(getSearchFilters(query)));
+  const products = searchTerm && (await productService.getSearchResults(searchTerm));
   return (
     <div className="mt-20 h-full px-6 md:mt-24 lg:px-8">
       <div className="flex h-full flex-col items-center justify-center gap-2 text-xs uppercase">
