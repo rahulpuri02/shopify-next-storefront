@@ -18,7 +18,7 @@ function ChatIcon({ isRotate }: ComponentProps) {
       aria-hidden="true"
     >
       <g id="icon">
-        <g id="shape2">
+        <g id="shape2" className="opacity-70">
           <path
             fillRule="evenodd"
             clipRule="evenodd"

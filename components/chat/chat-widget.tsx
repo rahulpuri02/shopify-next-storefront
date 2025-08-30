@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import ChatIcon from "../icons/chat-icon";
-import { cn } from "@/lib/utils";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { FOOTER } from "@/constants/shared";
+import { cn } from "@/lib/utils";
+import { useChat } from "@ai-sdk/react";
+import { ArrowUp, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import BotIcon from "../icons/bot-icon";
-import { Send, X } from "lucide-react";
+import ChatIcon from "../icons/chat-icon";
+import { ScrollArea } from "../ui/scroll-area";
 
 function ChatWidget() {
   const [showWidget, setShowWidget] = useState(false);
@@ -15,17 +17,14 @@ function ChatWidget() {
   const [open, setOpen] = useState(false);
 
   const [input, setInput] = React.useState("");
-  const [messages, setMessages] = React.useState([
-    { id: "m-0", role: "assistant", content: "Hi! How can I help you today?" },
-  ]);
-
+  const { messages, sendMessage } = useChat();
   const endRef = React.useRef<HTMLDivElement | null>(null);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     setTimeout(() => {
       setShowWidget(true);
-    }, 2000);
+    }, 1500);
   }, []);
 
   useEffect(() => {
@@ -35,11 +34,9 @@ function ChatWidget() {
     }
   }, [messages, open]);
 
-  function handleSend(e?: React.FormEvent<HTMLFormElement>) {
-    if (e) e.preventDefault();
-    const text = input.trim();
-    if (!text) return;
-    setMessages((prev) => [...prev, { id: `m-${prev.length}`, role: "user", content: text }]);
+  function handleSend(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    sendMessage({ text: input });
     setInput("");
   }
 
@@ -48,7 +45,7 @@ function ChatWidget() {
       onMouseEnter={() => setIsRotate(true)}
       onMouseLeave={() => setIsRotate(false)}
       className={cn(
-        "fixed right-8 bottom-8 transition-opacity delay-300 ease-in-out",
+        "fixed right-8 bottom-8 z-50 transition-opacity delay-300 ease-in-out",
         showWidget ? "opacity-100" : "opacity-0",
         !open && "md:right-8 md:bottom-8"
       )}
@@ -58,7 +55,7 @@ function ChatWidget() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="assistant-title"
-          className="fixed inset-0 z-[9999] lg:inset-auto lg:right-4 lg:bottom-8 lg:z-50"
+          className="fixed inset-0 lg:inset-auto lg:right-4 lg:bottom-8 lg:z-50"
         >
           <Card
             className={cn(
@@ -82,9 +79,9 @@ function ChatWidget() {
             </CardHeader>
 
             <CardContent className="flex-1 p-0">
-              <div className="flex h-full flex-col overflow-hidden">
+              <ScrollArea className="invisible-scrollbar flex h-[calc(100vh-200px)] flex-col overflow-y-scroll lg:h-[calc(77vh-200px)] 2xl:h-[calc(70vh-200px)]">
                 {/* Messages */}
-                <div className="flex flex-1 flex-col gap-3 overflow-y-auto p-3">
+                <div className="flex flex-1 flex-col gap-3 p-3">
                   {messages.map((m) => {
                     const isUser = m.role === "user";
                     return (
@@ -92,43 +89,61 @@ function ChatWidget() {
                         key={m.id}
                         className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}
                       >
-                        <div
-                          className={cn(
-                            "w-fit max-w-xs rounded-2xl px-3 py-2 md:max-w-sm",
-                            isUser
-                              ? "bg-custom-blue text-white"
-                              : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100"
-                          )}
-                        >
-                          {m.content}
-                        </div>
+                        {m.parts.map((part, i) => {
+                          switch (part.type) {
+                            case "text":
+                              return (
+                                <div
+                                  key={`${m.id}-${i}`}
+                                  className={cn(
+                                    "w-fit max-w-xs rounded-2xl px-3 py-2 md:max-w-sm",
+                                    isUser
+                                      ? "bg-custom-blue text-white"
+                                      : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100"
+                                  )}
+                                >
+                                  {part.text}
+                                </div>
+                              );
+                          }
+                        })}
                       </div>
                     );
                   })}
                   <div ref={endRef} />
                 </div>
-              </div>
+              </ScrollArea>
             </CardContent>
 
-            <CardFooter className="border-t p-3">
-              <form onSubmit={handleSend} className="flex w-full items-center gap-2">
-                <Input
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Type your message..."
-                  aria-label="Message input"
-                  className="flex-1"
-                />
-                <Button
-                  type="submit"
-                  aria-label="Send message"
-                  disabled={!input.trim()}
-                  className="transition-colors"
-                >
-                  <Send className="h-4 w-4" aria-hidden />
-                </Button>
+            <CardFooter className="border-t px-3 pt-3">
+              <form onSubmit={handleSend} className="flex w-full flex-col items-center">
+                <div className="flex w-full gap-2">
+                  <Input
+                    ref={inputRef}
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Say something..."
+                    aria-label="Message input"
+                    className="w-full flex-1"
+                  />
+                  <button
+                    type="submit"
+                    disabled={!input.trim().length}
+                    className={cn(
+                      "ease-in-outopacity-50 rounded-full bg-slate-200 p-3 transition-shadow duration-200",
+                      input.trim().length && "cursor-pointer"
+                    )}
+                  >
+                    <ArrowUp className={cn("h-4 w-4", !input.trim().length && "text-white")} />
+                  </button>
+                </div>
+                <p className="text-muted-foreground mt-1 text-center text-xs">
+                  Powered by{" "}
+                  <a target="_blank" href={FOOTER.authorContact} className="font-medium">
+                    Rahul Puri
+                  </a>
+                </p>
               </form>
             </CardFooter>
           </Card>
