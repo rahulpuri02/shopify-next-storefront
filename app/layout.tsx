@@ -8,6 +8,7 @@ import { CartProvider } from "@/contexts/cart-context";
 import { ShoppingCart } from "@/components/shared/cart/shopping-cart";
 import { FavoriteProvider } from "@/contexts/favorite-context";
 import { Toaster } from "@/components/ui/sonner";
+import ChatWidget from "@/components/chat/chat-widget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,6 +47,7 @@ export default function RootLayout({
             <Footer />
           </FavoriteProvider>
         </CartProvider>
+        <ChatWidget />
       </body>
     </html>
   );
