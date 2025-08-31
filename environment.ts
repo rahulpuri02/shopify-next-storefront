@@ -6,6 +6,8 @@ const envSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]),
   SHOPIFY_REVALIDATION_SECRET: z.string().min(10),
   OPENAI_API_KEY: z.string().min(10),
+  PINECONE_PRODUCTS_COLLECTIONS_INDEX_NAME: z.string(),
+  PINECONE_STORE_INDEX_NAME: z.string(),
   GROQ_API_KEY: z.string().min(10),
 });
 
