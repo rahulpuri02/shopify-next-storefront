@@ -2,11 +2,7 @@
 
 import { cn } from "@/lib/utils";
 
-type ComponentProps = {
-  isRotate: boolean;
-};
-
-function ChatIcon({ isRotate }: ComponentProps) {
+function ChatIcon() {
   return (
     <svg
       width="30"
@@ -32,10 +28,7 @@ function ChatIcon({ isRotate }: ComponentProps) {
         </g>
         <g
           id="shape1"
-          className={cn(
-            "origin-center transition-transform duration-200 ease-linear",
-            isRotate && "-rotate-12"
-          )}
+          className={cn("origin-center transition-transform duration-200 ease-linear")}
         >
           <path
             fillRule="evenodd"
