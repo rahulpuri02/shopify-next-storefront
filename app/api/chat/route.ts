@@ -1,9 +1,5 @@
-import {
-  buildSystemPrompt,
-  classifyIntent,
-  extractLastUserText,
-  retrieveContext,
-} from "@/lib/ai/utils";
+import { buildSystemPrompt, classifyIntent, extractLastUserText } from "@/lib/ai/utils";
+import { aiService } from "@/services/ai.service";
 import { groq } from "@ai-sdk/groq";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 
@@ -28,7 +24,7 @@ export async function POST(req: Request) {
   }
 
   const isStoreInfo = intent.includes("store-info");
-  const context = await retrieveContext(
+  const context = await aiService.retrieveContext(
     isStoreInfo ? "store-info" : "products-and-collections",
     userText
   );

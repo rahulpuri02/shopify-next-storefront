@@ -1,5 +1,5 @@
 import { ChatMessage, type ChatMessageProps, type Message } from "@/components/chat/chat-message";
-import { TypingIndicator } from "@/components/ui/typing-indicator";
+import { Loader } from "../ui/loader";
 
 type AdditionalMessageOptions = Omit<ChatMessageProps, keyof Message>;
 
@@ -19,7 +19,7 @@ export function MessageList({ messages, isTyping = false, messageOptions }: Comp
 
         return <ChatMessage key={index} {...message} {...additionalOptions} />;
       })}
-      {isTyping && <TypingIndicator />}
+      {isTyping && <Loader />}
     </div>
   );
 }
