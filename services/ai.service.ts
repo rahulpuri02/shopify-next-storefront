@@ -1,4 +1,4 @@
-import { productVectorStore } from "@/lib/ai/client";
+import { productVectorStore, storeVectorStore } from "@/lib/ai/client";
 import { shopifyFetch } from "@/lib/shopify/client";
 import { GET_ALL_COLLECTIONS_QUERY, GET_ALL_PRODUCTS_QUERY } from "@/lib/shopify/queries/ai";
 import type { ShopifyCollection, ShopifyProduct } from "@/types/ai";
@@ -9,7 +9,7 @@ import { print } from "graphql";
 export class AIService {
   private readonly BATCH_SIZE = 50;
   private readonly VECTOR_BATCH_SIZE = 20;
-  private readonly CHUNK_SIZE = 800;
+  private readonly CHUNK_SIZE = 500;
   private readonly CHUNK_OVERLAP = 100;
   private splitter: RecursiveCharacterTextSplitter;
 
@@ -219,8 +219,16 @@ export class AIService {
     await productVectorStore.delete({ deleteAll: true });
   }
 
-  async getRelevantChunks(query: string, k = 8): Promise<Document[]> {
-    return await productVectorStore.similaritySearch(query, k);
+  async retrieveContext(intent: "products-and-collections" | "store-info", query: string) {
+    const vs = intent === "store-info" ? storeVectorStore : productVectorStore;
+    const similarResultCount = intent === "store-info" ? 3 : 5;
+    const docs = await vs.similaritySearch(query, similarResultCount);
+    if (!docs?.length) return "";
+    return docs
+      .map((d, i) => {
+        return `#${i + 1}\n${d.pageContent}\nSOURCE: ${JSON.stringify(d.metadata, null, 2)}`;
+      })
+      .join("\n\n---\n\n");
   }
 }
 

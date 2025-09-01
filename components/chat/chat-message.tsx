@@ -5,8 +5,8 @@ import { Ban, ChevronRight, Code2, Loader2, Terminal } from "lucide-react";
 import React, { useState } from "react";
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { cn } from "@/lib/utils";
+import { Response } from "./response";
 
 const chatBubbleVariants = cva(
   "group/message relative break-words rounded-lg p-3 text-sm sm:max-w-[70%]",
@@ -147,7 +147,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             parts.map((part, i) => {
               switch (part.type) {
                 case "text":
-                  return <MarkdownRenderer key={`${i}`}>{part.text}</MarkdownRenderer>;
+                  return <Response key={`${i}`}>{part.text}</Response>;
               }
             })}
         </div>
@@ -164,7 +164,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             key={`text-${index}`}
           >
             <div className={cn(chatBubbleVariants({ isUser, animation }))}>
-              <MarkdownRenderer>{part.text}</MarkdownRenderer>
+              <Response>{part.text}</Response>
               {actions ? (
                 <div className="bg-background text-foreground absolute right-2 -bottom-4 flex space-x-1 rounded-lg border p-1 opacity-0 transition-opacity group-hover/message:opacity-100">
                   {actions}
@@ -189,7 +189,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   return (
     <div className={cn("flex flex-col", isUser ? "items-end" : "items-start")}>
       <div className={cn(chatBubbleVariants({ isUser, animation }))}>
-        <MarkdownRenderer>{content}</MarkdownRenderer>
+        <Response>{content}</Response>
         {actions ? (
           <div className="bg-background text-foreground absolute right-2 -bottom-4 flex space-x-1 rounded-lg border p-1 opacity-0 transition-opacity group-hover/message:opacity-100">
             {actions}

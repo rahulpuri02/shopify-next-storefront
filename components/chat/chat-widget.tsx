@@ -1,17 +1,22 @@
 "use client";
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { FOOTER } from "@/constants/shared";
 import { cn } from "@/lib/utils";
 import { useChat } from "@ai-sdk/react";
-import { ArrowUp, X } from "lucide-react";
+import { X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import BotIcon from "../icons/bot-icon";
 import ChatIcon from "../icons/chat-icon";
-import { ChatMessages } from "./chat-messages";
 import { ScrollArea } from "../ui/scroll-area";
 import { Message } from "./chat-message";
+import { ChatMessages } from "./chat-messages";
+import {
+  PromptInput,
+  PromptInputSubmit,
+  PromptInputTextarea,
+  PromptInputToolbar,
+} from "./prompt-input";
 
 let isMounted = false;
 
@@ -27,11 +32,11 @@ function ChatWidget() {
   useEffect(() => {
     setTimeout(() => {
       setShowWidget(true);
-    }, 1200);
+    }, 500);
   }, []);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    endRef.current?.scrollIntoView({ behavior: "auto", block: "nearest" });
     if (!isMounted) {
       isMounted = true;
       inputRef.current?.focus();
@@ -39,6 +44,7 @@ function ChatWidget() {
   }, [messages, open, status]);
 
   function handleSend(e: React.FormEvent<HTMLFormElement>) {
+    if (!input.trim().length) return;
     e.preventDefault();
     sendMessage({ text: input });
     setInput("");
@@ -66,7 +72,7 @@ function ChatWidget() {
             )}
           >
             <div className="relative">
-              <CardHeader className="bg-custom-blue flex flex-row items-center justify-between border-b px-4 py-4 pt-6 lg:rounded-t-xl">
+              <CardHeader className="bg-custom-blue mb-6 flex flex-row items-center justify-between border-b px-4 py-4 pt-6 lg:rounded-t-xl">
                 <div className="flex items-center gap-3">
                   <BotIcon />
                   <CardTitle id="assistant-title" className="ml-8 text-base font-medium text-white">
@@ -82,49 +88,37 @@ function ChatWidget() {
               </CardHeader>
 
               <CardContent className="flex-1 p-0 pt-4">
-                <ScrollArea className="invisible-scrollbar flex h-[calc(100vh-215px)] flex-col overflow-y-scroll px-4 pb-6 lg:h-[calc(82vh-200px)] 2xl:h-[calc(70vh-200px)]">
+                {!messages?.length && (
+                  <>
+                    <div className="mt-10 flex h-full flex-col items-center justify-center space-y-1">
+                      <div className="text-2xl font-semibold">Hello there!</div>
+                      <div className="text-2xl text-zinc-500">How can I help you today?</div>
+                    </div>
+                  </>
+                )}
+                <ScrollArea className="invisible-scrollbar flex h-[calc(100vh-290px)] flex-col overflow-y-scroll px-4 lg:h-[calc(82vh-235px)] 2xl:h-[calc(70vh-235px)]">
                   <ChatMessages messages={messages as Message[]} />
                   <div ref={endRef} />
                 </ScrollArea>
               </CardContent>
 
-              <CardFooter className="fixed bottom-4 w-full border-t px-3 pt-3 lg:bottom-12 lg:w-96 2xl:w-md">
-                <form onSubmit={handleSend} className="flex w-full flex-col items-center">
-                  <div className="flex w-full gap-2">
-                    <Input
-                      ref={inputRef}
-                      type="text"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      placeholder="Say something..."
-                      aria-label="Message input"
-                      className="w-full flex-1"
-                      disabled={status === "submitted"}
-                    />
-                    <button
+              <CardFooter className="fixed bottom-4 z-10 mx-auto flex w-full flex-col gap-1 px-0 lg:bottom-10 lg:w-96 2xl:w-md">
+                <PromptInput onSubmit={handleSend} className="mx-auto mt-4 flex w-[92%] gap-2">
+                  <PromptInputTextarea onChange={(e) => setInput(e.target.value)} value={input} />
+                  <PromptInputToolbar>
+                    <PromptInputSubmit
                       type="submit"
-                      disabled={!input.trim().length || status === "submitted"}
-                      className={cn(
-                        "ease-in-outopacity-50 rounded-full bg-slate-200 p-3 transition-shadow duration-200",
-                        input.trim().length && status !== "submitted" && "cursor-pointer",
-                        status === "submitted" && "cursor-not-allowed opacity-50"
-                      )}
-                    >
-                      <ArrowUp
-                        className={cn(
-                          "h-4 w-4",
-                          (!input.trim().length || status === "submitted") && "text-white"
-                        )}
-                      />
-                    </button>
-                  </div>
-                  <p className="text-muted-foreground mt-2 text-center text-xs">
-                    Powered by{" "}
-                    <a target="_blank" href={FOOTER.authorContact} className="font-medium">
-                      Rahul Puri
-                    </a>
-                  </p>
-                </form>
+                      disabled={!input?.trim().length}
+                      status={status}
+                    />
+                  </PromptInputToolbar>
+                </PromptInput>
+                <p className="text-muted-foreground mt-2 text-center text-xs">
+                  Powered by{" "}
+                  <a target="_blank" href={FOOTER.authorContact} className="font-medium">
+                    Rahul Puri
+                  </a>
+                </p>
               </CardFooter>
             </div>
           </Card>
