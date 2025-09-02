@@ -91,8 +91,10 @@ function ChatWidget() {
                 {!messages?.length && (
                   <>
                     <div className="mt-10 flex h-full flex-col items-center justify-center space-y-1">
-                      <div className="text-2xl font-semibold">Hello there!</div>
-                      <div className="text-2xl text-zinc-500">How can I help you today?</div>
+                      <div className="text-center text-2xl font-semibold">Hello there!</div>
+                      <div className="text-center text-2xl text-zinc-500">
+                        How can I help you today?
+                      </div>
                     </div>
                   </>
                 )}
