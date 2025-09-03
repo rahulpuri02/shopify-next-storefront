@@ -310,7 +310,7 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
   }
 
   // update products vector store
-  aiService.syncAllData();
+  await aiService.syncAllData();
 
   return NextResponse.json({ status: 200, revalidated: true, now: Date.now() });
 }
