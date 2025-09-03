@@ -53,7 +53,7 @@ export function getColorCodeByName(colorName: string): string | null {
   const match = COLOR_CODES.find(
     (color) => color.name.toLowerCase() === colorName.trim().toLowerCase()
   );
-  return match?.code || null;
+  return match?.hex || null;
 }
 
 export function generatePaths(path: string, title = ""): string {

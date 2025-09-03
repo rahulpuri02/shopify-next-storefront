@@ -1,11 +1,9 @@
 "use client";
 
 import { ArrowLeft, XIcon } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import CompanyLogo from "@/components/icons/company-logo";
-import MenuIcon from "@/components/icons/menu-icon";
 import {
   Sheet,
   SheetClose,
@@ -16,7 +14,6 @@ import {
 } from "@/components/ui/sheet";
 
 import { GENERICS, STATIC_MOBILE_MENU_ITEMS } from "@/constants/shared";
-import { useScroll } from "@/hooks/use-scroll";
 
 import { getCurrentItems } from "@/lib/utils";
 import type { Menu } from "@/types/shared";
@@ -25,15 +22,11 @@ import MobileMenuList from "./mobile-menu-list";
 type ComponentProps = {
   side?: "right" | "left";
   mainMenu: Menu[];
+  showModal: boolean;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function NavToggle({ side = "left", mainMenu }: ComponentProps) {
-  const pathname = usePathname();
-  const isHomePage = pathname === "/";
-  const isProductPage = pathname.startsWith("/products/");
-  const { isScrollingStart } = useScroll(200);
-  const [showModal, setShowModal] = useState(true);
-
+function NavToggle({ side = "left", mainMenu, showModal, setShowModal }: ComponentProps) {
   const shopItems =
     mainMenu
       .find((m) => m.title.toLowerCase() === GENERICS.shop.toLowerCase())
@@ -63,16 +56,8 @@ function NavToggle({ side = "left", mainMenu }: ComponentProps) {
   if (!showModal) return null;
 
   return (
-    <Sheet>
-      <SheetTrigger onClick={() => setShowModal(true)} className="md:hidden">
-        <MenuIcon
-          className={`${
-            isHomePage || (isProductPage && !isScrollingStart)
-              ? "fill-white stroke-white"
-              : "stroke-black"
-          }`}
-        />
-      </SheetTrigger>
+    <Sheet open={showModal} onOpenChange={setShowModal}>
+      <SheetTrigger onClick={() => setShowModal(true)}></SheetTrigger>
       <SheetContent className="" side={side}>
         <SheetHeader
           className={`relative mt-1 flex items-center justify-center ${currentParent ? "pb-3" : "pb-7"}`}
@@ -86,6 +71,7 @@ function NavToggle({ side = "left", mainMenu }: ComponentProps) {
               onClick={() => {
                 setCurrentParent("");
                 setCurrentMenuItems(rootItems);
+                setShowModal(false);
               }}
             />
           </SheetClose>

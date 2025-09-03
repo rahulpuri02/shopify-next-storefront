@@ -82,59 +82,19 @@ export const PRODUCT_INFO = {
 };
 
 export const COLOR_CODES = [
-  {
-    name: "Denim Grey",
-    code: "#4B5563",
-  },
-  {
-    name: "Denim Blue",
-    code: "#1E3A8A",
-  },
-  {
-    name: "Dark Denim Blue",
-    code: "#1E40AF",
-  },
-  {
-    name: "Black",
-    code: "#000000",
-  },
-  {
-    name: "White",
-    code: "#FFFFFF",
-  },
-
-  {
-    name: "Blue",
-    code: "#3B82F6",
-  },
-  {
-    name: "Red",
-    code: "#EF4444",
-  },
-  {
-    name: "Green",
-    code: "#10B981",
-  },
-  {
-    name: "Yellow",
-    code: "#F59E0B",
-  },
-  {
-    name: "Grey",
-    code: "#9CA3AF",
-  },
-  {
-    name: "Purple",
-    code: "#8B5CF6",
-  },
-  {
-    name: "Light Blue",
-    code: "#ADD8E6",
-  },
-  {
-    name: "Steel Blue",
-    code: "#5A7D9A",
-  },
+  { name: "Yellow", hex: "#FFE500" },
+  { name: "Orange", hex: "#FF8A00" },
+  { name: "Brown", hex: "#9A5630" },
+  { name: "Bronze", hex: "#CD7F32" },
+  { name: "Black", hex: "#000000" },
+  { name: "Pink", hex: "#FFC0CB" },
+  { name: "Beige", hex: "#EAD8AB" },
+  { name: "Steel Blue", hex: "#5A7D9A" },
+  { name: "Light Blue", hex: "#ADD8E6" },
+  { name: "Denim Grey", hex: "#7A8B8B" },
+  { name: "Grey", hex: "#808080" },
+  { name: "Denim Blue", hex: "#1560BD" },
+  { name: "Dark Denim Blue", hex: "#1B365D" },
 ];
 
 export const CATEGORIES = [

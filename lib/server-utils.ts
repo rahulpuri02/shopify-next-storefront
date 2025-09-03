@@ -20,6 +20,7 @@ import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { type SafeParseError } from "zod";
 import { formatPrice, getColorCodeByName } from "./utils";
+import { aiService } from "@/services/ai.service";
 
 export function getZodFirstErrorMessage<T>(obj: SafeParseError<T>) {
   return (Object.entries(obj.error.flatten().fieldErrors)[0][1] as string[])[0];
@@ -86,7 +87,7 @@ export function reshapeMenus(response: ShopifyMenuOperation): Menu[] {
   );
 }
 
-function getProductVariants(variants: ShopifyProductVariant): ColorGroup[] {
+export function getProductVariants(variants: ShopifyProductVariant): ColorGroup[] {
   const colorGroups: Record<string, ColorGroup> = {};
 
   for (const { node: variant } of variants.edges) {
@@ -196,7 +197,7 @@ export function reshapeProduct(
 export function reshapeProducts(
   response: ShopifyRecommendedProductsOperation
 ): Collection["products"] {
-  if (!response?.data?.productRecommendations.length) return [];
+  if (!response?.data?.productRecommendations?.length) return [];
   return response.data.productRecommendations
     .map((product) => {
       if (!product) return null;
@@ -285,8 +286,6 @@ export function reshapeCustomer(
 }
 
 export async function revalidate(req: NextRequest): Promise<NextResponse> {
-  // We always need to respond with a 200 status code to Shopify,
-  // otherwise it will continue to retry the request.
   const collectionWebhooks = ["collections/create", "collections/delete", "collections/update"];
   const productWebhooks = ["products/create", "products/delete", "products/update"];
   const topic = (await headers()).get("x-shopify-topic") || "unknown";
@@ -300,7 +299,6 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
   }
 
   if (!isCollectionUpdate && !isProductUpdate) {
-    // We don't need to revalidate anything for any other topics.
     return NextResponse.json({ status: 200 });
   }
 
@@ -310,5 +308,9 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
   if (isProductUpdate) {
     revalidateTag(TAGS.products);
   }
+
+  // update products vector store
+  aiService.syncAllData();
+
   return NextResponse.json({ status: 200, revalidated: true, now: Date.now() });
 }

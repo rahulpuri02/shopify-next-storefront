@@ -15,6 +15,7 @@ import NavToggle from "./nav-toggle/nav-toggle";
 import { useFavorite } from "@/contexts/favorite-context";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
+import MenuIcon from "@/components/icons/menu-icon";
 
 type ComponentProps = { mainMenu: Menu[] };
 
@@ -22,6 +23,7 @@ function MobileMenu({ mainMenu }: ComponentProps) {
   const pathname = usePathname();
   const { showCart, cart } = useCart();
   const { favItems } = useFavorite();
+  const [showModal, setShowModal] = useState(false);
 
   const { isScrollingStart } = useScroll(200);
   const isHomePage = pathname === "/";
@@ -37,7 +39,15 @@ function MobileMenu({ mainMenu }: ComponentProps) {
     <>
       <div className="md:hidden">
         <div className="flex items-center gap-6">
-          <NavToggle mainMenu={mainMenu} />
+          <div onClick={() => setShowModal(true)}>
+            <MenuIcon
+              className={`${
+                isHomePage || (isProductPage && !isScrollingStart)
+                  ? "fill-white stroke-white"
+                  : "stroke-black"
+              }`}
+            />
+          </div>
           <Search
             onClick={() => setShowSearchPanel(true)}
             className={cn(
@@ -45,6 +55,7 @@ function MobileMenu({ mainMenu }: ComponentProps) {
               isProductPage && !isScrollingStart ? "text-white" : ""
             )}
           />
+          <NavToggle mainMenu={mainMenu} showModal={showModal} setShowModal={setShowModal} />
         </div>
       </div>
       <CompanyLogo

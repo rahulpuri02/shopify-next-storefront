@@ -1,3 +1,5 @@
+import { ProductVariant } from "./shopify";
+
 export type ShopifyProduct = {
   id: string;
   title: string;
@@ -8,15 +10,16 @@ export type ShopifyProduct = {
   vendor: string;
   createdAt: string;
   updatedAt: string;
-  variants: {
+  collections: {
     edges: Array<{
       node: {
-        id: string;
         title: string;
-        price: { amount: string; currencyCode: string };
-        sku: string;
-        availableForSale: boolean;
       };
+    }>;
+  };
+  variants: {
+    edges: Array<{
+      node: ProductVariant;
     }>;
   };
   images: {

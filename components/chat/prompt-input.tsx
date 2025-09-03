@@ -148,6 +148,7 @@ export const PromptInputSubmit = ({
       size={size}
       type="submit"
       variant={variant}
+      disabled={disabled}
       {...props}
     >
       {children ?? Icon}

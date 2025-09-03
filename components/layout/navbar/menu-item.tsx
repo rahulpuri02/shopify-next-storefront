@@ -77,7 +77,10 @@ const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
           <ul className="mt-5 flex flex-col gap-2 text-xs font-normal">
             {highlightsMenu!.map((subItem: Menu) => (
               <li key={subItem.title}>
-                <Link className="transition hover:opacity-60" href={subItem.path || "#"}>
+                <Link
+                  className="transition hover:opacity-60"
+                  href={ROUTES.collection(subItem.path) || "#"}
+                >
                   {subItem.title}
                 </Link>
               </li>
@@ -87,7 +90,10 @@ const MenuItem = ({ item, isScrollingStart }: ComponentProps) => {
           <ul className="mt-3 flex flex-col gap-2 text-xs font-normal">
             {nonHighlightsMenu!.map((subItem: Menu) => (
               <li key={subItem.title}>
-                <Link className="transition hover:opacity-60" href={subItem.path || "#"}>
+                <Link
+                  className="transition hover:opacity-60"
+                  href={ROUTES.collection(subItem.path) || "#"}
+                >
                   {subItem.title}
                 </Link>
               </li>

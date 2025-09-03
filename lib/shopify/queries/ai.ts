@@ -14,17 +14,31 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
           vendor
           createdAt
           updatedAt
-          variants(first: 10) {
+          collections(first: 20) {
+            edges {
+              node {
+                title
+              }
+            }
+          }
+          variants(first: 50) {
             edges {
               node {
                 id
                 title
+                image {
+                  url
+                  altText
+                }
+                availableForSale
+                selectedOptions {
+                  name
+                  value
+                }
                 price {
                   amount
                   currencyCode
                 }
-                sku
-                availableForSale
               }
             }
           }
@@ -59,6 +73,7 @@ export const GET_ALL_COLLECTIONS_QUERY = gql`
           title
           handle
           description
+          descriptionHtml
           updatedAt
           seo {
             title

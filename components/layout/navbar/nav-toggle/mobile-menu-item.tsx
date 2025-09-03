@@ -1,5 +1,4 @@
 import { ROUTES } from "@/constants/routes";
-import { SHOPIFY_URL_PREFIXS } from "@/constants/shopify";
 import type { Menu } from "@/types/shared";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -31,7 +30,7 @@ const MobileMenuItem = ({ item, onNavigate }: ComponentProps) => {
           href={
             path === ROUTES.about || path === ROUTES.account
               ? path
-              : `${SHOPIFY_URL_PREFIXS.collections}${path}`
+              : `${ROUTES.collection(item.path as string)}`
           }
         >
           <p>{title.toUpperCase()}</p>

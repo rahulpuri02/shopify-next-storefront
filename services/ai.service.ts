@@ -1,3 +1,4 @@
+import { environment } from "@/environment";
 import { productVectorStore, storeVectorStore } from "@/lib/ai/client";
 import { shopifyFetch } from "@/lib/shopify/client";
 import { GET_ALL_COLLECTIONS_QUERY, GET_ALL_PRODUCTS_QUERY } from "@/lib/shopify/queries/ai";
@@ -6,7 +7,7 @@ import { Document } from "@langchain/core/documents";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { print } from "graphql";
 
-export class AIService {
+class AIService {
   private readonly BATCH_SIZE = 50;
   private readonly VECTOR_BATCH_SIZE = 20;
   private readonly CHUNK_SIZE = 500;
@@ -22,6 +23,7 @@ export class AIService {
 
   async syncAllData(): Promise<void> {
     try {
+      await this.clearVectorStore();
       await this.syncProducts();
       await this.syncCollections();
     } catch (error) {
@@ -97,12 +99,13 @@ export class AIService {
       tags: product.tags,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
-      url: `/products/${product.handle}`,
+      url: `${environment.LIVE_STORE_DOMAIN}/products/${product.handle}`,
       availableForSale: variants.some((v) => v.availableForSale),
+      collections: product.collections.edges.map((c) => c.node.title),
       type: "product",
     };
 
-    const overview = `${product.title} — ${product.productType} by ${product.vendor}. Tags: ${product.tags?.join(", ") || "none"}. Starting price: ${variants[0]?.price?.amount || "0"} ${variants[0]?.price?.currencyCode || "USD"}.`;
+    const overview = `${product.title} — ${product.productType} by ${product.vendor}. Tags: ${product.tags?.join(", ") || "none"}. Starting price: ${variants[0]?.price?.amount || "0"} ${variants[0]?.price?.currencyCode || "USD"}. url: ${baseMetadata.url}, productId: ${product.id}`;
     docs.push(
       new Document({ pageContent: overview, metadata: { ...baseMetadata, chunkType: "overview" } })
     );
@@ -124,7 +127,7 @@ export class AIService {
       const vText = `${product.title} variants: ${variants
         .map(
           (v) =>
-            `${v.title} — ${v.price?.amount ?? "0"} ${v.price?.currencyCode ?? "USD"}${v.availableForSale ? " (in stock)" : ""}`
+            `${v.title} — ${v.price?.amount ?? "0"} ${v.price?.currencyCode ?? "USD"}${v.availableForSale ? " (in stock)" : ""}}`
         )
         .join("; ")}`;
       const variantChunks = await this.splitText(vText);
@@ -167,7 +170,7 @@ export class AIService {
 
     docs.push(
       new Document({
-        pageContent: `Collection: ${collection.title}. Contains ${products.length} products.`,
+        pageContent: `Collection: ${collection.title}. Contains ${products.length} products. url: ${environment.LIVE_STORE_DOMAIN}/collections/${collection.handle} collectionId: ${collection.id}`,
         metadata: { ...baseMetadata, chunkType: "overview" },
       })
     );
