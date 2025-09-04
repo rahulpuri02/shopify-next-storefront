@@ -1,6 +1,10 @@
 import { CUSTOMER_SERVICE } from "@/constants/shared";
 import React from "react";
 
+export const metadata = {
+  title: "Customer Service | CN 74®",
+};
+
 function CustomerServicePage() {
   return (
     <div>

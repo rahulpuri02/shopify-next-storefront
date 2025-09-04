@@ -4,6 +4,10 @@ import { MY_ACCOUNT } from "@/constants/shared";
 import { redirect } from "next/navigation";
 import React from "react";
 
+export const metadata = {
+  title: "Order History | CN 74®",
+};
+
 async function OrderHistoryPage() {
   const customer = await getCustomer();
   if (!customer) redirect(ROUTES.account);

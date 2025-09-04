@@ -1,3 +1,5 @@
+export const LIVE_SITE_URL = "https://cn74.vercel.app";
+
 export const FILTER_OPERATIONS = {
   include: "include",
   exclude: "exclude",

@@ -1,18 +1,34 @@
-import { collectionService } from "@/services/collection.service";
-import { notFound } from "next/navigation";
-import React from "react";
-import parse from "html-react-parser";
+import FiltersAndSort from "@/components/shared/filters/filters-and-sort";
 import ProductCard from "@/components/shared/products/product-card";
 import { GENERICS } from "@/constants/shared";
-import FiltersAndSort from "@/components/shared/filters/filters-and-sort";
+import { collectionService } from "@/services/collection.service";
+import parse from "html-react-parser";
+import { notFound } from "next/navigation";
+import { cache } from "react";
 
 type ComponentProps = {
   params: Promise<{ handle: string }>;
 };
 
+const getCollection = cache((handle: string) => collectionService.getCollection(handle));
+
+export const generateMetadata = async ({ params }: ComponentProps) => {
+  const { handle } = await params;
+  const collection = await getCollection(handle);
+  if (!collection) {
+    return {
+      title: "Collection Not Found | CN 74®",
+    };
+  }
+  return {
+    title: `${collection.title} | CN 74®`,
+    description: collection.description || "No description available",
+  };
+};
+
 async function CollectionPage({ params }: ComponentProps) {
   const { handle } = await params;
-  const collection = await collectionService.getCollection(handle);
+  const collection = await getCollection(handle);
   if (!collection) return notFound();
 
   return (

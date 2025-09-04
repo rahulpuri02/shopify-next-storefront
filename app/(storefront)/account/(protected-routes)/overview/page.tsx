@@ -4,6 +4,10 @@ import { ROUTES } from "@/constants/routes";
 import { GENERICS, MY_ACCOUNT } from "@/constants/shared";
 import { redirect } from "next/navigation";
 
+export const metadata = {
+  title: "Account Overview | CN 74®",
+};
+
 async function MyAccountOverviewPage() {
   const customer = await getCustomer();
   if (!customer) redirect(ROUTES.account);

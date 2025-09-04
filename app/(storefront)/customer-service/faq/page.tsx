@@ -6,6 +6,10 @@ import {
 } from "@/components/ui/accordion";
 import { FAQ_PAGE } from "@/constants/shared";
 
+export const metadata = {
+  title: "FAQ | CN 74®",
+};
+
 export default function FAQPage() {
   return (
     <div className="max-w-2xl pb-10 md:ml-6 md:px-4">

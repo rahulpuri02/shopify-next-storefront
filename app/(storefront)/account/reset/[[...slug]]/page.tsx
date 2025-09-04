@@ -5,6 +5,10 @@ type ComponentProps = {
   params: Promise<{ slug: string[] | undefined }>;
 };
 
+export const metadata = {
+  title: "Reset Password | CN 74®",
+};
+
 async function ResetPasswordPage({ params }: ComponentProps) {
   const { slug } = await params;
   return (

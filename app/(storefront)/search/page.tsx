@@ -2,9 +2,14 @@ import FiltersAndSort from "@/components/shared/filters/filters-and-sort";
 import ProductCard from "@/components/shared/products/product-card";
 import { GENERICS } from "@/constants/shared";
 import { productService } from "@/services/product.service";
+import { Metadata } from "next";
 
 type ComponentProps = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
+};
+
+export const metadata: Metadata = {
+  title: "Search | CN 74®",
 };
 
 async function SearchPage({ searchParams }: ComponentProps) {

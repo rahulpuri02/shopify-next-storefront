@@ -5,15 +5,32 @@ import ProductInfo from "@/components/shared/products/product-info";
 import { GENERICS } from "@/constants/shared";
 import { productService } from "@/services/product.service";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 
 type ComponentProps = {
   params: Promise<{ handle: string }>;
 };
 
+const getProduct = cache((handle: string) => productService.getProduct(handle));
+
+export async function generateMetadata({ params }: ComponentProps) {
+  const { handle } = await params;
+  const product = await getProduct(handle);
+  if (!product) {
+    return {
+      title: "Product Not Found | CN 74®",
+    };
+  }
+  return {
+    title: `${product.title} | CN 74®`,
+    description: product.description || "No description available",
+  };
+}
+
 async function ProductPage({ params }: ComponentProps) {
   const { handle } = await params;
   const [product, recommendedProducts] = await Promise.all([
-    productService.getProduct(handle),
+    getProduct(handle),
     productService.getProductRecommendations(handle),
   ]);
   if (!product) return notFound();

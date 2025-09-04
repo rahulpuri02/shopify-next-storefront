@@ -8,6 +8,7 @@ import { ChevronsLeftRight } from "lucide-react";
 import Link from "next/link";
 import FooterAccordian from "./footer-accordian";
 import NewsletterForm from "./newsletter-form";
+import { ROUTES } from "@/constants/routes";
 
 async function Footer() {
   const footerMenu = await navigationService.getMenu(MENUS.footer);
@@ -36,6 +37,11 @@ async function Footer() {
             <div key={`${col.title}-${i}`} className="w-full">
               <h4 className="mb-4 text-sm font-medium uppercase">{col.title}</h4>
               <ul className="flex flex-col space-y-1.5 text-sm">
+                {col.title.toLowerCase() === "about us" && (
+                  <li className="cursor-pointer">
+                    <Link href={ROUTES.about}>CN 74</Link>
+                  </li>
+                )}
                 {col.items?.map((subItem) => (
                   <li className="cursor-pointer" key={subItem.title}>
                     <Link href={generatePaths(subItem.path, subItem.title)}>{subItem.title}</Link>

@@ -4,10 +4,15 @@ import ShowcaseCollection from "@/components/shared/collections/showcase-collect
 import { ROUTES } from "@/constants/routes";
 import { COLLECTIONS } from "@/constants/shopify";
 import { collectionService } from "@/services/collection.service";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 type ComponentProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export const metadata: Metadata = {
+  title: "CN 74® | The Official Online Store",
 };
 
 export default async function Home({ searchParams }: ComponentProps) {
