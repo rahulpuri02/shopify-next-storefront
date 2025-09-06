@@ -6,16 +6,20 @@ import Link from "next/link";
 import { type ComponentProps, memo } from "react";
 import { Streamdown } from "streamdown";
 
-type ResponseProps = ComponentProps<typeof Streamdown>;
+type ResponseProps = ComponentProps<typeof Streamdown> & { closeWidget: () => void };
 
-const CustomLink = ({ href, children, ...props }: any) => {
+const CustomLink = ({ href, children, closeWidget, ...props }: any) => {
   const isInternalLink = href && href.startsWith(LIVE_SITE_URL);
 
   if (isInternalLink) {
     const path = href.replace(LIVE_SITE_URL, "") || "/";
 
     return (
-      <Link href={path} className="text-blue-600 underline hover:text-blue-800">
+      <Link
+        onClick={closeWidget}
+        href={path}
+        className="text-blue-600 underline hover:text-blue-800"
+      >
         click here
       </Link>
     );
@@ -35,12 +39,12 @@ const CustomLink = ({ href, children, ...props }: any) => {
 };
 
 export const Response = memo(
-  ({ className, ...props }: ResponseProps) => (
+  ({ className, closeWidget, ...props }: ResponseProps) => (
     <Streamdown
       defaultOrigin={LIVE_SITE_URL}
       className={cn("size-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0", className)}
       components={{
-        a: CustomLink,
+        a: (linkProps: any) => <CustomLink {...linkProps} closeWidget={closeWidget} />,
       }}
       {...props}
     />

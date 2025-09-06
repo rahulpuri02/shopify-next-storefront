@@ -25,7 +25,7 @@ function ChatWidget() {
   const [open, setOpen] = useState(false);
 
   const [input, setInput] = React.useState("");
-  const { messages, sendMessage, status } = useChat();
+  const { messages, sendMessage, status, error } = useChat();
   const endRef = React.useRef<HTMLDivElement | null>(null);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -99,7 +99,11 @@ function ChatWidget() {
                   </>
                 )}
                 <ScrollArea className="invisible-scrollbar flex h-[calc(100vh-290px)] flex-col overflow-y-scroll px-4 lg:h-[calc(82vh-235px)] 2xl:h-[calc(70vh-235px)]">
-                  <ChatMessages messages={messages as Message[]} />
+                  <ChatMessages
+                    messages={messages as Message[]}
+                    error={error}
+                    closeWidget={() => setOpen(false)}
+                  />
                   <div ref={endRef} />
                 </ScrollArea>
               </CardContent>

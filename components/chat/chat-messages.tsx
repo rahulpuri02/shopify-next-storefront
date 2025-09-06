@@ -4,11 +4,13 @@ import { MessageList } from "./message-list";
 
 type ComponentProps = React.PropsWithChildren & {
   messages: Message[];
+  error?: Error | null;
+  closeWidget: () => void;
 };
 
-export function ChatMessages({ messages }: ComponentProps) {
+export function ChatMessages({ messages, error, closeWidget }: ComponentProps) {
   const lastMessage = messages.at(-1);
-  const isTyping = lastMessage?.role === "user";
+  const isTyping = lastMessage?.role === "user" && !error?.message;
 
   const messageOptions = (message: Message) => {
     const content = message.parts?.map((p) => (p.type === "text" ? p.text : "")).join("") as string;
@@ -20,7 +22,13 @@ export function ChatMessages({ messages }: ComponentProps) {
   return (
     <div className="grid grid-cols-1 overflow-y-auto pb-4">
       <div className="[grid-column:1/1] [grid-row:1/1] max-w-full">
-        <MessageList messages={messages} isTyping={isTyping} messageOptions={messageOptions} />
+        <MessageList
+          messages={messages}
+          isTyping={isTyping}
+          messageOptions={messageOptions}
+          closeWidget={closeWidget}
+          error={error}
+        />
       </div>
     </div>
   );

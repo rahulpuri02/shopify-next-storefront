@@ -127,6 +127,7 @@ export interface Message {
 export interface ChatMessageProps extends Message {
   animation?: Animation;
   actions?: React.ReactNode;
+  closeWidget: () => void;
 }
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({
@@ -136,6 +137,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   actions,
   toolInvocations,
   parts,
+  closeWidget,
 }) => {
   const isUser = role === "user";
 
@@ -147,7 +149,11 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             parts.map((part, i) => {
               switch (part.type) {
                 case "text":
-                  return <Response key={`${i}`}>{part.text}</Response>;
+                  return (
+                    <Response closeWidget={closeWidget} key={`${i}`}>
+                      {part.text}
+                    </Response>
+                  );
               }
             })}
         </div>
@@ -164,7 +170,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             key={`text-${index}`}
           >
             <div className={cn(chatBubbleVariants({ isUser, animation }))}>
-              <Response>{part.text}</Response>
+              <Response closeWidget={closeWidget}>{part.text}</Response>
               {actions ? (
                 <div className="bg-background text-foreground absolute right-2 -bottom-4 flex space-x-1 rounded-lg border p-1 opacity-0 transition-opacity group-hover/message:opacity-100">
                   {actions}
@@ -189,7 +195,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   return (
     <div className={cn("flex flex-col", isUser ? "items-end" : "items-start")}>
       <div className={cn(chatBubbleVariants({ isUser, animation }))}>
-        <Response>{content}</Response>
+        <Response closeWidget={closeWidget}>{content}</Response>
         {actions ? (
           <div className="bg-background text-foreground absolute right-2 -bottom-4 flex space-x-1 rounded-lg border p-1 opacity-0 transition-opacity group-hover/message:opacity-100">
             {actions}
