@@ -1,5 +1,3 @@
-# CN 74® - AI-Powered E-commerce Store
-
 A modern full-stack e-commerce application built with Next.js 15, Shopify and AI integration. This project features an intelligent shopping assistant powered by vector search and natural language processing.
 
 ## 🚀 Features
@@ -26,7 +24,6 @@ A modern full-stack e-commerce application built with Next.js 15, Shopify and AI
 - **Component Library**: Custom UI components with Radix UI
 - **Smooth Animations**: Enhanced user experience with transitions
 - **Accessibility**: WCAG compliant design patterns
-
 
 ## 🛠️ Tech Stack
 

@@ -77,7 +77,7 @@ export function ShoppingCart() {
               <sup className="mt-2">{cart?.items.length}</sup>
             </div>
             <div className="flex flex-col space-y-3">
-              {totalPrice < 1000 ? (
+              {totalPrice < 999 ? (
                 <div className="flex gap-1 text-sm">
                   <p className="text-slate-900">
                     {CART.currency} {Math.round(999 - totalPrice).toFixed(0)}
