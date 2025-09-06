@@ -8,7 +8,7 @@ import type { Product } from "@/types/shared";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import SizeSelector from "./SizeSelector";
+import SizeSelector from "./size-selector";
 
 type ComponentProps = {
   product: Product;

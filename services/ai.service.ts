@@ -89,6 +89,9 @@ class AIService {
     const docs: Document[] = [];
     const variants = product.variants.edges.map((e) => e.node);
     const images = product.images.edges.map((e) => e.node);
+    const productUrl = `${environment.LIVE_STORE_DOMAIN}/products/${product.handle}`;
+    const collections = product.collections.edges.map((c) => c.node.title);
+    const availableForSale = variants.some((v) => v.availableForSale);
 
     const baseMetadata = {
       productId: product.id,
@@ -99,13 +102,10 @@ class AIService {
       tags: product.tags,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
-      url: `${environment.LIVE_STORE_DOMAIN}/products/${product.handle}`,
-      availableForSale: variants.some((v) => v.availableForSale),
-      collections: product.collections.edges.map((c) => c.node.title),
       type: "product",
     };
 
-    const overview = `${product.title} — ${product.productType} by ${product.vendor}. Tags: ${product.tags?.join(", ") || "none"}. Starting price: ${variants[0]?.price?.amount || "0"} ${variants[0]?.price?.currencyCode || "USD"}. url: ${baseMetadata.url}, productId: ${product.id}`;
+    const overview = `${product.title} — ${product.productType} by ${product.vendor}. Tags: ${product.tags?.join(", ") || "none"}. Starting price: ${variants[0]?.price?.amount || "0"} ${variants[0]?.price?.currencyCode || "USD"}. productUrl: ${productUrl}, productId: ${product.id} prouccts avvailanle in collections - ${product.collections.edges.map((c) => c.node.title).join(", ") || "none"} and is currently ${availableForSale ? "in stock" : "out of stock"}. Product is in collections: ${collections.join(", ") || "none"}.`;
     docs.push(
       new Document({ pageContent: overview, metadata: { ...baseMetadata, chunkType: "overview" } })
     );
@@ -157,20 +157,20 @@ class AIService {
   private async createCollectionChunks(collection: ShopifyCollection): Promise<Document[]> {
     const docs: Document[] = [];
     const products = collection.products.edges.map((p) => p.node);
+    const collectionUrl = `${environment.LIVE_STORE_DOMAIN}/collections/${collection.handle}`;
 
     const baseMetadata = {
       collectionId: collection.id,
       title: collection.title,
       handle: collection.handle,
       updatedAt: collection.updatedAt,
-      url: `/collections/${collection.handle}`,
       productCount: products.length,
       type: "collection",
     };
 
     docs.push(
       new Document({
-        pageContent: `Collection: ${collection.title}. Contains ${products.length} products. url: ${environment.LIVE_STORE_DOMAIN}/collections/${collection.handle} collectionId: ${collection.id}`,
+        pageContent: `Collection: ${collection.title}. Contains ${products.length} collectionId: ${collection.id} collectionUrl: ${collectionUrl}`,
         metadata: { ...baseMetadata, chunkType: "overview" },
       })
     );

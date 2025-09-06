@@ -127,7 +127,6 @@ export function getProductVariants(variants: ShopifyProductVariant): ColorGroup[
 export function reshapeCollection(response: ShopifyCollectionOperation): Collection | null {
   const collection = response.data.collection;
   if (!collection) return null;
-
   return {
     title: collection.title.trim(),
     description: collection.description.trim(),
@@ -145,6 +144,7 @@ export function reshapeCollection(response: ShopifyCollectionOperation): Collect
         handle: product.handle,
         imageUrl: firstImage?.url || null,
         imageAlt: firstImage?.altText || null,
+        secondaryImageUrl: product.images.edges[1]?.node.url || null,
         price: formattedPrice,
         variants: getProductVariants(product.variants),
       };
@@ -213,6 +213,7 @@ export function reshapeProducts(
         handle: product.handle,
         imageUrl: firstImage?.url || null,
         imageAlt: firstImage?.altText || null,
+        secondaryImageUrl: product.images.edges[1]?.node.url || null,
         price: formattedPrice,
         variants: getProductVariants(product.variants),
       };
@@ -233,12 +234,14 @@ export function reshapeSearchResults(
         ? formatPrice(product.priceRange.minVariantPrice)
         : null;
 
+      const images = product.images.edges.map(({ node }) => node);
       return {
         id: product.id,
         title: product.title.trim(),
         handle: product.handle,
         imageUrl: firstImage?.url || null,
         imageAlt: firstImage?.altText || null,
+        secondaryImageUrl: images[1]?.url || null,
         price: formattedPrice,
         variants: getProductVariants(product.variants),
       };

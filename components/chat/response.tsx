@@ -15,8 +15,8 @@ const CustomLink = ({ href, children, ...props }: any) => {
     const path = href.replace(LIVE_SITE_URL, "") || "/";
 
     return (
-      <Link href={path} className="text-blue-600 underline hover:text-blue-800" {...props}>
-        {children}
+      <Link href={path} className="text-blue-600 underline hover:text-blue-800">
+        click here
       </Link>
     );
   }

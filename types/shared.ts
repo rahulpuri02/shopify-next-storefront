@@ -38,6 +38,7 @@ export type CollectionProduct = {
   handle: string;
   imageUrl: string | null;
   imageAlt: string | null;
+  secondaryImageUrl: string | null;
   price: string | null;
   variants: ColorVariant[];
 };

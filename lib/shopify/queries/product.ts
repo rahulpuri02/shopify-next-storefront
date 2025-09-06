@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { productFragment, productWithImages } from "../fragments/product";
+import { productWithImages } from "../fragments/product";
 
 export const getProductQuery = gql`
   query getProduct($handle: String!) {
@@ -24,10 +24,10 @@ export const getSearchResultsQuery = gql`
     products(query: $query, first: $first) {
       edges {
         node {
-          ...productFragment
+          ...productWithImages
         }
       }
     }
   }
-  ${productFragment}
+  ${productWithImages}
 `;

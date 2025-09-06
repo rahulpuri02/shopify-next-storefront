@@ -94,6 +94,7 @@ export function reshapeFavoriteItem(product: Product): CollectionProduct {
     ...product,
     imageUrl: product.images[0]?.url || null,
     imageAlt: product.images[0]?.altText || null,
+    secondaryImageUrl: product.images[1]?.url || null,
   };
 }
 

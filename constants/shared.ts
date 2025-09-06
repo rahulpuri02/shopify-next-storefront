@@ -97,6 +97,8 @@ export const COLOR_CODES = [
   { name: "Grey", hex: "#808080" },
   { name: "Denim Blue", hex: "#1560BD" },
   { name: "Dark Denim Blue", hex: "#1B365D" },
+  { name: "White", hex: "#E0E0E0" },
+  { name: "Green", hex: "#008000" },
 ];
 
 export const CATEGORIES = [

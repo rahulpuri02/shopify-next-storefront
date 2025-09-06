@@ -183,6 +183,7 @@ export type ShopifySearchResultsOperation = {
             altText?: string;
             url: string;
           };
+          images: Image[];
         };
       }[];
     };

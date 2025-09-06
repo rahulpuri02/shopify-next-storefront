@@ -18,6 +18,7 @@ type ComponentProps = {
 function ProductCard({ product, showFavoriteIcon = false }: ComponentProps) {
   const { handleFavState, isProductInFavorites, favItems } = useFavorite();
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     setIsFavorite(isProductInFavorites(product));
@@ -27,7 +28,10 @@ function ProductCard({ product, showFavoriteIcon = false }: ComponentProps) {
     <Link href={ROUTES.product(product.handle)}>
       <div className="relative aspect-[2/3]">
         <Image
-          src={product.imageUrl || FallbackImage}
+          className="transition delay-1200 ease-in-out"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          src={(isHovered ? product.secondaryImageUrl : product.imageUrl) || FallbackImage}
           alt={product.imageAlt || NO_IMAGE_FOUND}
           fill
         />
@@ -38,7 +42,7 @@ function ProductCard({ product, showFavoriteIcon = false }: ComponentProps) {
               e.stopPropagation();
               handleFavState(product);
             }}
-            className="absolute top-3 right-3 z-10 flex"
+            className="absolute top-3 right-3 flex"
           >
             <FavoriteIcon
               className={cn("absolute top-3 right-3 stroke-black", isFavorite && "fill-black")}
