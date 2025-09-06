@@ -16,6 +16,7 @@ export function ChatMessages({ messages, error, closeWidget }: ComponentProps) {
     const content = message.parts?.map((p) => (p.type === "text" ? p.text : "")).join("") as string;
     return {
       actions: <CopyButton content={content} copyMessage="Copied response to clipboard!" />,
+      closeWidget,
     };
   };
 
