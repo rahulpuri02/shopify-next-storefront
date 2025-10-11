@@ -32,7 +32,7 @@ export async function POST(req: Request) {
   const system = buildSystemPrompt({ intent, context });
 
   const result = streamText({
-    model: groq("gemma2-9b-it"),
+    model: groq("llama-3.1-8b-instant"),
     system,
     messages: convertToModelMessages(messages),
     temperature: 0,

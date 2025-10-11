@@ -41,7 +41,6 @@ const CustomLink = ({ href, children, closeWidget, ...props }: any) => {
 export const Response = memo(
   ({ className, closeWidget, ...props }: ResponseProps) => (
     <Streamdown
-      defaultOrigin={LIVE_SITE_URL}
       className={cn("size-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0", className)}
       components={{
         a: (linkProps: any) => <CustomLink {...linkProps} closeWidget={closeWidget} />,
