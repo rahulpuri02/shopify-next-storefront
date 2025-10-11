@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
   if (intent.includes("general")) {
     const result = streamText({
-      model: groq("gemma2-9b-it"),
+      model: groq("llama-3.1-8b-instant"),
       system: buildSystemPrompt({ intent: "general" }),
       messages: convertToModelMessages(messages),
       temperature: 0,
