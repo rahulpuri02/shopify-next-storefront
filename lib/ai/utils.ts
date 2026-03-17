@@ -2,12 +2,12 @@ import "server-only";
 
 import { INTENT_CLASSIFIER_SYSTEM_PROMPT, PERSONA_SYSTEM_PROMPT } from "@/constants/prompts";
 import { productVectorStore, storeVectorStore } from "@/lib/ai/client";
-import { google } from "@ai-sdk/google";
 import { convertToModelMessages, generateText, type UIMessage } from "ai";
+import { groq } from "@ai-sdk/groq";
 
 export async function classifyIntent(userText: string, messages: UIMessage[]) {
   const response = await generateText({
-    model: google("gemma-3-12b-it"),
+    model: groq("llama-3.1-8b-instant"),
     system: `${INTENT_CLASSIFIER_SYSTEM_PROMPT}
 Consider both the current user message and the conversation history (if relevant).
 User message: "${userText}"
