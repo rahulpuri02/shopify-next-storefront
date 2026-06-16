@@ -122,7 +122,7 @@ function ChatWidget() {
                 <p className="text-muted-foreground mt-2 text-center text-xs">
                   Powered by{" "}
                   <a target="_blank" href={FOOTER.authorContact} className="font-medium">
-                    Rahul Puri
+                    Vivek Kalsi
                   </a>
                 </p>
               </CardFooter>
