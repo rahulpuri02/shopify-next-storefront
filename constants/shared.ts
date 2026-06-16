@@ -41,7 +41,7 @@ export const FOOTER = {
   emailPlaceholder: "EMAIL",
   thanksForSubscribing: "Thank you for subscribing!",
   termsLabel: "I have read, understood and accepted the terms and conditions.",
-  siteAuthor: "SITE BY RAHUL PURI",
+  siteAuthor: "SITE BY VIVEK KALSI",
   authorContact: "https://linkedin.com/in/rahulpuri02",
 } as const;
 
